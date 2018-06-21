@@ -22,4 +22,12 @@ public class DatabaseManager {
         }
         return false;
     }
+
+    public boolean doesMailExist(String email) throws SQLException {
+        final String statement = "SELECT email FROM users where email=?";
+        PreparedStatement ps = databaseConnection.prepareStatement(statement);
+        ps.setString(1, email);
+        ResultSet result = ps.executeQuery();
+        return result.next();
+    }
 }
