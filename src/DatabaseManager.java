@@ -1,14 +1,11 @@
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 
 public class DatabaseManager {
     Connection databaseConnection;
+
     public DatabaseManager() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        databaseConnection = DriverManager.getConnection("jdbc:sqlite:/home/jseydel/workspace/java/turnie.re/database.sqlite");
+        databaseConnection = DriverManager.getConnection("jdbc:sqlite:database.sqlite");
     }
 
     public boolean verifyUserCredentials(String email, String password) throws SQLException {

@@ -1,7 +1,4 @@
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +14,14 @@ public class AuthServlet extends HttpServlet {
 
             DatabaseManager dbmgr = new DatabaseManager();
             if (dbmgr.verifyUserCredentials(email, password)) {
+                System.out.println("Success");
                 req.getSession().setAttribute("email", email);
-                req.getServletContext().getRequestDispatcher("authenticated.jsp").forward(req, resp);
+                req.getServletContext().getRequestDispatcher("/authenticated.jsp").forward(req, resp);
+            } else {
+                System.out.println("Unauthorized");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("FEHLER!");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
