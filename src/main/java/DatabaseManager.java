@@ -5,7 +5,7 @@ public class DatabaseManager {
 
     public DatabaseManager() throws SQLException, ClassNotFoundException {
 
-        String sqlitePath = "/home/dschaedler/Documents/Github/webengineeringdhbw/database.sqlite";
+        String sqlitePath = "database.sqlite";
 
         Class.forName("org.sqlite.JDBC");
         databaseConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlitePath);
