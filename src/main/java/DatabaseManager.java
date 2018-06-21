@@ -30,4 +30,15 @@ public class DatabaseManager {
         ResultSet result = ps.executeQuery();
         return result.next();
     }
+
+    public void addUser(String firstName, String lastName, String email, String password) throws SQLException {
+        final String statement = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = databaseConnection.prepareStatement(statement);
+        ps.setString(1, firstName);
+        ps.setString(2, lastName);
+        ps.setString(3, email);
+        ps.setString(4, password);
+        ps.executeUpdate();
+        databaseConnection.commit();
+    }
 }
