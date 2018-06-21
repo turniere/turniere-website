@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="turnie.re:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/turnie_re_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="turnie.re/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="turnie.re" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
