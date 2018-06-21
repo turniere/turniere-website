@@ -34,6 +34,13 @@
             <td colspan="2"><input type="submit" value="Go" /></td>
         </tr>
     </table>
+    <br>
+    <br>
+    <b><%
+        if (request.getParameter("pwdMatchErr") != null) {
+            out.println("The Passwords don't match");
+        }
+    %></b>
 </form>
 </body>
 </html>
