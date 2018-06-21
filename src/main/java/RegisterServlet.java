@@ -16,14 +16,20 @@ public class RegisterServlet extends HttpServlet {
         try {
 
             DatabaseManager dbmgr = new DatabaseManager();
-            if (password == repassword) {
+            System.out.println("Request to add :");
+            System.out.println("E-Mail:     "+email);
+            System.out.println("Password:   "+password);
+            System.out.println("RePassword: "+repassword);
+            if (password.equals(repassword)) {
                 if (!dbmgr.doesMailExist(email)){
                     dbmgr.addUser(email,password,prename,lastname);
-                    //redirect to my account page
+                    System.out.println("Added User to Database");
                 }else{
+                    System.out.println("User already exists");
                     //redirect to same page with account existing warning
                 }
             } else {
+                System.out.println("Passwords don't match");
                 //redirect to same page with password not matching warning
             }
 
