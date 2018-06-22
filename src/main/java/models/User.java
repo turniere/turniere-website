@@ -2,6 +2,9 @@ package models;
 
 import javax.persistence.*;
 
+@NamedQueries(
+        @NamedQuery(name = "findUserByEmail", query = "FROM User where email = :email")
+)
 @Entity
 @Table(name = "users")
 public class User {
