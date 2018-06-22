@@ -7,7 +7,7 @@
   <b>IT WORKS</b>
   <br>
   <br>
-  <a href="./login.html">Login</a>
+  <a href="./login.jsp">Login</a>
   <br>
   <a href="./register.jsp">Register</a>
   </body>
