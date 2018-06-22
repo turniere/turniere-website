@@ -39,6 +39,5 @@ public class DatabaseManager {
         ps.setString(3, email);
         ps.setString(4, password);
         ps.executeUpdate();
-        databaseConnection.commit();
     }
 }
