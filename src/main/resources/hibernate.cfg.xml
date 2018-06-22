@@ -11,7 +11,7 @@
         <property name="connection.password"></property>
 
         <!-- DB schema will be updated if needed -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mappings -->
         <mapping class="models.User"/>
