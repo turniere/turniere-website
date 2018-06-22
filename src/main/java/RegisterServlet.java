@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
             System.out.println("RePassword: "+repassword);
             if (password.equals(repassword)) {
                 if (!dbmgr.doesMailExist(email)){
-                    dbmgr.addUser(email,password,prename,lastname);
+                    dbmgr.addUser(prename,lastname,email,password);
                     System.out.println("Added User to Database");
                 }else{
                     System.out.println("User already exists");
