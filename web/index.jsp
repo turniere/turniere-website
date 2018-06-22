@@ -26,10 +26,10 @@
             <a class="nav-link" href="#">Turnier ansehen</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Turnier-Code">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Turnier-Code öffnen</button>
-        </form>
+        <div class="nav-item btn-group">
+          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="#">Login</a>
+          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="#">Signup</a>
+        </div>
       </div>
     </nav>
   </header>
@@ -48,31 +48,68 @@
           <h2>Für jede Sportart</h2>
           <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id
             elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
           <h2>Beliebige Anzahl Teams</h2>
           <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis
             consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
           <h2>Kostenlos</h2>
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis
             euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
             amet risus.</p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
       </div>
 
     </div>
 
+    <div class="container card mt-3">
+      <div class="card-body row">
+        <form class="col-lg-4">
+          <input class="form-control" type="search" placeholder="Turnier-Code">
+          <button class="btn btn-outline-success w-100 mt-2" type="submit">Turnier-Code öffnen</button>
+        </form>
+        <div class="col-lg-8">
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis
+            euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
+            amet risus.</p>
+        </div>
+      </div>
+    </div>
 
-    <footer class="footer">
-      <div class="container">
+    <div class="container card mt-3">
+      <div class="card-body row">
+        <div class="col-lg-8">
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis
+            euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
+            amet risus.</p>
+        </div>
+        <div class="col-lg-4">
+          <a class="btn btn-success w-100" role="button" href="#">Turnier erstellen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container card mt-3">
+
+      <div class="card-body row">
+        <div class="col-lg-4 pb-3">
+          <a class="btn btn-outline-success w-100" role="button" href="#">Turnier suchen</a>
+        </div>
+        <div class="col-lg-8">
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis
+            euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
+            amet risus.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer mt-5 bg-dark text-light">
+      <div class="container py-3">
         <div class="row">
-          <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a href="#">DSGVO-Kram</a> &middot; <a href="#">Impressum</a></div>
-          <div class="col-md-6 text-center"><a href="#">zurück nach oben</a></div>
+          <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">DSGVO-Kram</a> &middot; <a class="text-white" href="#">Impressum</a></div>
+          <div class="col-md-6 text-center"><a href="#" class="text-white">zurück nach oben</a></div>
         </div>
       </div>
     </footer>
