@@ -27,8 +27,8 @@
           </li>
         </ul>
         <div class="nav-item btn-group">
-          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="#">Login</a>
-          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="#">Signup</a>
+          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="./login.jsp">Login</a>
+          <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="./register.jsp">Signup</a>
         </div>
       </div>
     </nav>
