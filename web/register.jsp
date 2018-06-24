@@ -11,12 +11,8 @@
             <td colspan="2">Register at turnie.re</td>
         </tr>
         <tr>
-            <td>Vorname</td>
-            <td><input type="text" name="prename" /></td>
-        </tr>
-        <tr>
-            <td>Nachname</td>
-            <td><input type="text" name="lastname" /></td>
+            <td>Nutzername</td>
+            <td><input type="text" name="username" /></td>
         </tr>
         <tr>
             <td>Email:</td>
