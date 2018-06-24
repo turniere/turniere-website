@@ -1,13 +1,6 @@
 package database.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @NamedQueries(
         @NamedQuery(name = "findUserByEmail", query = "FROM User where email = :email")
@@ -27,6 +20,8 @@ public class User {
     private String email;
 
     private String password;
+
+    private int accessLevel;
 
     public int getId() {
         return id;
@@ -58,5 +53,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public int getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
     }
 }
