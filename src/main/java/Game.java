@@ -11,7 +11,7 @@ public class Game {
     private Timestamp time;
 
     private enum Status {
-        PRE,RUN,ONE,TWO;
+        PRE,RUN,ONE,TWO
     }
 
     public Game(String teamOneName, String teamTwoName, Integer teamOnePoints, Integer teamTwoPoints, Status status, Timestamp startTime) {
@@ -51,6 +51,7 @@ public class Game {
             case TWO: return this.teamTwoName;
             case PRE: return "Game not started yet";
             case RUN: return "Game still running";
+            default: return "Something went wrong."; //TODO real error
         }
     }
 

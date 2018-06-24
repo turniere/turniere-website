@@ -1,3 +1,7 @@
+import models.User;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 import java.sql.*;
 
 public class DatabaseManager {
@@ -11,16 +15,16 @@ public class DatabaseManager {
         databaseConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlitePath);
     }
 
-    public boolean verifyUserCredentials(String email, String password) throws SQLException {
-        final String statement = "SELECT password from users where email=?";
-        PreparedStatement ps = databaseConnection.prepareStatement(statement);
-        ps.setString(1, email);
-        ResultSet result = ps.executeQuery();
-        if (result.next()) {
-            String passwordFromDatabase = result.getString("password");
-            return passwordFromDatabase.equals(password);
+    public boolean verifyUserCredentials(String email, String password) {
+        Session session = HibernateUtils.getSession();
+        Query query = session.getNamedQuery("findUserByEmail");
+        query.setParameter("email", email);
+        User user = (User) query.uniqueResult();
+        if (user == null) {
+            System.out.println("User doesn't exist");
+            return false;
         }
-        return false;
+        return user.getPassword().equals(password);
     }
 
     public boolean doesMailExist(String email) throws SQLException {
