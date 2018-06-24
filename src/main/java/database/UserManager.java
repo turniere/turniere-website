@@ -23,7 +23,10 @@ public class UserManager extends DatabaseManager {
 
         Session session = getSession();
         Transaction transaction = session.getTransaction();
-        User user = new User(username, email, password);
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
 
         session.save(user);
         if (transaction.getStatus().equals(TransactionStatus.ACTIVE)) {
