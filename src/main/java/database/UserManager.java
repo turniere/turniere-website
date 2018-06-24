@@ -20,19 +20,18 @@ public class UserManager extends DatabaseManager {
     }
 
     public static void register(String username, String email, String password) {
-
         Session session = getSession();
-        Transaction transaction = session.getTransaction();
+        // start transaction
+        Transaction transaction = session.beginTransaction();
+        // construct new user object
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
-
+        // finish transaction
         session.save(user);
         if (transaction.getStatus().equals(TransactionStatus.ACTIVE)) {
-            System.out.println("Committing transaction");
             transaction.commit();
         }
-
     }
 }
