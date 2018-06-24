@@ -5,7 +5,7 @@
     <title>Login</title>
 </head>
 <body>
-<form method="POST" action="/auth">
+<form method="POST" action="/login">
     <table>
         <tr>
             <td colspan="2">Login to turnie.re</td>
