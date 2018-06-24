@@ -1,3 +1,5 @@
+package database.models;
+
 import java.sql.Timestamp;
 
 public class Game {
@@ -49,8 +51,8 @@ public class Game {
         switch(this.status){
             case ONE: return this.teamOneName;
             case TWO: return this.teamTwoName;
-            case PRE: return "Game not started yet";
-            case RUN: return "Game still running";
+            case PRE: return "database.models.Game not started yet";
+            case RUN: return "database.models.Game still running";
             default: return "Something went wrong."; //TODO real error
         }
     }
