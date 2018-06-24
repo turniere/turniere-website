@@ -5,7 +5,7 @@
          version="4.0">
     <servlet>
         <servlet-name>Authentication</servlet-name>
-        <servlet-class>AuthServlet</servlet-class>
+        <servlet-class>servlets.AuthServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Authentication</servlet-name>
@@ -13,7 +13,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Registration</servlet-name>
-        <servlet-class>RegisterServlet</servlet-class>
+        <servlet-class>servlets.RegisterServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
