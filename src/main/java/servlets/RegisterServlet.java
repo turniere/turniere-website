@@ -22,12 +22,9 @@ public class RegisterServlet extends HttpServlet {
         System.out.println("Password:   "+password);
         System.out.println("RePassword: "+repassword);
 
-
-        UserManager userManager = new UserManager();
-
         if (password.equals(repassword)) {
 
-            userManager.register(username,email,password);
+            UserManager.register(username,email,password);
 
             System.out.println("Added User to Database");
 
