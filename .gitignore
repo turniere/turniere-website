@@ -7,3 +7,5 @@ modules.xml
 *.ipr
 
 target/
+
+hibernate.cfg.xml
