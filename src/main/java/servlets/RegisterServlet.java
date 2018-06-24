@@ -1,7 +1,9 @@
 package servlets;
 
 import database.UserManager;
+import org.hibernate.exception.ConstraintViolationException;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,13 @@ public class RegisterServlet extends HttpServlet {
         String repassword = req.getParameter("repassword");
 
         if (password.equals(repassword)) {
-            UserManager.register(username, email, password);
+            try {
+                UserManager.register(username, email, password);
+            } catch (ConstraintViolationException e) {
+                System.out.println(e.getMessage());
+                ServletUtils.showErrorPage(req, resp, 400, "Dieser Nutzername/E-Mail Adresse wird bereits verwendet");
+            }
+            resp.sendRedirect("/login.jsp");
         } else {
             ServletUtils.showErrorPage(req, resp, 400, "Die Passwörter sind nicht gleich");
         }

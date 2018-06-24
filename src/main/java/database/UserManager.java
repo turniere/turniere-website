@@ -3,6 +3,7 @@ package database;
 import database.models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
@@ -19,7 +20,7 @@ public class UserManager extends DatabaseManager {
         return user.getPassword().equals(password);
     }
 
-    public static void register(String username, String email, String password) {
+    public static void register(String username, String email, String password) throws ConstraintViolationException {
         Session session = getSession();
         // start transaction
         Transaction transaction = session.beginTransaction();
