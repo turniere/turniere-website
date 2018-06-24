@@ -1,4 +1,4 @@
-package models;
+package database.models;
 
 import javax.persistence.*;
 
