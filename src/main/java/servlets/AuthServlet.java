@@ -21,7 +21,7 @@ public class AuthServlet extends HttpServlet {
         }
 
         if (UserManager.verifyCredentials(email, password)) {
-            System.out.println("Auth for "+email+" successful");
+            System.out.println("Auth for " + email + " successful");
             req.getSession().setAttribute("email", email);
             req.getServletContext().getRequestDispatcher("/authenticated.jsp").forward(req, resp);
         } else {

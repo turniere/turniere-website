@@ -13,7 +13,7 @@ public class Game {
     private Timestamp time;
 
     private enum Status {
-        PRE,RUN,ONE,TWO
+        PRE, RUN, ONE, TWO
     }
 
     public Game(String teamOneName, String teamTwoName, Integer teamOnePoints, Integer teamTwoPoints, Status status, Timestamp startTime) {
@@ -22,7 +22,7 @@ public class Game {
         this.teamTwoName = teamTwoName;
         this.teamOnePoints = teamOnePoints;
         this.teamTwoPoints = teamTwoPoints;
-        this.status = evaluateWinner(teamOnePoints,teamTwoPoints);
+        this.status = evaluateWinner(teamOnePoints, teamTwoPoints);
         this.time = startTime;
     }
 
@@ -41,19 +41,24 @@ public class Game {
         this.status = Status.PRE;
     }
 
-    public void setResult(Integer teamOnePoints,Integer teamTwoPoints){
+    public void setResult(Integer teamOnePoints, Integer teamTwoPoints) {
         this.teamOnePoints = teamOnePoints;
         this.teamTwoPoints = teamTwoPoints;
-        this.status = evaluateWinner(this.teamOnePoints,this.teamTwoPoints);
+        this.status = evaluateWinner(this.teamOnePoints, this.teamTwoPoints);
     }
 
     public String getWinner() {
-        switch(this.status){
-            case ONE: return this.teamOneName;
-            case TWO: return this.teamTwoName;
-            case PRE: return "database.models.Game not started yet";
-            case RUN: return "database.models.Game still running";
-            default: return "Something went wrong."; //TODO real error
+        switch (this.status) {
+            case ONE:
+                return this.teamOneName;
+            case TWO:
+                return this.teamTwoName;
+            case PRE:
+                return "database.models.Game not started yet";
+            case RUN:
+                return "database.models.Game still running";
+            default:
+                return "Something went wrong."; //TODO real error
         }
     }
 
@@ -106,10 +111,10 @@ public class Game {
         this.time = time;
     }
 
-    private Status evaluateWinner(Integer teamOnePoints, Integer teamTwoPoints){
+    private Status evaluateWinner(Integer teamOnePoints, Integer teamTwoPoints) {
         if (teamOnePoints > teamTwoPoints) {
             return Status.ONE;
-        }else{
+        } else {
             return Status.TWO;
         }
     }

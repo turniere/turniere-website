@@ -17,14 +17,14 @@ public class RegisterServlet extends HttpServlet {
         String repassword = req.getParameter("repassword");
 
         System.out.println("Request to add :");
-        System.out.println("Username: "+username);
-        System.out.println("E-Mail:     "+email);
-        System.out.println("Password:   "+password);
-        System.out.println("RePassword: "+repassword);
+        System.out.println("Username: " + username);
+        System.out.println("E-Mail:     " + email);
+        System.out.println("Password:   " + password);
+        System.out.println("RePassword: " + repassword);
 
         if (password.equals(repassword)) {
 
-            UserManager.register(username,email,password);
+            UserManager.register(username, email, password);
 
             System.out.println("Added User to Database");
 

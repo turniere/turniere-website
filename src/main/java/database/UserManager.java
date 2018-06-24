@@ -19,7 +19,7 @@ public class UserManager extends DatabaseManager {
         return user.getPassword().equals(password);
     }
 
-    public static void register(String username, String email, String password){
+    public static void register(String username, String email, String password) {
 
         Session session = getSession();
         Transaction transaction = session.getTransaction();

@@ -12,11 +12,11 @@
         </tr>
         <tr>
             <td>Nutzername</td>
-            <td><input type="text" name="username" /></td>
+            <td><input type="text" name="username"/></td>
         </tr>
         <tr>
             <td>Email:</td>
-            <td><input type="text" name="email" /></td>
+            <td><input type="text" name="email"/></td>
         </tr>
         <tr>
             <td>Passwort:</td>
@@ -27,7 +27,7 @@
             <td><input type="password" name="repassword"/></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Go" /></td>
+            <td colspan="2"><input type="submit" value="Go"/></td>
         </tr>
     </table>
     <br>
