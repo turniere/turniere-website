@@ -16,17 +16,15 @@ public class LoginServlet extends HttpServlet {
 
         //check if parameters are present
         if (password == null || email == null) {
-            System.out.println("Email or password missing");
-            return; //TODO return to login page with message to specify both
+            ServletUtils.showErrorPage(req, resp, 400, "E-Mail Adresse oder Passwort fehlen");
+            return;
         }
 
         if (UserManager.verifyCredentials(email, password)) {
-            System.out.println("Auth for " + email + " successful");
             req.getSession().setAttribute("email", email);
             req.getServletContext().getRequestDispatcher("/authenticated.jsp").forward(req, resp);
         } else {
-            System.out.println("Wrong or missing Credentials");
-            //TODO return to login page with wrong credentials notification
+            ServletUtils.showErrorPage(req, resp, 400, "Falsche oder fehlende Anmeldedaten");
         }
     }
 }
