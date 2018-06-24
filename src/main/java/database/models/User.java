@@ -9,6 +9,12 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
