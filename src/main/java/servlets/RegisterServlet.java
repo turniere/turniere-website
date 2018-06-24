@@ -3,7 +3,6 @@ package servlets;
 import database.UserManager;
 import org.hibernate.exception.ConstraintViolationException;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
                 UserManager.register(username, email, password);
             } catch (ConstraintViolationException e) {
                 System.out.println(e.getMessage());
-                ServletUtils.showErrorPage(req, resp, 400, "Dieser Nutzername/E-Mail Adresse wird bereits verwendet");
+                ServletUtils.showErrorPage(req, resp, 400, "Dieser Nutzername/diese E-Mail Adresse wird bereits verwendet");
             }
             resp.sendRedirect("/login.jsp");
         } else {
