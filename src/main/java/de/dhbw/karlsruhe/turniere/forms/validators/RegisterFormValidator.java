@@ -26,5 +26,8 @@ public class RegisterFormValidator implements Validator {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             errors.rejectValue("username", "duplicate");
         }
+        if (!user.getPassword().equals(user.getRepassword())) {
+            errors.rejectValue("repassword", "doesntMatch");
+        }
     }
 }

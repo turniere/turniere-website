@@ -22,4 +22,9 @@ public class RegisterForm {
     @Getter
     @Setter
     private String password;
+
+    @NotEmpty
+    @Getter
+    @Setter
+    private String repassword;
 }
