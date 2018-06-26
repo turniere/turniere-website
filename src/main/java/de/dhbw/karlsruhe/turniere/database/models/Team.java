@@ -1,6 +1,9 @@
-package database.models;
+package de.dhbw.karlsruhe.turniere.database.models;
 
 public class Team {
+    private String name;
+    private Integer points;
+
     public Team(String name) {
         this.name = name;
     }
@@ -29,7 +32,4 @@ public class Team {
         this.points = points;
         return this;
     }
-
-    private String name;
-    private Integer points;
 }

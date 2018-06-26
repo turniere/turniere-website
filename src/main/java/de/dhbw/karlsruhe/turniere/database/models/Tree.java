@@ -1,4 +1,4 @@
-package database.models;
+package de.dhbw.karlsruhe.turniere.database.models;
 
 public class Tree<T> {
     private T content;

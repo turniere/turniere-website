@@ -1,6 +1,6 @@
-package database.models;
+package de.dhbw.karlsruhe.turniere.database.models;
 
-public class TournamentTree{
+public class TournamentTree {
 
     private Game content;
     private Tree<Game> leftTree;
