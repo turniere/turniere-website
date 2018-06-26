@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Turnie.re - Registrieren</title>
+</head>
+<body>
+<form action="#" th:action="@{/register}" th:object="${registerForm}" method="POST">
+    <table>
+        <tr>
+            <td>Nutzername:</td>
+            <td><input type="text" th:field="*{username}"/></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Nutzername fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>E-Mail:</td>
+            <td><input type="text" th:field="*{email}"/></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-Mail Adresse fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Passwort:</td>
+            <td><input type="text" th:field="*{password}"/></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Submit</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

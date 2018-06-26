@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    url:
+    username:
+    password:
+
