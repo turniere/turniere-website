@@ -3,6 +3,7 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: update
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
 
   datasource:
     platform: postgres
