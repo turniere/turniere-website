@@ -7,25 +7,19 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
     @Column(unique = true)
-    @Getter
-    @Setter
     private String username;
 
     @Column(unique = true)
-    @Getter
-    @Setter
     private String email;
 
-    @Getter
-    @Setter
     private String password;
 
     public User(String username, String email, String password) {
