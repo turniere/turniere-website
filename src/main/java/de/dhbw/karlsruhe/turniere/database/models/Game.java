@@ -4,13 +4,12 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Entity
-@Table(name = "games")
+//@Entity
+//@Table(name = "games")
 public class Game {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private List<Team> teams;
     private Status status;
