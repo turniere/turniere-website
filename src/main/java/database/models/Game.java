@@ -37,7 +37,24 @@ public class Game {
         new Game(team1,team2,status,time);
     }
 
-    public
+    public Game(String teamOneName, String teamTwoName, Timestamp time){
+        new Game(teamOneName,teamTwoName,Status.PRE,time);
+    }
+
+    public void setPoints(Integer teamOnePoints, Integer teamTwoPoints) {
+        this.teams.set(0,this.teams.get(0).setPoints(teamOnePoints));
+        this.teams.set(1,this.teams.get(1).setPoints(teamTwoPoints));
+    }
+
+    public void setResult(Integer teamOnePoints, Integer teamTwoPoints){
+        setPoints(teamOnePoints, teamTwoPoints);
+        this.status = evaluateWinner(this.teams.get(0),this.teams.get(1));
+    }
+
+    public void gameIsOver() {
+        if (this.teams.isEmpty()){
+            return; //TODO real error
+        }
         this.status = evaluateWinner(this.teams.get(0),this.teams.get(1));
     }
 
