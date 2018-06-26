@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Turnie.re</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()" th:if="${privateTournaments}">
+    <h1>Private</h1>
+    <ul>
+        <li th:each="tournament: ${privateTournaments}"></li>
+    </ul>
+</div>
+<div th:if="${publicTournaments}">
+<h1>Public</h1>
+<ul>
+    <li th:each="tournament: ${publicTournaments}"><span th:text="${tournament.name}"/></li>
+</ul>
+</div>
+</body>
+</html>
