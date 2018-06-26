@@ -1,14 +1,22 @@
 package database.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.List;
 
+@Entity
+@Table(name = "games")
 public class Game {
 
-    private String teamOneName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private String teamTwoName;
-    private Integer teamOnePoints;
-    private Integer teamTwoPoints;
+    private int id;
+    private List<Team> teams;
     private Status status;
     private Timestamp time;
 
@@ -16,83 +24,53 @@ public class Game {
         PRE, RUN, ONE, TWO
     }
 
-    public Game(String teamOneName, String teamTwoName, Integer teamOnePoints, Integer teamTwoPoints, Status status, Timestamp startTime) {
-
-        this.teamOneName = teamOneName;
-        this.teamTwoName = teamTwoName;
-        this.teamOnePoints = teamOnePoints;
-        this.teamTwoPoints = teamTwoPoints;
-        this.status = evaluateWinner(teamOnePoints, teamTwoPoints);
-        this.time = startTime;
-    }
-
-    public Game(String teamOneName, String teamTwoName, Timestamp time) {
-
-        this.teamOneName = teamOneName;
-        this.teamTwoName = teamTwoName;
-        this.status = Status.PRE;
+    public Game(Team team1,Team team2, Status status, Timestamp time){
+        this.teams.set(0,team1);
+        this.teams.set(1,team2);
+        this.status = status;
         this.time = time;
     }
 
-    public Game(String teamOneName, String teamTwoName) {
-
-        this.teamOneName = teamOneName;
-        this.teamTwoName = teamTwoName;
-        this.status = Status.PRE;
+    public Game(String teamOneName, String teamTwoName, Status status, Timestamp time) {
+        Team team1 = new Team(teamOneName);
+        Team team2 = new Team(teamTwoName);
+        new Game(team1,team2,status,time);
     }
 
-    public void setResult(Integer teamOnePoints, Integer teamTwoPoints) {
-        this.teamOnePoints = teamOnePoints;
-        this.teamTwoPoints = teamTwoPoints;
-        this.status = evaluateWinner(this.teamOnePoints, this.teamTwoPoints);
+    public Game(String teamOneName, String teamTwoName, Timestamp time){
+        new Game(teamOneName,teamTwoName,Status.PRE,time);
+    }
+
+    public void setPoints(Integer teamOnePoints, Integer teamTwoPoints) {
+        this.teams.set(0,this.teams.get(0).setPoints(teamOnePoints));
+        this.teams.set(1,this.teams.get(1).setPoints(teamTwoPoints));
+    }
+
+    public void setResult(Integer teamOnePoints, Integer teamTwoPoints){
+        setPoints(teamOnePoints, teamTwoPoints);
+        this.status = evaluateWinner(this.teams.get(0),this.teams.get(1));
+    }
+
+    public void gameIsOver() {
+        if (this.teams.isEmpty()){
+            return; //TODO real error
+        }
+        this.status = evaluateWinner(this.teams.get(0),this.teams.get(1));
     }
 
     public String getWinner() {
         switch (this.status) {
             case ONE:
-                return this.teamOneName;
+                return this.teams.get(0).getName();
             case TWO:
-                return this.teamTwoName;
+                return this.teams.get(1).getName();
             case PRE:
-                return "database.models.Game not started yet";
+                return "Game not started yet";
             case RUN:
-                return "database.models.Game still running";
+                return "Game still running";
             default:
                 return "Something went wrong."; //TODO real error
         }
-    }
-
-    public String getTeamOneName() {
-
-        return teamOneName;
-    }
-
-    public void setTeamOneName(String teamOneName) {
-        this.teamOneName = teamOneName;
-    }
-
-    public String getTeamTwoName() {
-        return teamTwoName;
-    }
-
-    public void setTeamTwoName(String teamTwoName) {
-        this.teamTwoName = teamTwoName;
-    }
-
-    public Integer getTeamOnePoints() {
-        return teamOnePoints;
-    }
-
-    public void setTeamOnePoints(Integer teamOnePoints) {
-        this.teamOnePoints = teamOnePoints;
-    }
-
-    public Integer getTeamTwoPoints() {
-        return teamTwoPoints;
-    }
-
-    public void setTeamTwoPoints(Integer teamTwoPoints) {
-        this.teamTwoPoints = teamTwoPoints;
     }
 
     public Status getStatus() {
@@ -111,12 +89,12 @@ public class Game {
         this.time = time;
     }
 
-    private Status evaluateWinner(Integer teamOnePoints, Integer teamTwoPoints) {
-        if (teamOnePoints > teamTwoPoints) {
+    private Status evaluateWinner(Team team1, Team team2) {
+        if (team1.getPoints() > team2.getPoints()) {
             return Status.ONE;
-        } else {
+        }else if (team1.getPoints() < team2.getPoints()) {
             return Status.TWO;
-        }
+        }else return Status.RUN; //TODO don't allow equal points
     }
 
 }
