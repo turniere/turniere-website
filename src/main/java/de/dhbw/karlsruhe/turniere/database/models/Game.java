@@ -7,7 +7,7 @@ import java.util.List;
 //@Entity
 //@Table(name = "games")
 public class Game {
-
+/*
     //@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -91,5 +91,5 @@ public class Game {
     private enum Status {
         PRE, RUN, ONE, TWO
     }
-
+*/
 }
