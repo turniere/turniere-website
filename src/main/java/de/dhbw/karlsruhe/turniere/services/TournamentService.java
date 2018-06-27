@@ -24,6 +24,6 @@ public class TournamentService {
         // generate uuid
         String code = UUID.randomUUID().toString();
         // create, save and return tournament object
-        return tournamentRepository.save(new Tournament(name, description, code, isPublic, teams));
+        return tournamentRepository.save(new Tournament(name, code, description, isPublic, teams));
     }
 }
