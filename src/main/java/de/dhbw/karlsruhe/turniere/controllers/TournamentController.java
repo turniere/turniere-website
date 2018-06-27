@@ -9,7 +9,6 @@ import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,11 +47,17 @@ public class TournamentController {
     }
 
     @PostMapping("/tournaments/create")
-    String createTournament(@Valid TournamentForm tournamentForm, BindingResult bindingResult) {
+    String createTournament(@Valid TournamentForm tournamentForm, BindingResult bindingResult, Authentication
+            authentication) {
         if (bindingResult.hasErrors()) {
             return "create_tournament";
         }
-        tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(), tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","));
+        // get authenticated user to add as owner
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        User owner = customUserDetails.getUser();
+        // create tournament
+        Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
+                tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","), owner);
         return "create_tournament";
     }
 }
