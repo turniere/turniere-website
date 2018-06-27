@@ -22,14 +22,14 @@ public class RegisterController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     String register(RegisterForm registerForm) {
-        return "register";
+        return "login";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     String postRegister(@Valid RegisterForm registerForm, BindingResult bindingResult, Model model) {
         registerFormValidator.validate(registerForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "register";
+            return "login";
         }
         User user = new User(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword());
         userService.register(user);
