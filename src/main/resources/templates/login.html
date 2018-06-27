@@ -48,6 +48,13 @@
         <h1 class="display-1">Bitte melden Sie sich zuerst an</h1>
     </div>
 
+    <div class="container marketing">
+        <h2>Warum brauche ich einen Account für turnie.re?</h2>
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula
+            ut id
+            elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -71,15 +78,17 @@
                                 <label for="username">E-Mail Adresse</label>
                                 <input type="text" name="username"
                                        class="form-control"
+                                       placeholder="user@example.com"
                                        id="username">
                             </div>
                             <div class="form-group">
                                 <label for="password">Passwort</label>
                                 <input type="password" name="password"
                                        class="form-control"
+                                       placeholder="****"
                                        id="password">
                             </div>
-                            <button type="submit" class="btn btn-outline-success w-100 mt-2">Login</button>
+                            <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Login</button>
                         </form>
                     </div>
                 </div>
@@ -92,27 +101,43 @@
                             <div class="form-group">
                                 <label for="reg-user">Nutzername</label>
                                 <input class="form-control" type="text" id="reg-user" th:field="*{username}"/>
-                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Nutzername fehlerhaft</div>
+                                <small class="text-muted">
+                                    Wenn du anderen dein Turnier zeigst, können sie deinen Benutzernamen sehen.
+                                </small>
+                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                     class="text-danger font-italic">Nutzername fehlerhaft
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="reg-mail">E-Mail</label>
                                 <input class="form-control" type="text" id="reg-mail" th:field="*{email}"/>
-                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-Mail Adresse fehlerhaft</div>
+                                <small class="text-muted">
+                                    Deine E-Mail-Adresse kann nur von dir gesehen werden.
+                                </small>
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger font-italic">
+                                    E-Mail Adresse fehlerhaft
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="reg-pw">Passwort</label>
+                                <label for="reg-pw">Passphrase</label>
                                 <input class="form-control" type="password" id="reg-pw" th:field="*{password}"/>
-                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Passwort fehlerhaft</div>
+                                <small class="text-muted">
+                                    Deine Passphrase muss mindestens 12 Zeichen lang sein. Alle Zeichen sind erlaubt.
+                                </small>
+                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                     class="text-danger font-italic">Passphrase fehlerhaft
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="reg-pw2">Passwort wiederholen</label>
+                                <label for="reg-pw2">Passphrase wiederholen</label>
                                 <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}"/>
-                                <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}">Passwörter stimmen nicht
+                                <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}"
+                                     class="text-danger font-italic">Passphrasen stimmen nicht
                                     überein
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-outline-success w-100 mt-2">Submit</button>
+                                <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Registrieren</button>
                             </div>
                         </form>
                     </div>
