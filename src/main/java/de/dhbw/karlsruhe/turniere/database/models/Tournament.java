@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -17,13 +18,16 @@ public class Tournament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     @Column(unique = true)
     private String code;
 
     private String description;
 
+    @NotNull
     private Boolean isPublic;
 
     @OneToMany(cascade = CascadeType.ALL)
