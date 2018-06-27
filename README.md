@@ -1,4 +1,4 @@
-# DHBW-Project turnie.re
+# DHBW-Project turnie.re [![Build Status](https://travis-ci.com/Malaber/webengineeringdhbw.svg?token=8gXLxT52HoJJ3uBxddBm&branch=master)](https://travis-ci.com/Malaber/webengineeringdhbw)
 Do you want to play some games with some teams but are too lazy to organize a tournament?
 Luckily for you, some smart students from the DHBW Karlsruhe created a website that just fits your needs!
 
