@@ -6,15 +6,15 @@
 </head>
 <body>
 <div sec:authorize="isAuthenticated()" th:if="${privateTournaments}">
-    <h1>Private</h1>
+    <h1>Meine Turniere</h1>
     <ul>
-        <li th:each="tournament: ${privateTournaments}"><span th:text="${tournament.name}"/></li>
+        <li th:each="tournament: ${privateTournaments}"><a th:href="@{'/tournament/' + ${tournament.code}}"><span th:text="${tournament.name}"/></a></li>
     </ul>
 </div>
 <div th:if="${publicTournaments}">
-    <h1>Public</h1>
+    <h1>Öffentliche Turniere</h1>
     <ul>
-        <li th:each="tournament: ${publicTournaments}"><span th:text="${tournament.name}"/></li>
+        <li th:each="tournament: ${publicTournaments}"><a th:href="@{'/tournament/' + ${tournament.code}}"><span th:text="${tournament.name}"/></a></li>
     </ul>
 </div>
 </body>
