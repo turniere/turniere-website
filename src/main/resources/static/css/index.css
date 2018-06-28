@@ -44,3 +44,8 @@ footer {
 h2 {
     font-family: Halt, sans-serif;
 }
+
+.border-fix {
+    border-top-left-radius: .25rem !important;
+    border-bottom-left-radius: .25rem !important;
+}

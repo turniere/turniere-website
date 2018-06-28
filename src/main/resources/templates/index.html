@@ -34,7 +34,7 @@
             </div>
             <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="post"
                   class="form-inline my-2 my-lg-0 btn-group">
-                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" href="/"><span
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5 border-fix" role="button" href="/"><span
                         sec:authentication="name"></span></a>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
             </form>
@@ -75,7 +75,7 @@
                 <button class="btn btn-outline-success w-100 mt-2" type="submit">Turnier-Code öffnen</button>
             </form>
             <div class="col-lg-8">
-                <p>Gib hier einen Turnier Code ein um direkt zum entsprechenden Turnier zu gelangen.</p>
+                <p>Gib hier einen Turnier Code ein, um direkt zum entsprechenden Turnier zu gelangen.</p>
             </div>
         </div>
     </div>
@@ -108,7 +108,8 @@
 <footer class="footer mt-5 bg-dark text-light">
     <div class="container py-3">
         <div class="row">
-            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">DSGVO-Kram</a>
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen arme
+                kleine Daten</a>
                 &middot; <a
                         class="text-white" href="#">Impressum</a></div>
             <div class="col-md-6 text-center"><a href="#" class="text-white">zurück nach oben</a></div>
