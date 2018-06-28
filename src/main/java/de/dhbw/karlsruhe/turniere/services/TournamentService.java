@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.turniere.services;
 
+import de.dhbw.karlsruhe.turniere.database.models.Match;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
@@ -21,6 +22,12 @@ public class TournamentService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 
+    public Match nextMatch(Tournament tournament) {
+        List<Team> teams = tournament.getTeams();
+        // return plain test match
+        return new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED);
+    }
+
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
         // create team objects from names and save them into a list
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
@@ -29,6 +36,8 @@ public class TournamentService {
         String code = UUID.randomUUID().toString();
         // create and save tournament object
         Tournament tournament = tournamentRepository.save(new Tournament(name, code, description, isPublic, teams));
+        tournament.getMatches().add(nextMatch(tournament));
+        tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
         // save updated user in repository
