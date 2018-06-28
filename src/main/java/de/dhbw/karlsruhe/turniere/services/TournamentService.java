@@ -54,6 +54,10 @@ public class TournamentService {
 
     }
 
+    private Integer getStageId(Integer numberOfTeams){
+        return (int)(Math.log(nextPowerOf2(numberOfTeams))/Math.log(2));
+    }
+
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
         // create team objects from names and save them into a list
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
@@ -65,7 +69,7 @@ public class TournamentService {
         // generate initial matches
         List<Match> matches = generateMatches(tournament, true);
         // build stage and add to tournament object
-        tournament.addStage(new Stage(0, matches));
+        tournament.addStage(new Stage(getStageId(teams.size()), matches));
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
         // save updated user in repository
