@@ -8,7 +8,12 @@
 <h1 th:text="${tournament.name}"></h1>
 <span th:text="${tournament.description}"></span>
 <ul>
-    <li th:each="match: ${tournament.matches}"><span th:text="${match}"></span></li>
+    <li th:each="stage: ${tournament.stages}">
+        <span th:text="${stage.level}"/>
+        <ul th:each="match: ${stage.matches}">
+            <li th:text="${match}"></li>
+        </ul>
+    </li>
 </ul>
 </body>
 </html>
