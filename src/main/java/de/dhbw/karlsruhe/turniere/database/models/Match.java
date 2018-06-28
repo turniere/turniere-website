@@ -28,7 +28,15 @@ public class Match {
 
     private State state;
 
-    private enum State {
+    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state) {
+        this.team1 = team1;
+        this.team2 = team2;
+        this.scoreTeam1 = scoreTeam1;
+        this.scoreTeam2 = scoreTeam2;
+        this.state = state;
+    }
+
+    public enum State {
         TEAM1_WON, TEAM2_WON, IN_PROGRESS, NOT_STARTED
     }
 }
