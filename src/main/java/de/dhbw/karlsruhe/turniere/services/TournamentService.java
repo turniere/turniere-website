@@ -10,11 +10,7 @@ import de.dhbw.karlsruhe.turniere.database.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,29 +26,29 @@ public class TournamentService {
         return new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED);
     }
 
-    private int nextPowerOf2(int number){
+    private int nextPowerOf2(int number) {
         Integer nextPower = 0;
-        for (int i = 0; nextPower<number;i++){
-            nextPower = (int)Math.pow(2,i);
+        for (int i = 0; nextPower < number; i++) {
+            nextPower = (int) Math.pow(2, i);
         }
         return nextPower;
     }
 
     private List<Match> generateMatches(Tournament tournament, boolean randomize) {
         List<Team> teams = tournament.getTeams();
-        if (randomize){
+        if (randomize) {
             Collections.shuffle(teams);
         }
-        //needed Games --> how many teams need to be kicked out to get the number of teams to the next lower power of 2
+        // needed Games --> how many teams need to be kicked out to get the number of teams to the next lower power of 2
         int neededGames;
         if (nextPowerOf2(teams.size()) == teams.size()) {
-            neededGames = teams.size()/2;
-        }else{
-            neededGames = teams.size()-nextPowerOf2(teams.size())/2;
+            neededGames = teams.size() / 2;
+        } else {
+            neededGames = teams.size() - nextPowerOf2(teams.size()) / 2;
         }
         List<Match> matches = new ArrayList<>();
-        //generate neededGames number of matches and add them to the list matches
-        for (int i = 0; i<neededGames; i++) {
+        // generate neededGames number of matches and add them to the list matches
+        for (int i = 0; i < neededGames; i++) {
             matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED));
             teams.remove(1);
             teams.remove(0);
@@ -69,9 +65,9 @@ public class TournamentService {
         String code = UUID.randomUUID().toString();
         // create and save tournament object
         Tournament tournament = tournamentRepository.save(new Tournament(name, code, description, isPublic, teams));
-        //tournament.getMatches().add(nextMatch(tournament)); // << deprecated Jonas Code
-        List<Match> matches = generateMatches(tournament,true);
-        for (Match match:matches){
+        // generate initial matches and add them to the tournament object
+        List<Match> matches = generateMatches(tournament, true);
+        for (Match match : matches) {
             tournament.getMatches().add(match);
         }
         tournamentRepository.save(tournament);
