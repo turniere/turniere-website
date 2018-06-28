@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.turniere.database.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +32,5 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public User() {
     }
 }
