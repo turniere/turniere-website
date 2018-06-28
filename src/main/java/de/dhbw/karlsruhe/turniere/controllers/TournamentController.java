@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -58,6 +59,15 @@ public class TournamentController {
         // create tournament
         Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
                 tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","), owner);
-        return "create_tournament";
+        return "redirect:/tournament/" + tournament.getCode();
+    }
+
+    @GetMapping("/tournament/{code}")
+    String viewTournament(@PathVariable String code, Authentication authentication, Model model) {
+        // find tournament object
+        Tournament tournament = tournamentRepository.findByCode(code);
+        // add tournament object to model
+        model.addAttribute("tournament", tournament);
+        return "tournament";
     }
 }
