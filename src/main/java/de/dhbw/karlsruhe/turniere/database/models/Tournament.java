@@ -35,7 +35,7 @@ public class Tournament {
     private List<Team> teams;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Match> matches = new ArrayList<>();
+    private List<Stage> stages = new ArrayList<>();
 
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;
@@ -43,5 +43,9 @@ public class Tournament {
         this.description = description;
         this.isPublic = isPublic;
         this.teams = teams;
+    }
+
+    public void addStage(Stage stage) {
+        stages.add(stage);
     }
 }
