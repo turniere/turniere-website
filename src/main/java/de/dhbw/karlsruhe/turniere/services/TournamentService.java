@@ -24,7 +24,7 @@ public class TournamentService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 
-    public Match nextMatch(Tournament tournament) {
+    private Match nextMatch(Tournament tournament) {
         List<Team> teams = tournament.getTeams();
         // return plain test match
         return new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED);
