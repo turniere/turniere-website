@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class RegisterForm {
     @NotEmpty
@@ -19,11 +20,13 @@ public class RegisterForm {
     private String email;
 
     @NotEmpty
+    @Size(min = 12)
     @Getter
     @Setter
     private String password;
 
     @NotEmpty
+    @Size(min = 12)
     @Getter
     @Setter
     private String repassword;
