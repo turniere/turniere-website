@@ -63,7 +63,7 @@ public class TournamentController {
     }
 
     @GetMapping("/tournament/{code}")
-    String viewTournament(@PathVariable String code, Authentication authentication, Model model) {
+    String viewTournament(@PathVariable String code, Model model) {
         // find tournament object
         Tournament tournament = tournamentRepository.findByCode(code);
         // add tournament object to model
