@@ -33,6 +33,9 @@ public class Tournament {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Team> teams;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Match> matches;
+
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;
         this.code = code;
