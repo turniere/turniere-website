@@ -46,7 +46,7 @@ public class TournamentService {
         //needed Games --> how many teams need to be kicked out to get the number of teams to the next lower power of 2
         int neededGames;
         if (nextPowerOf2(teams.size()) == teams.size()) {
-            neededGames = teams.size();
+            neededGames = teams.size()/2;
         }else{
             neededGames = teams.size()-nextPowerOf2(teams.size())/2;
         }
