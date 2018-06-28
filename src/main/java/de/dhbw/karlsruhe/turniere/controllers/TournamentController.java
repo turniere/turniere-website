@@ -24,7 +24,7 @@ public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
 
-    @GetMapping("/tournaments")
+    @GetMapping("/liste")
     String tournamentList(Model model, Authentication authentication) {
         // add public tournaments to template
         model.addAttribute("publicTournaments", tournamentRepository.findByIsPublic(true));
@@ -42,12 +42,12 @@ public class TournamentController {
         return "tournaments";
     }
 
-    @GetMapping("/tournaments/create")
+    @GetMapping("/erstellen")
     String createTournamentForm(TournamentForm tournamentForm) {
         return "create_tournament";
     }
 
-    @PostMapping("/tournaments/create")
+    @PostMapping("/erstellen")
     String createTournament(@Valid TournamentForm tournamentForm, BindingResult bindingResult, Authentication
             authentication) {
         if (bindingResult.hasErrors()) {
@@ -59,10 +59,10 @@ public class TournamentController {
         // create tournament
         Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
                 tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","), owner);
-        return "redirect:/tournament/" + tournament.getCode();
+        return "redirect:/t/" + tournament.getCode();
     }
 
-    @GetMapping("/tournament/{code}")
+    @GetMapping("/t/{code}")
     String viewTournament(@PathVariable String code, Model model) {
         // find tournament object
         Tournament tournament = tournamentRepository.findByCode(code);
