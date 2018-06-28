@@ -56,9 +56,18 @@
     </div>
 
     <div class="container">
+        <div th:if="${param.logout}" class="alert alert-dismissible alert-success fade show">
+            Du wurdest ausgeloggt.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <div class="card my-2">
+                <div class="card my-2" id="login">
                     <div class="card-body">
                         <h2>Login</h2>
                         <div th:if="${param.error}" class="alert alert-dismissible alert-danger fade show">
@@ -67,26 +76,21 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div th:if="${param.logout}" class="alert alert-dismissible alert-success fade show">
-                            Du wurdest ausgeloggt.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
                         <form th:action="@{/login}" method="post">
                             <div class="form-group">
                                 <label for="username">E-Mail-Adresse</label>
-                                <input type="text" name="username"
+                                <input type="email" name="username"
                                        class="form-control"
                                        placeholder="user@example.com"
-                                       id="username">
+                                       id="username"
+                                required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Passwort</label>
                                 <input type="password" name="password"
                                        class="form-control"
                                        placeholder="****"
-                                       id="password">
+                                       id="password" required>
                             </div>
                             <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Login</button>
                         </form>
@@ -94,13 +98,13 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card my-2">
+                <div class="card my-2" id="register">
                     <div class="card-body">
                         <h2>Registrieren</h2>
                         <form action="#" th:action="@{/register}" th:object="${registerForm}" method="POST">
                             <div class="form-group">
                                 <label for="reg-user">Nutzername</label>
-                                <input class="form-control" type="text" id="reg-user" th:field="*{username}"/>
+                                <input class="form-control" type="text" id="reg-user" th:field="*{username}" required>
                                 <small class="text-muted">
                                     Wenn du anderen dein Turnier zeigst, können sie deinen Benutzernamen sehen.
                                 </small>
@@ -110,7 +114,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reg-mail">E-Mail</label>
-                                <input class="form-control" type="text" id="reg-mail" th:field="*{email}"/>
+                                <input class="form-control" type="email" id="reg-mail" th:field="*{email}" required>
                                 <small class="text-muted">
                                     Deine E-Mail-Adresse kann nur von dir gesehen werden.
                                 </small>
@@ -120,7 +124,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reg-pw">Passphrase</label>
-                                <input class="form-control" type="password" id="reg-pw" th:field="*{password}"/>
+                                <input class="form-control" type="password" id="reg-pw" th:field="*{password}" minlength="12" required>
                                 <small class="text-muted">
                                     Deine Passphrase muss mindestens 12 Zeichen lang sein. Alle Zeichen sind erlaubt.
                                 </small>
@@ -130,7 +134,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reg-pw2">Passphrase wiederholen</label>
-                                <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}"/>
+                                <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}" minlength="12" required>
                                 <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}"
                                      class="text-danger font-italic">Passphrasen stimmen nicht
                                     überein
