@@ -31,8 +31,10 @@ public class TournamentService {
         return nextPower;
     }
 
-    private List<Match> generateMatches(Tournament tournament, boolean randomize) {
-        List<Team> teams = tournament.getTeams();
+    private List<Match> generateMatches(List<Team> originalTeams, boolean randomize) {
+        // copy original teams to new variable to not modify original list
+        List<Team> teams = new ArrayList<>(originalTeams);
+        // shuffle teams if desired
         if (randomize) {
             Collections.shuffle(teams);
         }
@@ -67,7 +69,7 @@ public class TournamentService {
         // create and save tournament object
         Tournament tournament = tournamentRepository.save(new Tournament(name, code, description, isPublic, teams));
         // generate initial matches
-        List<Match> matches = generateMatches(tournament, true);
+        List<Match> matches = generateMatches(tournament.getTeams(), true);
         // build stage and add to tournament object
         tournament.addStage(new Stage(getStageId(teams.size()), matches));
         // add saved tournament object to authenticated user (owner)
