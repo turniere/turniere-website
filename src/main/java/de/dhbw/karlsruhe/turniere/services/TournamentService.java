@@ -67,11 +67,13 @@ public class TournamentService {
         // generate uuid
         String code = UUID.randomUUID().toString();
         // create and save tournament object
-        Tournament tournament = tournamentRepository.save(new Tournament(name, code, description, isPublic, teams));
+        Tournament tournament = new Tournament(name, code, description, isPublic, teams);
         // generate initial matches
         List<Match> matches = generateMatches(tournament.getTeams(), true);
         // build stage and add to tournament object
         tournament.addStage(new Stage(getStageId(teams.size()), matches));
+        // save tournament object
+        tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
         // save updated user in repository
