@@ -54,8 +54,8 @@ public class TournamentService {
         //generate neededGames number of matches and add them to the list matches
         for (int i = 0; i<neededGames; i++) {
             matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED));
-            teams.remove(0);
             teams.remove(1);
+            teams.remove(0);
         }
         return matches;
 
