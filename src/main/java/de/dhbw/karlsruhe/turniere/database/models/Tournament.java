@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,8 +34,8 @@ public class Tournament {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Team> teams;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Match> matches;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Match> matches = new ArrayList<>();
 
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;
