@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MatchService {
-    private MatchRepository matchRepository;
+    private final MatchRepository matchRepository;
 
     public void setResults(Match match, int scoreTeam1, int scoreTeam2) {
         match.setScoreTeam1(scoreTeam1);
