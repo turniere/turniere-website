@@ -11,7 +11,7 @@
     <li th:each="stage: ${tournament.stages}">
         <span th:text="${stage.level}"/>
         <ul th:each="match: ${stage.matches}">
-            <li th:text="${match}"></li>
+            <li><a th:href="@{'/m/' + ${match.id}}"><span th:text="${match}"/></a></li>
         </ul>
     </li>
 </ul>
