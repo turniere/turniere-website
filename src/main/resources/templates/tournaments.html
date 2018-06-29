@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Turnie.re</title>
 </head>
@@ -8,13 +8,15 @@
 <div sec:authorize="isAuthenticated()" th:if="${privateTournaments}">
     <h1>Meine Turniere</h1>
     <ul>
-        <li th:each="tournament: ${privateTournaments}"><a th:href="@{'/t/' + ${tournament.code}}"><span th:text="${tournament.name}"/></a></li>
+        <li th:each="tournament: ${privateTournaments}"><a th:href="@{'/t/' + ${tournament.code}}"><span
+                th:text="${tournament.name}"/></a></li>
     </ul>
 </div>
 <div th:if="${publicTournaments}">
     <h1>Öffentliche Turniere</h1>
     <ul>
-        <li th:each="tournament: ${publicTournaments}"><a th:href="@{'/t/' + ${tournament.code}}"><span th:text="${tournament.name}"/></a></li>
+        <li th:each="tournament: ${publicTournaments}"><a th:href="@{'/t/' + ${tournament.code}}"><span
+                th:text="${tournament.name}"/></a></li>
     </ul>
 </div>
 </body>

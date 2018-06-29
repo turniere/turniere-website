@@ -27,12 +27,12 @@ public class TournamentService {
         return nextPower;
     }
 
-    private List<Match> generateEmptyMatches(int numberOfMatches){
+    private List<Match> generateEmptyMatches(int numberOfMatches) {
         Team dummy = new Team();
         teamRepository.save(dummy);
         List<Match> matches = new ArrayList<>();
-        for (int i = 0; i < numberOfMatches; i++ ){
-            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED,i));
+        for (int i = 0; i < numberOfMatches; i++) {
+            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED, i));
         }
         return matches;
     }
@@ -62,8 +62,8 @@ public class TournamentService {
 
     }
 
-    private Integer getStageId(Integer numberOfTeams){
-        return (int)(Math.log(nextPowerOf2(numberOfTeams))/Math.log(2));
+    private Integer getStageId(Integer numberOfTeams) {
+        return (int) (Math.log(nextPowerOf2(numberOfTeams)) / Math.log(2));
     }
 
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
@@ -82,9 +82,9 @@ public class TournamentService {
         Stage stage = new Stage(stageId, matches);
         tournament.addStage(stage);
         stageRepository.save(stage);
-        for (int i = (stageId-1);i >= 0; i--){
+        for (int i = (stageId - 1); i >= 0; i--) {
             //generate all other stages with the right number of empty matches
-            Stage emptyStage = new Stage(i, generateEmptyMatches((int)Math.pow(2,i)));
+            Stage emptyStage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
             tournament.addStage(stageRepository.save(emptyStage));
         }
 

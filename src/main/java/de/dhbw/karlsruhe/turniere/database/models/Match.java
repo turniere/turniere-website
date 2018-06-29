@@ -39,10 +39,6 @@ public class Match {
         this.position = position;
     }
 
-    public enum State {
-        TEAM1_WON, TEAM2_WON, IN_PROGRESS, NOT_STARTED
-    }
-
     @Override
     public String toString() {
         return "Match{" +
@@ -53,5 +49,9 @@ public class Match {
                 ", state=" + state +
                 ", position=" + position +
                 '}';
+    }
+
+    public enum State {
+        TEAM1_WON, TEAM2_WON, IN_PROGRESS, NOT_STARTED
     }
 }

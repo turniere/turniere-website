@@ -24,8 +24,8 @@ public class MatchService {
         matchRepository.save(match);
     }
 
-    public void whoWon(Match match){
-        match.setState(evaluateWinner(match.getScoreTeam1(),match.getScoreTeam2()));
+    public void whoWon(Match match) {
+        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
         matchRepository.save(match);
     }
 

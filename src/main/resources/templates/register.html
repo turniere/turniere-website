@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Turnie.re - Registrieren</title>
@@ -25,7 +25,8 @@
         <tr>
             <td>Passwort wiederholen:</td>
             <td><input type="password" th:field="*{repassword}"/></td>
-            <td th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}">Passwörter stimmen nicht überein</td>
+            <td th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}">Passwörter stimmen nicht überein
+            </td>
         </tr>
         <tr>
             <td>

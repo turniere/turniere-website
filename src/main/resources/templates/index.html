@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>turnie.re</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
@@ -28,7 +28,8 @@
                 </li>
             </ul>
             <div sec:authorize="isAnonymous()" class="nav-item btn-group">
-                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" th:href="@{/login}">Login</a>
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/login}">Login</a>
                 <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
                    th:href="@{/register}">Registrieren</a>
             </div>
@@ -54,15 +55,19 @@
         <div class="row">
             <div class="col-lg-4">
                 <h2>Für jede Sportart</h2>
-                <p>turnie.re ist universell für fast alle Sportarten einsetzbar. Du kannst einfach den Endstand der jeweiligen Runden eintragen und wir berechnen, wer gewonnen hat und erweitern den Turnierbaum entsprechend.</p>
+                <p>turnie.re ist universell für fast alle Sportarten einsetzbar. Du kannst einfach den Endstand der
+                    jeweiligen Runden eintragen und wir berechnen, wer gewonnen hat und erweitern den Turnierbaum
+                    entsprechend.</p>
             </div>
             <div class="col-lg-4">
                 <h2>Beliebige Anzahl Teams</h2>
-                <p>Egal wie viele Teams du gerne in deinem Turnier hast, wir regeln das. Füge einfach deine Teams hinzu und schon sagen wir dir, wer gegen wen spielt.</p>
+                <p>Egal wie viele Teams du gerne in deinem Turnier hast, wir regeln das. Füge einfach deine Teams hinzu
+                    und schon sagen wir dir, wer gegen wen spielt.</p>
             </div>
             <div class="col-lg-4">
                 <h2>Kostenlos</h2>
-                <p>turnie.re ist ein kostenloser Service! Wir erheben keine Kosten und sind nur darauf aus, dein Turniermanagement so einfach wie möglich zu gestalten.</p>
+                <p>turnie.re ist ein kostenloser Service! Wir erheben keine Kosten und sind nur darauf aus, dein
+                    Turniermanagement so einfach wie möglich zu gestalten.</p>
             </div>
         </div>
 
@@ -98,7 +103,8 @@
                 <a class="btn btn-outline-success w-100" role="button" href="#">Turnierübersicht</a>
             </div>
             <div class="col-lg-8">
-                <p>Wenn du den Turniercode nicht weisst, ist das kein Problem, hier gelangst du zur Turnierübersicht.</p>
+                <p>Wenn du den Turniercode nicht weisst, ist das kein Problem, hier gelangst du zur
+                    Turnierübersicht.</p>
             </div>
         </div>
     </div>
@@ -108,7 +114,8 @@
 <footer class="footer mt-5 bg-dark text-light">
     <div class="container py-3">
         <div class="row">
-            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen arme
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen
+                arme
                 kleine Daten</a>
                 &middot; <a
                         class="text-white" href="#">Impressum</a></div>
@@ -119,9 +126,12 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </html>

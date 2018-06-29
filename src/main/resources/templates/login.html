@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Login - turnie.re</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
@@ -28,7 +28,8 @@
                 </li>
             </ul>
             <div sec:authorize="isAnonymous()" class="nav-item btn-group">
-                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button" th:href="@{/login}">Login</a>
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/login}">Login</a>
                 <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
                    th:href="@{/register}">Registrieren</a>
             </div>
@@ -81,7 +82,7 @@
                                        class="form-control"
                                        placeholder="user@example.com"
                                        id="username"
-                                required>
+                                       required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Passwort</label>
@@ -116,13 +117,15 @@
                                 <small class="text-muted">
                                     Deine E-Mail-Adresse kann nur von dir gesehen werden.
                                 </small>
-                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger font-italic">
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                     class="text-danger font-italic">
                                     E-Mail Adresse fehlerhaft
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="reg-pw">Passphrase</label>
-                                <input class="form-control" type="password" id="reg-pw" th:field="*{password}" minlength="12" required>
+                                <input class="form-control" type="password" id="reg-pw" th:field="*{password}"
+                                       minlength="12" required>
                                 <small class="text-muted">
                                     Deine Passphrase muss mindestens 12 Zeichen lang sein. Alle Zeichen sind erlaubt.
                                 </small>
@@ -132,14 +135,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="reg-pw2">Passphrase wiederholen</label>
-                                <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}" minlength="12" required>
+                                <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}"
+                                       minlength="12" required>
                                 <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}"
                                      class="text-danger font-italic">Passphrasen stimmen nicht
                                     überein
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Registrieren</button>
+                                <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Registrieren
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -153,7 +158,8 @@
 <footer class="footer mt-5 bg-dark text-light">
     <div class="container py-3">
         <div class="row">
-            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen arme
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen
+                arme
                 kleine Daten</a>
                 &middot; <a
                         class="text-white" href="#">Impressum</a></div>
@@ -164,9 +170,12 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </html>
