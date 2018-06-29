@@ -28,12 +28,15 @@ public class Match {
 
     private State state;
 
-    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state) {
+    private Integer position;
+
+    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position) {
         this.team1 = team1;
         this.team2 = team2;
         this.scoreTeam1 = scoreTeam1;
         this.scoreTeam2 = scoreTeam2;
         this.state = state;
+        this.position = position;
     }
 
     public enum State {
@@ -48,6 +51,7 @@ public class Match {
                 ", scoreTeam1=" + scoreTeam1 +
                 ", scoreTeam2=" + scoreTeam2 +
                 ", state=" + state +
+                ", position=" + position +
                 '}';
     }
 }

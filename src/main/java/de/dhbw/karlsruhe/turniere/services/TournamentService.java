@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.turniere.services;
 
 import de.dhbw.karlsruhe.turniere.database.models.*;
+import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.UserRepository;
@@ -16,12 +17,7 @@ public class TournamentService {
     private final TournamentRepository tournamentRepository;
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
-
-    private Match nextMatch(Tournament tournament) {
-        List<Team> teams = tournament.getTeams();
-        // return plain test match
-        return new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED);
-    }
+    private final StageRepository stageRepository;
 
     private int nextPowerOf2(int number) {
         Integer nextPower = 0;
@@ -29,6 +25,16 @@ public class TournamentService {
             nextPower = (int) Math.pow(2, i);
         }
         return nextPower;
+    }
+
+    private List<Match> generateEmptyMatches(int numberOfMatches){
+        Team dummy = new Team();
+        teamRepository.save(dummy);
+        List<Match> matches = new ArrayList<>();
+        for (int i = 0; i < numberOfMatches; i++ ){
+            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED,i));
+        }
+        return matches;
     }
 
     private List<Match> generateMatches(List<Team> originalTeams, boolean randomize) {
@@ -48,7 +54,7 @@ public class TournamentService {
         List<Match> matches = new ArrayList<>();
         // generate neededGames number of matches and add them to the list matches
         for (int i = 0; i < neededGames; i++) {
-            matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED));
+            matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED, i));
             teams.remove(1);
             teams.remove(0);
         }
@@ -71,7 +77,17 @@ public class TournamentService {
         // generate initial matches
         List<Match> matches = generateMatches(tournament.getTeams(), true);
         // build stage and add to tournament object
-        tournament.addStage(new Stage(getStageId(teams.size()), matches));
+        int stageId = getStageId(teams.size());
+        //generating "last" stage with actual matches
+        Stage stage = new Stage(stageId, matches);
+        tournament.addStage(stage);
+        stageRepository.save(stage);
+        for (int i = (stageId-1);i >= 0; i--){
+            //generate all other stages with the right number of empty matches
+            Stage emptyStage = new Stage(i, generateEmptyMatches((int)Math.pow(2,i)));
+            tournament.addStage(stageRepository.save(emptyStage));
+        }
+
         // save tournament object
         tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
