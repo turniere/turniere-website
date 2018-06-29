@@ -4,6 +4,7 @@ import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
+import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
 import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -63,9 +65,12 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}")
-    String viewTournament(@PathVariable String code, Model model) {
+    String viewTournament(@PathVariable String code, Model model, HttpServletResponse httpServletResponse) {
         // find tournament object
         Tournament tournament = tournamentRepository.findByCode(code);
+        if (tournament == null) {
+            throw new ResourceNotFoundException("Tournament with code '" + code + "'");
+        }
         // add tournament object to model
         model.addAttribute("tournament", tournament);
         return "tournament";
