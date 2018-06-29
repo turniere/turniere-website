@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Turnie.re - Ergebnis eintragen</title>
+</head>
+<body>
+<form action="#" th:action="@{'/m/' + ${match.id}}" th:object="${matchResultSubmitForm}" method="POST">
+    <table>
+        <tr>
+            <td>Punkte <span th:text="${match.team1.name}"/>:</td>
+            <td><input type="number" th:name="scoreTeam1" th:id="scoreTeam1" th:value="${match.scoreTeam1}"/></td>
+            <td th:if="${#fields.hasErrors('scoreTeam1')}" th:errors="*{scoreTeam1}">Punkte Team 1 fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Punkte <span th:text="${match.team2.name}"/>:</td>
+            <td><input type="number" th:name="scoreTeam2" th:id="scoreTeam2" th:value="${match.scoreTeam2}"/></td>
+            <td th:if="${#fields.hasErrors('scoreTeam2')}" th:errors="*{scoreTeam2}">Punkte Team 2 fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Live score:</td>
+            <td><input type="checkbox" th:field="*{isLive}"/></td>
+            <td th:if="${#fields.hasErrors('isLive')}" th:errors="*{isLive}">Live score fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Eintragen</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
