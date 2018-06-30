@@ -1,6 +1,10 @@
 package de.dhbw.karlsruhe.turniere.services;
 
-import de.dhbw.karlsruhe.turniere.database.models.*;
+import de.dhbw.karlsruhe.turniere.database.models.Match;
+import de.dhbw.karlsruhe.turniere.database.models.Stage;
+import de.dhbw.karlsruhe.turniere.database.models.Team;
+import de.dhbw.karlsruhe.turniere.database.models.Tournament;
+import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
@@ -8,7 +12,11 @@ import de.dhbw.karlsruhe.turniere.database.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -65,8 +73,8 @@ public class TournamentService {
     private Integer getStageId(Integer numberOfTeams) {
         if (numberOfTeams == 0 || numberOfTeams == 1) {
             return 0;
-        }else{
-            return (int) (Math.log(nextPowerOf2(numberOfTeams)/2) / Math.log(2));
+        } else {
+            return (int) (Math.log(nextPowerOf2(numberOfTeams) / 2) / Math.log(2));
         }
     }
 
