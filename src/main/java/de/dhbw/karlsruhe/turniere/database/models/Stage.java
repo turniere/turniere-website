@@ -32,8 +32,14 @@ public class Stage {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Match> matches = new ArrayList<>();
 
+    private Boolean isLocked = false;
+
     public Stage(Integer level, List<Match> matches) {
         this.level = level;
         this.matches = matches;
+    }
+
+    public void lock() {
+        this.isLocked = true;
     }
 }

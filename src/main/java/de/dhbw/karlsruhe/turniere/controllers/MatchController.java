@@ -2,11 +2,14 @@ package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
+import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
+import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
+import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,8 @@ public class MatchController {
     MatchRepository matchRepository;
     @Autowired
     MatchService matchService;
+    @Autowired
+    StageRepository stageRepository;
 
 
     /**
@@ -61,7 +66,30 @@ public class MatchController {
         if (!authenticatedUser.equals(owner)) {
             throw new AccessDeniedException(exceptionMessage);
         }
+        Stage parentStage = stageRepository.findByMatchesContains(match);
+        if (parentStage == null) {
+            throw new RuntimeException(exceptionMessage + " doesn't have a parent stage");
+        }
+        if (parentStage.getIsLocked()) {
+            throw new StageLockedException("Stage with id " + parentStage.getId() + " is locked");
+        }
         return match;
+    }
+
+    /**
+     * Check if all matches in stage are finished
+     *
+     * @param stage
+     * @return Finished state of stage
+     */
+    private boolean checkStageFinished(Stage stage) {
+        for (Match match : stage.getMatches()) {
+            Match.State matchState = match.getState();
+            if (matchState.equals(Match.State.NOT_STARTED) || matchState.equals(Match.State.IN_PROGRESS)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @GetMapping("/m/{matchId}")
@@ -84,6 +112,13 @@ public class MatchController {
             matchService.setLivescore(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
         } else {
             matchService.setResults(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
+        }
+        // check if all matches on that stage are finished
+        Stage parentStage = stageRepository.findByMatchesContains(match);
+        if (checkStageFinished(parentStage)) {
+            parentStage.lock();
+            stageRepository.save(parentStage);
+            // TODO Generate next stage
         }
         return "match";
     }
