@@ -63,7 +63,11 @@ public class TournamentService {
     }
 
     private Integer getStageId(Integer numberOfTeams) {
-        return (int) (Math.log(nextPowerOf2(numberOfTeams)) / Math.log(2));
+        if (numberOfTeams == 0 || numberOfTeams == 1) {
+            return 0;
+        }else{
+            return (int) (Math.log(nextPowerOf2(numberOfTeams)/2) / Math.log(2));
+        }
     }
 
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
