@@ -9,7 +9,7 @@
 <span th:text="${tournament.description}"></span>
 <ul>
     <li th:each="stage: ${tournament.stages}">
-        <span th:text="${stage.level}"/>
+        <span th:text="${stage.level}"/><span th:if="${stage.isLocked}">🔒</span>
         <ul th:each="match: ${stage.matches}">
             <li><a th:href="@{'/m/' + ${match.id}}"><span th:text="${match}"/></a></li>
         </ul>
