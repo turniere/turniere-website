@@ -46,11 +46,6 @@ public class MatchService {
         matchRepository.save(match);
     }
 
-    public void whoWon(Match match) {
-        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
-        matchRepository.save(match);
-    }
-
     private Match.State evaluateWinner(int scoreTeam1, int scoreTeam2) {
         if (scoreTeam1 < scoreTeam2) {
             return Match.State.TEAM2_WON;
