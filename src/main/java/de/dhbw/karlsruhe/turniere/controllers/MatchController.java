@@ -12,6 +12,7 @@ import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
+import de.dhbw.karlsruhe.turniere.services.StageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -36,6 +37,8 @@ public class MatchController {
     MatchService matchService;
     @Autowired
     StageRepository stageRepository;
+    @Autowired
+    StageService stageService;
 
 
     /**
@@ -78,22 +81,6 @@ public class MatchController {
         return match;
     }
 
-    /**
-     * Check if all matches in stage are finished
-     *
-     * @param stage
-     * @return Finished state of stage
-     */
-    private boolean checkStageFinished(Stage stage) {
-        for (Match match : stage.getMatches()) {
-            Match.State matchState = match.getState();
-            if (matchState.equals(Match.State.NOT_STARTED) || matchState.equals(Match.State.IN_PROGRESS)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @GetMapping("/m/{matchId}")
     String match(@PathVariable Long matchId, Model model, MatchResultSubmitForm matchResultSubmitForm, Authentication authentication) {
         model.addAttribute("match", safeGetMatch(matchId, authentication));
@@ -117,7 +104,7 @@ public class MatchController {
         }
         // check if all matches on that stage are finished
         Stage parentStage = stageRepository.findByMatchesContains(match);
-        if (checkStageFinished(parentStage)) {
+        if (stageService.checkStageFinished(parentStage)) {
             parentStage.lock();
             stageRepository.save(parentStage);
         }
