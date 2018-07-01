@@ -121,6 +121,11 @@ public class MatchController {
             parentStage.lock();
             stageRepository.save(parentStage);
         }
-        return "match";
+        Tournament tournament = tournamentRepository.findByStagesContains(parentStage);
+        if (matchResultSubmitForm.getIsLive()) {
+            return "match";
+        } else {
+            return "redirect:/t/" + tournament.getCode();
+        }
     }
 }
