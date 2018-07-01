@@ -94,7 +94,7 @@ public class TournamentService {
      * @param numberOfTeams Number of teams to calculate stages for
      * @return Required number of stages for given number of teams
      */
-    private Integer getStageId(Integer numberOfTeams) {
+    private Integer calculateRequiredStageCount(Integer numberOfTeams) {
         if (numberOfTeams == 0 || numberOfTeams == 1) {
             return 0;
         } else {
@@ -120,14 +120,14 @@ public class TournamentService {
         String code = UUID.randomUUID().toString();
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
-        int stageId = getStageId(teams.size());
+        int stageCount = calculateRequiredStageCount(teams.size());
         // generate initial matches
         List<Match> matches = generateMatches(tournament.getTeams(), true);
         //generating "last" stage with actual matches
-        Stage stage = new Stage(stageId, matches);
+        Stage stage = new Stage(stageCount, matches);
         tournament.addStage(stage);
         stageRepository.save(stage);
-        for (int i = (stageId - 1); i >= 0; i--) {
+        for (int i = (stageCount - 1); i >= 0; i--) {
             //generate all other stages with the right number of empty matches
             Stage emptyStage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
             tournament.addStage(stageRepository.save(emptyStage));
