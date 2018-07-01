@@ -27,6 +27,12 @@ public class TournamentService {
     private final UserRepository userRepository;
     private final StageRepository stageRepository;
 
+    /**
+     * Calculate next power of two
+     *
+     * @param number Lower bound for calculated power of two
+     * @return Next power of two after given number
+     */
     private int nextPowerOf2(int number) {
         Integer nextPower = 0;
         for (int i = 0; nextPower < number; i++) {
@@ -35,6 +41,12 @@ public class TournamentService {
         return nextPower;
     }
 
+    /**
+     * Generate empty matches by filling them with a (saved) dummy team
+     *
+     * @param numberOfMatches Number of empty matches to generate
+     * @return List of generated empty matches
+     */
     private List<Match> generateEmptyMatches(int numberOfMatches) {
         Team dummy = new Team();
         teamRepository.save(dummy);
@@ -45,6 +57,13 @@ public class TournamentService {
         return matches;
     }
 
+    /**
+     * Generate matches for given list of teams
+     *
+     * @param originalTeams Teams to generate matches for
+     * @param randomize     Randomize teams before arranging them into matches
+     * @return List of generated matches including all given teams
+     */
     private List<Match> generateMatches(List<Team> originalTeams, boolean randomize) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
@@ -67,9 +86,14 @@ public class TournamentService {
             teams.remove(0);
         }
         return matches;
-
     }
 
+    /**
+     * Calculate number of stages
+     *
+     * @param numberOfTeams Number of teams to calculate stages for
+     * @return Required number of stages for given number of teams
+     */
     private Integer getStageId(Integer numberOfTeams) {
         if (numberOfTeams == 0 || numberOfTeams == 1) {
             return 0;
@@ -78,6 +102,16 @@ public class TournamentService {
         }
     }
 
+    /**
+     * Create a new Tournament
+     *
+     * @param name        Tournament name
+     * @param description Tournament description
+     * @param isPublic    Tournament accessible without login (deprecated)
+     * @param teamNames   Names of initial teams
+     * @param owner       Owner of the tournament
+     * @return Saved new tournament object
+     */
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
         // create team objects from names and save them into a list
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
