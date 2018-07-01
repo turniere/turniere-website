@@ -10,6 +10,7 @@ import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -62,9 +63,9 @@ public class TournamentService {
      *
      * @param originalTeams Teams to generate matches for
      * @param randomize     Randomize teams before arranging them into matches
-     * @return List of generated matches including all given teams
+     * @return Pair of list of generated matches and teams not represented in generated matches
      */
-    private List<Match> generateMatches(List<Team> originalTeams, boolean randomize) {
+    private Pair<List<Match>, List<Team>> generateMatches(List<Team> originalTeams, boolean randomize) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
         // shuffle teams if desired
@@ -85,7 +86,7 @@ public class TournamentService {
             teams.remove(1);
             teams.remove(0);
         }
-        return matches;
+        return Pair.of(matches, teams);
     }
 
     /**
@@ -121,18 +122,21 @@ public class TournamentService {
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
         int stageCount = calculateRequiredStageCount(teams.size());
-        // generate initial matches
-        List<Match> matches = generateMatches(tournament.getTeams(), true);
-        //generating "last" stage with actual matches
+        // generate initial matches and save remaining teams
+        Pair<List<Match>, List<Team>> matchesAndRemainingTeams = generateMatches(tournament.getTeams(), true);
+        List<Match> matches = matchesAndRemainingTeams.getFirst();
+        List<Team> remainingTeams = matchesAndRemainingTeams.getSecond();
+        // put initial matches into first stage
         Stage stage = new Stage(stageCount, matches);
-        tournament.addStage(stage);
-        stageRepository.save(stage);
+        // save and add to tournament
+        tournament.addStage(stageRepository.save(stage));
+        // add remaining stages
         for (int i = (stageCount - 1); i >= 0; i--) {
-            //generate all other stages with the right number of empty matches
+            // fill with calculated number of empty matches
             Stage emptyStage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
+            // save and add to tournament
             tournament.addStage(stageRepository.save(emptyStage));
         }
-
         // save tournament object
         tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
