@@ -27,6 +27,7 @@ public class TournamentService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final StageRepository stageRepository;
+    private final MatchService matchService;
 
     /**
      * Calculate next power of two
@@ -65,7 +66,7 @@ public class TournamentService {
      * @param randomize     Randomize teams before arranging them into matches
      * @return Pair of list of generated matches and teams not represented in generated matches
      */
-    private Pair<List<Match>, List<Team>> generateMatches(List<Team> originalTeams, boolean randomize) {
+    private Pair<List<Match>, Integer> generateMatches(List<Team> originalTeams, boolean randomize) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
         // shuffle teams if desired
@@ -81,12 +82,22 @@ public class TournamentService {
         }
         List<Match> matches = new ArrayList<>();
         // generate neededGames number of matches and add them to the list matches
+        Integer LastPos = 0;
         for (int i = 0; i < neededGames; i++) {
             matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED, i));
             teams.remove(1);
             teams.remove(0);
+            LastPos = i;
         }
-        return Pair.of(matches, teams);
+        LastPos++;
+        Integer halfEmptyGames = 0;
+        while (teams.size() != 0) {
+            matches.add(new Match(teams.get(0), teams.get(0),1, 0, Match.State.TEAM1_WON, LastPos));
+            teams.remove(0);
+            LastPos++;
+            halfEmptyGames++;
+        }
+        return Pair.of(matches, halfEmptyGames);
     }
 
     /**
@@ -123,19 +134,26 @@ public class TournamentService {
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
         int stageCount = calculateRequiredStageCount(teams.size());
         // generate initial matches and save remaining teams
-        Pair<List<Match>, List<Team>> matchesAndRemainingTeams = generateMatches(tournament.getTeams(), true);
+        Pair<List<Match>, Integer> matchesAndRemainingTeams = generateMatches(tournament.getTeams(), true);
         List<Match> matches = matchesAndRemainingTeams.getFirst();
-        List<Team> remainingTeams = matchesAndRemainingTeams.getSecond();
+        Integer remainingTeams = matchesAndRemainingTeams.getSecond();
         // put initial matches into first stage
         Stage stage = new Stage(stageCount, matches);
         // save and add to tournament
         tournament.addStage(stageRepository.save(stage));
+        //
+        List<Match> savedMatches = tournament.getStages().get(0).getMatches();
         // add remaining stages
         for (int i = (stageCount - 1); i >= 0; i--) {
             // fill with calculated number of empty matches
             Stage emptyStage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
             // save and add to tournament
             tournament.addStage(stageRepository.save(emptyStage));
+        }
+        //move teams without competition to next stage
+        while (remainingTeams >= 0) {
+            matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size()- 1 - remainingTeams));
+            remainingTeams--;
         }
         // save tournament object
         tournament = tournamentRepository.save(tournament);
