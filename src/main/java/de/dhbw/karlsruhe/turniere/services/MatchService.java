@@ -8,24 +8,35 @@ import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MatchService {
     private final MatchRepository matchRepository;
     private final StageRepository stageRepository;
+    private final StageService stageService;
 
     public void setResults(Match match, int scoreTeam1, int scoreTeam2) {
-        Stage stage = stageRepository.findByMatchesContains(match);
+        // set scores
         match.setScoreTeam1(scoreTeam1);
         match.setScoreTeam2(scoreTeam2);
+        // set state
         match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
-        if (match.getState() == Match.State.TEAM1_WON) {
-            populateMatchBelow(stage, match, match.getTeam1());
-        } else if (match.getState() == Match.State.TEAM2_WON) {
-            populateMatchBelow(stage, match, match.getTeam2());
+        // find next stage
+        Stage stage = stageRepository.findByMatchesContains(match);
+        Optional<Stage> nextStageOptional = stageService.findNextStage(stage);
+        if (nextStageOptional.isPresent()) {
+            Stage nextStage = nextStageOptional.get();
+            // populate next stage with winning teams
+            if (match.getState() == Match.State.TEAM1_WON) {
+                populateMatchBelow(nextStage, match, match.getTeam1());
+            } else if (match.getState() == Match.State.TEAM2_WON) {
+                populateMatchBelow(nextStage, match, match.getTeam2());
+            }
         }
+        // save match
         matchRepository.save(match);
-
     }
 
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
@@ -62,8 +73,5 @@ public class MatchService {
             nextMatch.setTeam2(team);
         }
         matchRepository.save(nextMatch);
-
     }
-
-
 }
