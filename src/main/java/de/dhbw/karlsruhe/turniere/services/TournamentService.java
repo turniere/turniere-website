@@ -86,10 +86,9 @@ public class TournamentService {
         String code = UUID.randomUUID().toString();
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
+        int stageId = getStageId(teams.size());
         // generate initial matches
         List<Match> matches = generateMatches(tournament.getTeams(), true);
-        // build stage and add to tournament object
-        int stageId = getStageId(teams.size());
         //generating "last" stage with actual matches
         Stage stage = new Stage(stageId, matches);
         tournament.addStage(stage);
@@ -108,4 +107,5 @@ public class TournamentService {
         userRepository.save(owner);
         return tournament;
     }
+
 }
