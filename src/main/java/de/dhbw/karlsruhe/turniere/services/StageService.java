@@ -23,6 +23,10 @@ public class StageService {
     public Optional<Stage> findNextStage(Stage stage) {
         // find parent tournament
         Tournament tournament = tournamentRepository.findByStagesContains(stage);
+        return findNextStage(tournament, stage);
+    }
+
+    public Optional<Stage> findNextStage(Tournament tournament, Stage stage) {
         return tournament.getStages().stream().filter(s -> s.getLevel() == (stage.getLevel() - 1)).findFirst();
     }
 
