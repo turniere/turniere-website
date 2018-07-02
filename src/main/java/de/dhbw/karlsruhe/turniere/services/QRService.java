@@ -8,6 +8,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
@@ -19,11 +20,11 @@ import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 
-
+@Component
 public class QRService {
 
 
-    private static void generateQRCode(String code) {
+    public static void generateQRCode(String code) {
         Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
@@ -36,7 +37,7 @@ public class QRService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try {
-            bitMatrix = writer.encode("www.joke-powered.de/t/"+code, BarcodeFormat.QR_CODE, 1000, 1000, hints);
+            bitMatrix = writer.encode("www.joke-powered.de/t/" + code, BarcodeFormat.QR_CODE, 1000, 1000, hints);
 
             MatrixToImageConfig config = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
 

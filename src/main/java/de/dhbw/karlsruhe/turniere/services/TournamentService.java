@@ -28,6 +28,7 @@ public class TournamentService {
     private final UserRepository userRepository;
     private final StageRepository stageRepository;
     private final MatchService matchService;
+    private final QRService qrService;
 
     /**
      * Calculate next power of two from given number
@@ -192,6 +193,8 @@ public class TournamentService {
         tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
+        //generate QR Code from unique code
+        qrService.generateQRCode(code);
         // save updated user in repository
         userRepository.save(owner);
         return tournament;
