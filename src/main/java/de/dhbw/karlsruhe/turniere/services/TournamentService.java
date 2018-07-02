@@ -82,19 +82,19 @@ public class TournamentService {
         }
         List<Match> matches = new ArrayList<>();
         // generate neededGames number of matches and add them to the list matches
-        Integer LastPos = 0;
+        Integer lastPos = 0;
         for (int i = 0; i < neededGames; i++) {
             matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED, i));
             teams.remove(1);
             teams.remove(0);
-            LastPos = i;
+            lastPos = i;
         }
-        LastPos++;
+        lastPos++;
         Integer halfEmptyGames = 0;
         while (teams.size() != 0) {
-            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, LastPos));
+            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, lastPos));
             teams.remove(0);
-            LastPos++;
+            lastPos++;
             halfEmptyGames++;
         }
         return Pair.of(matches, halfEmptyGames);
