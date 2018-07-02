@@ -22,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -48,8 +47,8 @@ public class MatchController {
      * @param authentication Request authentication to check for ownership of the request match
      * @return Match object for matchId
      * @throws ResourceNotFoundException If there's no corresponding match
-     * @throws RuntimeException If there's no parent stage
-     * @throws StageLockedException If the parent stage is locked
+     * @throws RuntimeException          If there's no parent stage
+     * @throws StageLockedException      If the parent stage is locked
      */
     private Match safeGetMatch(Long matchId, Authentication authentication) {
         // set exception message (used for 403/404)

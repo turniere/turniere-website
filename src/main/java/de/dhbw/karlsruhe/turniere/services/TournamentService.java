@@ -92,7 +92,7 @@ public class TournamentService {
         LastPos++;
         Integer halfEmptyGames = 0;
         while (teams.size() != 0) {
-            matches.add(new Match(teams.get(0), teams.get(0),1, 0, Match.State.TEAM1_WON, LastPos));
+            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, LastPos));
             teams.remove(0);
             LastPos++;
             halfEmptyGames++;
@@ -152,7 +152,7 @@ public class TournamentService {
         }
         //move teams without competition to next stage
         while (remainingTeams >= 0) {
-            matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size()- 1 - remainingTeams));
+            matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
         // save tournament object

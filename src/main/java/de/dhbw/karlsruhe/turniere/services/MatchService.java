@@ -27,7 +27,7 @@ public class MatchService {
         // set state
         match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
         // find next stage
-        populateStageBelow(tournamentRepository.findByMatch(match),match);
+        populateStageBelow(tournamentRepository.findByMatch(match), match);
         // save match
         matchRepository.save(match);
     }
@@ -54,7 +54,7 @@ public class MatchService {
     }
 
     private Match.State evaluateWinner(Integer scoreTeam1, Integer scoreTeam2) {
-        if (scoreTeam1 == null){
+        if (scoreTeam1 == null) {
             return Match.State.TEAM1_WON;
         }
         if (scoreTeam1 < scoreTeam2) {
