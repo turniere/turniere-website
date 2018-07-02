@@ -32,6 +32,13 @@ public class MatchService {
         match.setScoreTeam2(scoreTeam2);
     }
 
+    /**
+     * Set a Result Score (Winner is automatically moved to next Stage afterwards) for given match
+     *
+     * @param match      The match to change the scores
+     * @param scoreTeam1 Score of Team 1
+     * @param scoreTeam2 Score of Team 2scoreTeam2
+     */
     public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
         // set scores
         setScore(match, scoreTeam1, scoreTeam2);
@@ -43,6 +50,12 @@ public class MatchService {
         matchRepository.save(match);
     }
 
+    /**
+     * Populate Stage below given Match from given Tournament with given Match
+     *
+     * @param tournament Tournament to populate Match within
+     * @param match      Match to populate in given Tournament
+     */
     public void populateStageBelow(Tournament tournament, Match match) {
         Stage stage = stageRepository.findByMatchesContains(match);
         Optional<Stage> nextStageOptional = stageService.findNextStage(tournament, stage);
@@ -57,12 +70,27 @@ public class MatchService {
         }
     }
 
+    /**
+     * Set a Live Score (Winner is NOT automatically moved to next Stage afterwards) for given match
+     *
+     * @param match      The match to change the scores
+     * @param scoreTeam1 Score of Team 1
+     * @param scoreTeam2 Score of Team 2scoreTeam2
+     */
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
         setScore(match, scoreTeam1, scoreTeam2);
         match.setState(Match.State.IN_PROGRESS);
         matchRepository.save(match);
     }
 
+
+    /**
+     * Evaluate the Winner of two given scores
+     *
+     * @param scoreTeam1 Score of Team 1
+     * @param scoreTeam2 Score of Team 2
+     * @return Winner of the Game as State
+     */
     private Match.State evaluateWinner(Integer scoreTeam1, Integer scoreTeam2) {
         if (scoreTeam1 == null) {
             return Match.State.TEAM1_WON;
@@ -76,6 +104,12 @@ public class MatchService {
         }
     }
 
+
+    /**
+     * Populate Stage below given Stage with given team in the right match (depending on given matches position)
+     *
+     * @param stage Stage to put team in below
+     */
     public void populateMatchBelow(Stage stage, Match match, Team team) {
         Match nextMatch = null;
         if ((match.getPosition() & 1) == 0) {
