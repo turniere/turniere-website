@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Component
@@ -115,6 +115,39 @@ public class TournamentService {
     }
 
     /**
+     * Generate tournament code
+     *
+     * @param length Length of generated code
+     * @return Generated tournament code
+     */
+    private String generateCode(int length) {
+        char[] codeChars = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+        // generate remaining characters
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append(codeChars[random.nextInt(codeChars.length)]);
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Generate unique tournament code
+     * <p>
+     * Uniqueness is ensured by checking for existence of the code in the database.
+     *
+     * @param length Length of generated code
+     * @return Generated tournament code
+     */
+    private String generateUniqueCode(int length) {
+        String code = generateCode(length);
+        while (tournamentRepository.findByCode(code) != null) {
+            code = generateCode(length);
+        }
+        return code;
+    }
+
+    /**
      * Create a new Tournament
      *
      * @param name        Tournament name
@@ -129,7 +162,7 @@ public class TournamentService {
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
                 (Collectors.toList());
         // generate uuid
-        String code = UUID.randomUUID().toString();
+        String code = generateUniqueCode(5);
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
         int stageCount = calculateRequiredStageCount(teams.size());
