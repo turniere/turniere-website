@@ -30,12 +30,12 @@ public class TournamentService {
     private final MatchService matchService;
 
     /**
-     * Calculate next power of two
+     * Calculate next power of two from given number
      *
      * @param number Lower bound for calculated power of two
      * @return Next power of two after given number
      */
-    private int nextPowerOf2(int number) {
+    private int nextPowerOfTwo(int number) {
         Integer nextPower = 0;
         for (int i = 0; nextPower < number; i++) {
             nextPower = (int) Math.pow(2, i);
@@ -75,10 +75,10 @@ public class TournamentService {
         }
         // needed Games --> how many teams need to be kicked out to get the number of teams to the next lower power of 2
         int neededGames;
-        if (nextPowerOf2(teams.size()) == teams.size()) {
+        if (nextPowerOfTwo(teams.size()) == teams.size()) {
             neededGames = teams.size() / 2;
         } else {
-            neededGames = teams.size() - nextPowerOf2(teams.size()) / 2;
+            neededGames = teams.size() - nextPowerOfTwo(teams.size()) / 2;
         }
         List<Match> matches = new ArrayList<>();
         // generate neededGames number of matches and add them to the list matches
@@ -110,7 +110,7 @@ public class TournamentService {
         if (numberOfTeams == 0 || numberOfTeams == 1) {
             return 0;
         } else {
-            return (int) (Math.log(nextPowerOf2(numberOfTeams) / 2) / Math.log(2));
+            return (int) (Math.log(nextPowerOfTwo(numberOfTeams) / 2) / Math.log(2));
         }
     }
 
