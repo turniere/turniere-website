@@ -20,10 +20,21 @@ public class MatchService {
     private final StageService stageService;
     private final TournamentRepository tournamentRepository;
 
-    public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
-        // set scores
+    /**
+     * Set the score for given match to given scores
+     *
+     * @param match      The match to change the scores
+     * @param scoreTeam1 Score of Team 1
+     * @param scoreTeam2 Score of Team 2
+     */
+    private void setScore(Match match, int scoreTeam1, int scoreTeam2) {
         match.setScoreTeam1(scoreTeam1);
         match.setScoreTeam2(scoreTeam2);
+    }
+
+    public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
+        // set scores
+        setScore(match, scoreTeam1, scoreTeam2);
         // set state
         match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
         // find next stage
@@ -47,8 +58,7 @@ public class MatchService {
     }
 
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
-        match.setScoreTeam1(scoreTeam1);
-        match.setScoreTeam2(scoreTeam2);
+        setScore(match, scoreTeam1, scoreTeam2);
         match.setState(Match.State.IN_PROGRESS);
         matchRepository.save(match);
     }
