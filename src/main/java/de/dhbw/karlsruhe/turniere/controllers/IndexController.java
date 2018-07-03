@@ -9,4 +9,14 @@ public class IndexController {
     String index() {
         return "index";
     }
+
+    @RequestMapping("/impressum")
+    String impressum() {
+        return "impressum";
+    }
+
+    @RequestMapping("/privacy")
+    String privacy() {
+        return "privacy";
+    }
 }
