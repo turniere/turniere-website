@@ -14,7 +14,8 @@
 
 .big-image {
     background: url("../images/landingpage-background.jpg") no-repeat center;
-    padding: 10vh 5vw;
+    background-size: cover;
+    padding: 3vw 5vw;
     text-align: center;
     color: white;
     margin-bottom: 2em;
