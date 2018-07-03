@@ -1,36 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Turnie.re - Turnier erstellen</title>
+    <title>Turnier erstellen - turnie.re</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link href="/css/index.css" rel="stylesheet">
 </head>
 <body>
-<form action="#" th:action="@{/erstellen}" th:object="${tournamentForm}" method="POST">
-    <table>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{name}"/></td>
-            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</td>
-        </tr>
-        <tr>
-            <td>Beschreibung:</td>
-            <td><input type="text" th:field="*{description}"/></td>
-            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung fehlerhaft</td>
-        </tr>
-        <tr>
-            <td>Öffentlich:</td>
-            <td><input type="checkbox" th:field="*{isPublic}"/></td>
-        </tr>
-        <tr>
-            <td>Teams:</td>
-            <td><input type="text" th:field="*{teamNames}" placeholder="Separated by ','"/></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Submit</button>
-            </td>
-        </tr>
-    </table>
-</form>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">turnie.re</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Turnier erstellen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Turnier ansehen</a>
+                </li>
+            </ul>
+            <div sec:authorize="isAnonymous()" class="nav-item btn-group">
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/login}">Login</a>
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/register}">Registrieren</a>
+            </div>
+            <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="post"
+                  class="form-inline my-2 my-lg-0 btn-group">
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5 border-fix" role="button" href="/"><span
+                        sec:authentication="name"></span></a>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+
+    <div class="big-image">
+        <h1 class="display-1">Erstelle dein Turnier</h1>
+    </div>
+
+    <div class="container card">
+        <div class="card-body">
+            <form action="#" th:action="@{/erstellen}" th:object="${tournamentForm}" method="POST">
+                <div class="form-group">
+                    <label for="f-name">Name des Turniers</label>
+                    <input class="form-control" id="f-name" type="text" th:field="*{name}" required>
+                    <div class="text-danger font-italic" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</div>
+                </div>
+                <div class="form-group">
+                    <label for="f-desc">Beschreibung</label>
+                    <input class="form-control" id="f-desc" type="text" th:field="*{description}">
+                    <div class="text-danger font-italic" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung fehlerhaft</div>
+                </div>
+                <div class="form-group form-check">
+                    <input class="form-check-input" id="f-public" type="checkbox" th:field="*{isPublic}">
+                    <label for="f-public" class="form-check-label">Das Turnier öffentlich anzeigen (schreibgeschützt)</label>
+                </div>
+                <div class="form-group">
+                    <label for="f-teams">Teams</label>
+                    <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}"
+                           placeholder="Liste, mit Komma getrennt (keine Leerzeichen)" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg w-100">Turnier erstellen</button>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer mt-5 bg-dark text-light">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" th:href="@{/privacy}">Wir
+                schützen arme kleine Daten</a> &middot; <a class="text-white" th:href="@{/impressum}">Impressum</a></div>
+            <div class="col-md-6 text-center"><a href="#" class="text-white">zurück nach oben</a></div>
+        </div>
+    </div>
+</footer>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </html>
