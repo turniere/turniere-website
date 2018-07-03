@@ -70,16 +70,16 @@ public class QRService {
             g.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
 
             // Write combined image as PNG to OutputStream
-            File file = new File("webengineeringdhbw/src/main/resources/static/qrcodes/" + code + ".png");
-            file.delete();
-            ImageIO.write(combined, "png", file);
+            //File file = new File("webengineeringdhbw/src/main/resources/static/qrcodes/" + code + ".png");
+            //file.delete();
+            //ImageIO.write(combined, "png", file);
         } catch (WriterException e) {
             System.out.print(e);
         } catch (IOException e) {
             System.out.print(e);
         }
 
-        System.out.println("\n\nYou have successfully created QR Code for Match " + code);
+        //System.out.println("\n\nYou have successfully created QR Code for Match " + code);
     }
 }
 
