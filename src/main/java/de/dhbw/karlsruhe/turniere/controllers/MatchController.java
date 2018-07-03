@@ -13,7 +13,7 @@ import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
 import de.dhbw.karlsruhe.turniere.services.StageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,17 +27,13 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class MatchController {
-    @Autowired
-    TournamentRepository tournamentRepository;
-    @Autowired
-    MatchRepository matchRepository;
-    @Autowired
-    MatchService matchService;
-    @Autowired
-    StageRepository stageRepository;
-    @Autowired
-    StageService stageService;
+    private final TournamentRepository tournamentRepository;
+    private final MatchRepository matchRepository;
+    private final MatchService matchService;
+    private final StageRepository stageRepository;
+    private final StageService stageService;
 
 
     /**
