@@ -8,6 +8,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -23,13 +24,16 @@ import java.util.Map;
 @Component
 public class QRService {
 
-
-    public static void generateQRCode(String code) {
+    /**
+     * Generates QR Codes with our Logo embedded named <given code>.png
+     *
+     * @param code The Match Code and resulting Name for the QR Code
+     */
+    public void generateQRCode(String code) {
         Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
-        // Now with zxing version 3.2.1 you could change border size (white border size to just 1)
-        hints.put(EncodeHintType.MARGIN, 0); /* default = 4 */
+        hints.put(EncodeHintType.MARGIN, 0);
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
         QRCodeWriter writer = new QRCodeWriter();
@@ -45,7 +49,8 @@ public class QRService {
             BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, config);
 
             // Load logo image
-            BufferedImage logoImage = ImageIO.read(new File("../svenderboi_klein.png").toURI().toURL());
+            File logo = new ClassPathResource("static/images/qrlogo.png").getFile();
+            BufferedImage logoImage = ImageIO.read(logo);
 
             // Calculate the delta height and width between QR code and logo
             int deltaHeight = qrImage.getHeight() - logoImage.getHeight();
@@ -65,17 +70,16 @@ public class QRService {
             g.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
 
             // Write combined image as PNG to OutputStream
-            File file = new File("/idkwhere/" + code + ".png");
+            File file = new File("webengineeringdhbw/src/main/resources/static/qrcodes/" + code + ".png");
             file.delete();
             ImageIO.write(combined, "png", file);
         } catch (WriterException e) {
-            // android spezifisch - mach einfach nen System.out.print ^
-            // LOG.error("WriterException occured", e);
+            System.out.print(e);
         } catch (IOException e) {
-            // LOG.error("IOException occured", e);
+            System.out.print(e);
         }
 
-        System.out.println("\n\nYou have successfully created QR Code.");
+        System.out.println("\n\nYou have successfully created QR Code for Match " + code);
     }
 }
 
