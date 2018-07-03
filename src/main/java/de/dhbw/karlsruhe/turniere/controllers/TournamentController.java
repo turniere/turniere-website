@@ -73,6 +73,9 @@ public class TournamentController {
         }
         // add tournament object to model
         model.addAttribute("tournament", tournament);
+        if (tournament.getQrcode() != null ){
+            model.addAttribute("qrcode", new String(tournament.getQrcode()));
+        }
         return "tournament";
     }
 }
