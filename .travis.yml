@@ -4,6 +4,8 @@ deploy:
   script: bash scripts/deploy.sh
   on:
     branch: master
+addons:
+  ssh_known_hosts: dev.turnie.re
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_5cfb42c7a6b2_key -iv $encrypted_5cfb42c7a6b2_iv
   -in scripts/deploy_key.enc -out scripts/deploy_key -d
