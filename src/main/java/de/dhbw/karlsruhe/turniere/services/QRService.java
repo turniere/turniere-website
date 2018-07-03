@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -25,61 +26,45 @@ import java.util.Map;
 public class QRService {
 
     /**
-     * Generates QR Codes with our Logo embedded named <given code>.png
+     * Generate qr code for specified tournament code
      *
-     * @param code The Match Code and resulting Name for the QR Code
+     * @param code Tournament code to generate qr code for
+     * @return Base64 encoded qr code with logo
      */
-    public void generateQRCode(String code) {
-        Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+    public byte[] generateQRCode(String code) throws WriterException, IOException {
+        Map<EncodeHintType, Object> hints = new EnumMap<>(EncodeHintType.class);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
         hints.put(EncodeHintType.MARGIN, 0);
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
-        QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix bitMatrix = null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try {
-            bitMatrix = writer.encode("www.joke-powered.de/t/" + code, BarcodeFormat.QR_CODE, 1000, 1000, hints);
-
-            MatrixToImageConfig config = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
-
-            // Load QR image
-            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, config);
-
-            // Load logo image
-            File logo = new ClassPathResource("static/images/qrlogo.png").getFile();
-            BufferedImage logoImage = ImageIO.read(logo);
-
-            // Calculate the delta height and width between QR code and logo
-            int deltaHeight = qrImage.getHeight() - logoImage.getHeight();
-            int deltaWidth = qrImage.getWidth() - logoImage.getWidth();
-
-            // Initialize combined image
-            BufferedImage combined = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = (Graphics2D) combined.getGraphics();
-
-            // Write QR code to new image at position 0/0
-            g.drawImage(qrImage, 0, 0, null);
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
-            // Write logo into combine image at position (deltaWidth / 2) and
-            // (deltaHeight / 2). Background: Left/Right and Top/Bottom must be
-            // the same space for the logo to be centered
-            g.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
-
-            // Write combined image as PNG to OutputStream
-            //File file = new File("webengineeringdhbw/src/main/resources/static/qrcodes/" + code + ".png");
-            //file.delete();
-            //ImageIO.write(combined, "png", file);
-        } catch (WriterException e) {
-            System.out.print(e);
-        } catch (IOException e) {
-            System.out.print(e);
-        }
-
-        //System.out.println("\n\nYou have successfully created QR Code for Match " + code);
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        // initialize BitMatrix with qrcode
+        BitMatrix bitMatrix = qrCodeWriter.encode("www.joke-powered.de/t/" + code, BarcodeFormat.QR_CODE, 1000, 1000, hints);
+        MatrixToImageConfig config = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
+        // convert qrcode BitMatrix to BufferedImage
+        BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, config);
+        // load logo into BufferedImage
+        File logo = new ClassPathResource("static/images/qrlogo.png").getFile();
+        BufferedImage logoImage = ImageIO.read(logo);
+        // calculate the delta height and width between QR code and logo
+        int deltaHeight = qrImage.getHeight() - logoImage.getHeight();
+        int deltaWidth = qrImage.getWidth() - logoImage.getWidth();
+        // initialize combined image
+        BufferedImage combined = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = (Graphics2D) combined.getGraphics();
+        // write QR code to new image at position 0/0
+        g.drawImage(qrImage, 0, 0, null);
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        // write logo into combine image at position (deltaWidth / 2) and
+        // (deltaHeight / 2). Background: Left/Right and Top/Bottom must be
+        // the same space for the logo to be centered
+        g.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
+        // write image to ByteArrayOutputStream wrapped by base64 encoder
+        ImageIO.write(combined, "png", Base64.getEncoder().wrap(byteArrayOutputStream));
+        // return base64 string
+        return byteArrayOutputStream.toByteArray();
     }
 }
 
