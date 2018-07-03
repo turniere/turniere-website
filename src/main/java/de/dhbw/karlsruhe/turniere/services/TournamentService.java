@@ -70,6 +70,14 @@ public class TournamentService {
     private Pair<List<Match>, Integer> generateMatches(List<Team> originalTeams, boolean randomize) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
+
+        // prevent error with only one team
+        if (teams.size() == 1) {
+            List<Match> matches = new ArrayList<>();
+            matches.add(new Match(teams.get(0), teams.get(0), 0, 0, Match.State.TEAM1_WON, 0));
+            return Pair.of(matches, 0);
+        }
+
         // shuffle teams if desired
         if (randomize) {
             Collections.shuffle(teams);
