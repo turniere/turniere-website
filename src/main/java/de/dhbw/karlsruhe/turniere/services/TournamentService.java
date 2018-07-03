@@ -197,12 +197,19 @@ public class TournamentService {
             matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
+        try {
+            // generate qrcode with tournament code
+            byte[] encodedQRCode = qrService.generateQRCode(code);
+            // add qrcode to tournament object
+            tournament.setQrcode(encodedQRCode);
+        } catch (Exception e) {
+            // qrcode generation failed
+            throw new RuntimeException("QRCode generation failed", e);
+        }
         // save tournament object
         tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
-        //generate QR Code from unique code
-        qrService.generateQRCode(code);
         // save updated user in repository
         userRepository.save(owner);
         return tournament;

@@ -45,6 +45,8 @@ public class Tournament {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Stage> stages = new ArrayList<>();
 
+    private byte[] qrcode;
+
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;
         this.code = code;
