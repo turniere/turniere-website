@@ -66,7 +66,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <div class="card my-2" id="login">
+                <div class="card border-success my-2" id="login">
                     <div class="card-body">
                         <h2>Login</h2>
                         <div th:if="${param.error}" class="alert alert-dismissible alert-danger fade show">
@@ -91,7 +91,7 @@
                                        placeholder="************"
                                        id="password" required>
                             </div>
-                            <button type="submit" class="btn btn-outline-success w-100 mt-2 btn-lg">Login</button>
+                            <button type="submit" class="btn btn-success w-100 mt-2 btn-lg">Login</button>
                         </form>
                     </div>
                 </div>
@@ -158,11 +158,8 @@
 <footer class="footer mt-5 bg-dark text-light">
     <div class="container py-3">
         <div class="row">
-            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" href="#">Wir schützen
-                arme
-                kleine Daten</a>
-                &middot; <a
-                        class="text-white" href="#">Impressum</a></div>
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" th:href="@{/privacy}">Wir
+                schützen arme kleine Daten</a> &middot; <a class="text-white" th:href="@{/impressum}">Impressum</a></div>
             <div class="col-md-6 text-center"><a href="#" class="text-white">zurück nach oben</a></div>
         </div>
     </div>

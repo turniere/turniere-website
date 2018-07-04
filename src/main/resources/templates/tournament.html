@@ -7,6 +7,9 @@
 <body>
 <h1 th:text="${tournament.name}"></h1>
 <span th:text="${tournament.description}"></span>
+<span th:if="${tournament.winner}">
+    Gewinner: <span th:text="${tournament.winner.name}"></span>
+</span>
 <ul>
     <li th:each="stage: ${tournament.stages}">
         <span th:text="${stage.level}"/><span th:if="${stage.isLocked}">🔒</span>
@@ -15,6 +18,6 @@
         </ul>
     </li>
 </ul>
-<img th:src="@{'../qrcodes/' + ${tournament.code} + '.png'}"/>
+<img th:src="${'data:image/png;base64,' + qrcode}"/>
 </body>
 </html>

@@ -8,12 +8,13 @@ import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
+import de.dhbw.karlsruhe.turniere.exceptions.MatchIncompleteException;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
 import de.dhbw.karlsruhe.turniere.services.StageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,17 +28,13 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class MatchController {
-    @Autowired
-    TournamentRepository tournamentRepository;
-    @Autowired
-    MatchRepository matchRepository;
-    @Autowired
-    MatchService matchService;
-    @Autowired
-    StageRepository stageRepository;
-    @Autowired
-    StageService stageService;
+    private final TournamentRepository tournamentRepository;
+    private final MatchRepository matchRepository;
+    private final MatchService matchService;
+    private final StageRepository stageRepository;
+    private final StageService stageService;
 
 
     /**
@@ -76,6 +73,9 @@ public class MatchController {
         }
         if (parentStage.getIsLocked()) {
             throw new StageLockedException("Stage with id " + parentStage.getId() + " is locked");
+        }
+        if (match.getTeam1().getName() == null || match.getTeam2().getName() == null) {
+            throw new MatchIncompleteException(exceptionMessage + " is incomplete");
         }
         return match;
     }

@@ -70,6 +70,14 @@ public class TournamentService {
     private Pair<List<Match>, Integer> generateMatches(List<Team> originalTeams, boolean randomize) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
+
+        // prevent error with only one team
+        if (teams.size() == 1) {
+            List<Match> matches = new ArrayList<>();
+            matches.add(new Match(teams.get(0), teams.get(0), 0, 0, Match.State.TEAM1_WON, 0));
+            return Pair.of(matches, 0);
+        }
+
         // shuffle teams if desired
         if (randomize) {
             Collections.shuffle(teams);
@@ -189,12 +197,19 @@ public class TournamentService {
             matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
+        try {
+            // generate qrcode with tournament code
+            byte[] encodedQRCode = qrService.generateQRCode(code);
+            // add qrcode to tournament object
+            tournament.setQrcode(encodedQRCode);
+        } catch (Exception e) {
+            // qrcode generation failed
+            throw new RuntimeException("QRCode generation failed", e);
+        }
         // save tournament object
         tournament = tournamentRepository.save(tournament);
         // add saved tournament object to authenticated user (owner)
         owner.getTournaments().add(tournament);
-        //generate QR Code from unique code
-        qrService.generateQRCode(code);
         // save updated user in repository
         userRepository.save(owner);
         return tournament;

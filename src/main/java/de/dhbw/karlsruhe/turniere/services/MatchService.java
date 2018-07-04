@@ -37,7 +37,7 @@ public class MatchService {
      *
      * @param match      The match to change the scores
      * @param scoreTeam1 Score of Team 1
-     * @param scoreTeam2 Score of Team 2scoreTeam2
+     * @param scoreTeam2 Score of Team 2
      */
     public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
         // set scores
@@ -59,14 +59,19 @@ public class MatchService {
     public void populateStageBelow(Tournament tournament, Match match) {
         Stage stage = stageRepository.findByMatchesContains(match);
         Optional<Stage> nextStageOptional = stageService.findNextStage(tournament, stage);
+        Team winningTeam = match.getState() == Match.State.TEAM1_WON ? match.getTeam1() : match.getTeam2();
         if (nextStageOptional.isPresent()) {
             Stage nextStage = nextStageOptional.get();
             // populate next stage with winning teams
             if (match.getState() == Match.State.TEAM1_WON) {
-                populateMatchBelow(nextStage, match, match.getTeam1());
+                populateMatchBelow(nextStage, match, winningTeam);
             } else if (match.getState() == Match.State.TEAM2_WON) {
-                populateMatchBelow(nextStage, match, match.getTeam2());
+                populateMatchBelow(nextStage, match, winningTeam);
             }
+        } else {
+            // final match => set tournament winner
+            tournament.setWinner(winningTeam);
+            tournamentRepository.save(tournament);
         }
     }
 
@@ -75,7 +80,7 @@ public class MatchService {
      *
      * @param match      The match to change the scores
      * @param scoreTeam1 Score of Team 1
-     * @param scoreTeam2 Score of Team 2scoreTeam2
+     * @param scoreTeam2 Score of Team 2
      */
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
         setScore(match, scoreTeam1, scoreTeam2);
