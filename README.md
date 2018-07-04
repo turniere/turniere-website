@@ -1,6 +1,6 @@
 # DHBW-Project turnie.re [![Build Status](https://travis-ci.com/Malaber/webengineeringdhbw.svg?token=8gXLxT52HoJJ3uBxddBm&branch=master)](https://travis-ci.com/Malaber/webengineeringdhbw)
 Do you want to play some games with some teams but are too lazy to organize a tournament?
-Luckily for you, some smart students from the DHBW Karlsruhe created a website that just fits your needs!
+Luckily for you, some smart and good looking students from the DHBW Karlsruhe created a amazing website that just fits all your small and big needs!
 
 # Development
 * Download SQLite JDBC driver jar from [here](https://oss.sonatype.org/content/repositories/releases/org/xerial/sqlite-jdbc/) and put it into your `<tomcat>/lib` folder
@@ -12,3 +12,5 @@ Luckily for you, some smart students from the DHBW Karlsruhe created a website t
 ## Troubleshooting
 #### IntelliJ can't find my Servlets
 File -> Project Structure -> Modules -> Select `src/` -> Click `Mark as: Sources`
+
+###### Thanks to Team Rest for your great work!
