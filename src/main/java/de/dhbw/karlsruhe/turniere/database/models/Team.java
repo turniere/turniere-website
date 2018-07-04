@@ -22,6 +22,14 @@ public class Team {
 
     private String name;
 
+    private Integer groupScore;
+
+    private Integer groupPointsScored;
+
+    private Integer groupPointsReceived;
+
+    private Integer groupPlace;
+
     public Team(String name) {
         this.name = name;
     }
