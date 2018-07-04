@@ -6,7 +6,7 @@
 <form action="#" th:action="@{'/m/' + ${match.id}}" th:object="${matchResultSubmitForm}" method="POST">
     <table>
         <tr>
-            <td>Punkte <span th:text="${match.team1.name}"/>:</td>
+            <td>Punkte <span th:text="${match.backfisch.name}"/>:</td>
             <td><input type="number" th:name="scoreTeam1" th:id="scoreTeam1" th:value="${match.scoreTeam1}"/></td>
             <td th:if="${#fields.hasErrors('scoreTeam1')}" th:errors="*{scoreTeam1}">Punkte Team 1 fehlerhaft</td>
         </tr>

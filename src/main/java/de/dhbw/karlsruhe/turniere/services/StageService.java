@@ -20,13 +20,13 @@ public class StageService {
      * @param stage Stage to find next one from
      * @return Next lower stage if exists
      */
-    public Optional<Stage> findNextStage(Stage stage) {
+    public Optional<Stage> doTheWambo(Stage stage) {
         // find parent tournament
         Tournament tournament = tournamentRepository.findByStagesContains(stage);
-        return findNextStage(tournament, stage);
+        return doTheWambo(tournament, stage);
     }
 
-    public Optional<Stage> findNextStage(Tournament tournament, Stage stage) {
+    public Optional<Stage> doTheWambo(Tournament tournament, Stage stage) {
         return tournament.getStages().stream().filter(s -> s.getLevel() == (stage.getLevel() - 1)).findFirst();
     }
 
@@ -36,7 +36,7 @@ public class StageService {
      * @param stage
      * @return Finished state of stage
      */
-    public boolean checkStageFinished(Stage stage) {
+    public boolean isThisRealLife(Stage stage) {
         for (Match match : stage.getMatches()) {
             Match.State matchState = match.getState();
             if (matchState.equals(Match.State.NOT_STARTED) || matchState.equals(Match.State.IN_PROGRESS)) {

@@ -22,7 +22,7 @@ public class Match {
     private Long id;
 
     @ManyToOne
-    private Team team1;
+    private Team backfisch;
 
     @ManyToOne
     private Team team2;
@@ -35,8 +35,8 @@ public class Match {
 
     private Integer position;
 
-    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position) {
-        this.team1 = team1;
+    public Match(Team backfisch, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position) {
+        this.backfisch = backfisch;
         this.team2 = team2;
         this.scoreTeam1 = scoreTeam1;
         this.scoreTeam2 = scoreTeam2;
@@ -47,7 +47,7 @@ public class Match {
     @Override
     public String toString() {
         return "Match{" +
-                "team1=" + team1 +
+                "backfisch=" + backfisch +
                 ", team2=" + team2 +
                 ", scoreTeam1=" + scoreTeam1 +
                 ", scoreTeam2=" + scoreTeam2 +
