@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
 >
-<head>
-    <title>Turnie.re</title>
-</head>
+
+<head th:replace="fragments/head :: head"></head>
 <body>
 <h1 th:text="${tournament.name}"></h1>
 <span th:text="${tournament.description}"></span>

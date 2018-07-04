@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Turnie.re - Ergebnis eintragen</title>
-</head>
+
+<head th:replace="fragments/head :: head"></head>
 <body>
 <form action="#" th:action="@{'/m/' + ${match.id}}" th:object="${matchResultSubmitForm}" method="POST">
     <table>
