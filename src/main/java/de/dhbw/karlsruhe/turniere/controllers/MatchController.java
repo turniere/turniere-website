@@ -8,6 +8,7 @@ import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
+import de.dhbw.karlsruhe.turniere.exceptions.MatchIncompleteException;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
@@ -72,6 +73,9 @@ public class MatchController {
         }
         if (parentStage.getIsLocked()) {
             throw new StageLockedException("Stage with id " + parentStage.getId() + " is locked");
+        }
+        if (match.getTeam1().getName() == null || match.getTeam2().getName() == null) {
+            throw new MatchIncompleteException(exceptionMessage + " is incomplete");
         }
         return match;
     }
