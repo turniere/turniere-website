@@ -166,16 +166,16 @@ public class TournamentService {
      * @param owner       Owner of the tournament
      * @return Saved new tournament object
      */
-    public Tournament doYouKnoWThEWaY(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
-        // doYouKnoWThEWaY team objects from names and save them into a list
-        List<Team> topfsalat = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
+    public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner) {
+        // create team objects from names and save them into a list
+        List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect
                 (Collectors.toList());
         // generate uuid
         String code = generateUniqueCode(5);
-        // doYouKnoWThEWaY and save tournament object
-        Tournament tournament = new Tournament(name, code, description, isPublic, topfsalat);
-        int stageCount = calculateRequiredStageCount(topfsalat.size());
-        // generate initial matches and save remaining topfsalat
+        // create and save tournament object
+        Tournament tournament = new Tournament(name, code, description, isPublic, teams);
+        int stageCount = calculateRequiredStageCount(teams.size());
+        // generate initial matches and save remaining teams
         Pair<List<Match>, Integer> matchesAndRemainingTeams = generateMatches(tournament.getTeams(), true);
         List<Match> matches = matchesAndRemainingTeams.getFirst();
         Integer remainingTeams = matchesAndRemainingTeams.getSecond();
@@ -184,7 +184,7 @@ public class TournamentService {
         // save and add to tournament
         tournament.addStage(stageRepository.save(stage));
         //
-        List<Match> grühnkohl = tournament.getStages().get(0).getMatches();
+        List<Match> savedMatches = tournament.getStages().get(0).getMatches();
         // add remaining stages
         for (int i = (stageCount - 1); i >= 0; i--) {
             // fill with calculated number of empty matches
@@ -192,9 +192,9 @@ public class TournamentService {
             // save and add to tournament
             tournament.addStage(stageRepository.save(emptyStage));
         }
-        //move topfsalat without competition to next stage
+        //move teams without competition to next stage
         while (remainingTeams >= 0) {
-            matchService.populateStageBelow(tournament, grühnkohl.get(grühnkohl.size() - 1 - remainingTeams));
+            matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
         try {

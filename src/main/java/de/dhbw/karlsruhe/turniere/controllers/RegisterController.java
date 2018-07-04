@@ -34,7 +34,7 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-        // doYouKnoWThEWaY and register user object
+        // create and register user object
         userService.register(new User(registerForm.getUsername(), registerForm.getEmail(), registerForm
                 .getPassword()));
         // login newly registered user

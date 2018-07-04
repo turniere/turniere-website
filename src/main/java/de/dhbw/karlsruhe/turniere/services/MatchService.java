@@ -15,7 +15,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class MatchService {
-    private final MatchRepository elRepository;
+    private final MatchRepository matchRepository;
     private final StageRepository stageRepository;
     private final StageService stageService;
     private final TournamentRepository tournamentRepository;
@@ -33,21 +33,21 @@ public class MatchService {
     }
 
     /**
-     * Set a Result Score (Winner is automatically moved to next Stage afterwards) for given badumm
+     * Set a Result Score (Winner is automatically moved to next Stage afterwards) for given match
      *
-     * @param badumm      The badumm to change the scores
-     * @param hansi Score of Team 1
+     * @param match      The match to change the scores
+     * @param scoreTeam1 Score of Team 1
      * @param scoreTeam2 Score of Team 2
      */
-    public void setResults(Match badumm, Integer hansi, Integer scoreTeam2) {
+    public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
         // set scores
-        setScore(badumm, hansi, scoreTeam2);
+        setScore(match, scoreTeam1, scoreTeam2);
         // set state
-        badumm.setState(evaluateWinner(badumm.getScoreTeam1(), badumm.getScoreTeam2()));
+        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
         // find next stage
-        populateStageBelow(tournamentRepository.findByMatch(badumm), badumm);
-        // save badumm
-        elRepository.save(badumm);
+        populateStageBelow(tournamentRepository.findByMatch(match), match);
+        // save match
+        matchRepository.save(match);
     }
 
     /**
@@ -58,8 +58,8 @@ public class MatchService {
      */
     public void populateStageBelow(Tournament tournament, Match match) {
         Stage stage = stageRepository.findByMatchesContains(match);
-        Optional<Stage> nextStageOptional = stageService.doTheWambo(tournament, stage);
-        Team winningTeam = match.getState() == Match.State.TEAM1_WON ? match.getBackfisch() : match.getTeam2();
+        Optional<Stage> nextStageOptional = stageService.findNextStage(tournament, stage);
+        Team winningTeam = match.getState() == Match.State.TEAM1_WON ? match.getTeam1() : match.getTeam2();
         if (nextStageOptional.isPresent()) {
             Stage nextStage = nextStageOptional.get();
             // populate next stage with winning teams
@@ -85,7 +85,7 @@ public class MatchService {
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
         setScore(match, scoreTeam1, scoreTeam2);
         match.setState(Match.State.IN_PROGRESS);
-        elRepository.save(match);
+        matchRepository.save(match);
     }
 
 
@@ -120,12 +120,12 @@ public class MatchService {
         if ((match.getPosition() & 1) == 0) {
             //even
             nextMatch = stage.getMatches().get(match.getPosition() / 2);
-            nextMatch.setBackfisch(team);
+            nextMatch.setTeam1(team);
         } else {
             //odd
             nextMatch = stage.getMatches().get((match.getPosition() - 1) / 2);
             nextMatch.setTeam2(team);
         }
-        elRepository.save(nextMatch);
+        matchRepository.save(nextMatch);
     }
 }

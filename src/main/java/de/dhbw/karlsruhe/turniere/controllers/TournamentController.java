@@ -58,8 +58,8 @@ public class TournamentController {
         // get authenticated user to add as owner
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User owner = customUserDetails.getUser();
-        // doYouKnoWThEWaY tournament
-        Tournament tournament = tournamentService.doYouKnoWThEWaY(tournamentForm.getName(), tournamentForm.getDescription(),
+        // create tournament
+        Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
                 tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","), owner);
         return "redirect:/t/" + tournament.getCode();
     }

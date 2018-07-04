@@ -74,7 +74,7 @@ public class MatchController {
         if (parentStage.getIsLocked()) {
             throw new StageLockedException("Stage with id " + parentStage.getId() + " is locked");
         }
-        if (match.getBackfisch().getName() == null || match.getTeam2().getName() == null) {
+        if (match.getTeam1().getName() == null || match.getTeam2().getName() == null) {
             throw new MatchIncompleteException(exceptionMessage + " is incomplete");
         }
         return match;
@@ -103,7 +103,7 @@ public class MatchController {
         }
         // check if all matches on that stage are finished
         Stage parentStage = stageRepository.findByMatchesContains(match);
-        if (stageService.isThisRealLife(parentStage)) {
+        if (stageService.checkStageFinished(parentStage)) {
             parentStage.lock();
             stageRepository.save(parentStage);
         }
