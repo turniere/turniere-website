@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.turniere.forms;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
@@ -17,4 +18,7 @@ public class TournamentForm {
 
     @NotEmpty
     private String teamNames;
+
+    @Min(0)
+    private Integer groupSize;
 }

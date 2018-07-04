@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
+import de.dhbw.karlsruhe.turniere.forms.validators.TournamentFormValidator;
 import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import java.util.List;
 public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
+    private final TournamentFormValidator tournamentFormValidator;
 
     @GetMapping("/liste")
     String tournamentList(Model model, Authentication authentication) {
@@ -52,6 +54,7 @@ public class TournamentController {
     @PostMapping("/erstellen")
     String createTournament(@Valid TournamentForm tournamentForm, BindingResult bindingResult, Authentication
             authentication) {
+        tournamentFormValidator.validate(tournamentForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "create_tournament";
         }
@@ -60,7 +63,7 @@ public class TournamentController {
         User owner = customUserDetails.getUser();
         // create tournament
         Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
-                tournamentForm.getIsPublic(), tournamentForm.getTeamNames().split(","), owner);
+                tournamentForm.getIsPublic(), tournamentService.splitTeamnames(tournamentForm.getTeamNames()), owner, tournamentForm.getGroupSize());
         return "redirect:/t/" + tournament.getCode();
     }
 
