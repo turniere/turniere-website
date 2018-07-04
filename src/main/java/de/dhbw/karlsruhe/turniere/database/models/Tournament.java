@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -46,6 +47,9 @@ public class Tournament {
     private List<Stage> stages = new ArrayList<>();
 
     private byte[] qrcode;
+
+    @ManyToOne
+    private Team winner;
 
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;

@@ -59,14 +59,19 @@ public class MatchService {
     public void populateStageBelow(Tournament tournament, Match match) {
         Stage stage = stageRepository.findByMatchesContains(match);
         Optional<Stage> nextStageOptional = stageService.findNextStage(tournament, stage);
+        Team winningTeam = match.getState() == Match.State.TEAM1_WON ? match.getTeam1() : match.getTeam2();
         if (nextStageOptional.isPresent()) {
             Stage nextStage = nextStageOptional.get();
             // populate next stage with winning teams
             if (match.getState() == Match.State.TEAM1_WON) {
-                populateMatchBelow(nextStage, match, match.getTeam1());
+                populateMatchBelow(nextStage, match, winningTeam);
             } else if (match.getState() == Match.State.TEAM2_WON) {
-                populateMatchBelow(nextStage, match, match.getTeam2());
+                populateMatchBelow(nextStage, match, winningTeam);
             }
+        } else {
+            // final match => set tournament winner
+            tournament.setWinner(winningTeam);
+            tournamentRepository.save(tournament);
         }
     }
 
