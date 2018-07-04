@@ -37,7 +37,7 @@ public class MatchService {
      *
      * @param match      The match to change the scores
      * @param scoreTeam1 Score of Team 1
-     * @param scoreTeam2 Score of Team 2scoreTeam2
+     * @param scoreTeam2 Score of Team 2
      */
     public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
         // set scores
@@ -80,7 +80,7 @@ public class MatchService {
      *
      * @param match      The match to change the scores
      * @param scoreTeam1 Score of Team 1
-     * @param scoreTeam2 Score of Team 2scoreTeam2
+     * @param scoreTeam2 Score of Team 2
      */
     public void setLivescore(Match match, int scoreTeam1, int scoreTeam2) {
         setScore(match, scoreTeam1, scoreTeam2);
