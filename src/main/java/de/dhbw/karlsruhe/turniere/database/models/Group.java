@@ -27,4 +27,11 @@ public class Group {
 
     @OneToMany
     private List<Team> teams;
+
+    private Character name;
+
+    public Group(Character name) {
+        this.name = name;
+    }
+
 }
