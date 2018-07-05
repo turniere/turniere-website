@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class Tournament {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Team> teams;
+
+    @OneToOne
+    private GroupStage groupStage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Stage> stages = new ArrayList<>();
