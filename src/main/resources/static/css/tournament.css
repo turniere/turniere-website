@@ -1,0 +1,3 @@
+.stripes:nth-child(odd) {
+    background-color: #f5f5f5;
+}

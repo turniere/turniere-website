@@ -1,23 +1,235 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
 >
 
 <head th:replace="fragments/head :: head"></head>
-<head><title>turnie.re</title></head>
+<head>
+    <title>Turnier-Ansicht - turnie.re</title>
+    <link href="/css/tournament.css" rel="stylesheet">
+</head>
 <body>
-<h1 th:text="${tournament.name}"></h1>
-<span th:text="${tournament.description}"></span>
-<span th:if="${tournament.winner}">
-    Gewinner: <span th:text="${tournament.winner.name}"></span>
-</span>
-<ul>
-    <li th:each="stage: ${tournament.stages}">
-        <span th:text="${stage.level}"/><span th:if="${stage.isLocked}">🔒</span>
-        <ul th:each="match: ${stage.matches}">
-            <li><a th:href="@{'/m/' + ${match.id}}"><span th:text="${match}"/></a></li>
-        </ul>
-    </li>
-</ul>
-<img th:src="${'data:image/png;base64,' + qrcode}"/>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">turnie.re</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Turnier erstellen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Turnier ansehen</a>
+                </li>
+            </ul>
+            <div sec:authorize="isAnonymous()" class="nav-item btn-group">
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/login}">Login</a>
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
+                   th:href="@{/register}">Registrieren</a>
+            </div>
+            <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="post"
+                  class="form-inline my-2 my-lg-0 btn-group">
+                <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5 border-fix" role="button" href="/"><span
+                        sec:authentication="name"></span></a>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+
+    <div class="big-image">
+        <h1 class="display-1" th:text="${tournament.name}">Dein Turnier</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" th:text="${tournament.description}">
+            </div>
+
+            <div class="col-md-4 text-right">
+                <!-- QrModal trigger button -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#qrModal">
+                    Turnier per QR-Code teilen
+                </button>
+                <div class="pt-3 pl-3">
+                    Turnier-Code: <strong th:text="${tournament.code}"></strong>
+                </div>
+                <!-- QrModal -->
+                <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="qrModalLabel" th:text="${tournament.name}"></h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="img-fluid mb-3" th:src="${'data:image/png;base64,' + qrcode}"/>
+                            </div>
+                            <div class="modal-footer">
+                                <form class="w-100">
+                                    <div class="input-group">
+                                        <input class="form-control" id="tournament-code"
+                                               th:value="'https://joke-powered.de/t/' + ${tournament.code}"
+                                               readonly>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button" onclick="copyTournamentLink()">
+                                                Kopieren
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function copyTournamentLink() {
+                        let link = document.getElementById("tournament-code");
+                        link.focus();
+                        link.select();
+                        document.execCommand('copy');
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="container alert alert-success mt-4" th:if="${tournament.winner}">
+            <h1><strong><span th:text="${tournament.winner.name}"></span></strong> hat gewonnen!</h1>
+        </div>
+    </div>
+
+
+    <div class="stripes pt-3 mt-4" th:each="stage: ${tournament.stages}">
+        <div class="container py-4">
+            <h2><span th:text="${stage.level}"></span><span class="badge badge-secondary ml-3" th:if="${stage.isLocked}">abgeschlossen</span>
+            </h2>
+            <div class="row">
+                <div class="col-md" th:each="match: ${stage.matches}">
+                    <div th:if="${match.team1 == match.team2}">
+
+                        <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
+                            <div class="card-body">
+                                <div class="alert alert-light h4">
+                                    steht noch nicht fest
+                                </div>
+                                <div class="alert alert-light h4">
+                                    steht noch nicht fest
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 border-success shadow-sm" th:if="${match.state.name() == 'TEAM1_WON'}">
+                            <div class="card-body">
+                                <div class="alert alert-success h4">
+                                    <strong><span th:text="${match.team1.name}"></span></strong>
+                                </div>
+                                <div class="alert alert-light h4">
+                                    kein Gegner
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div th:if="${match.team1 != match.team2}">
+
+                        <div class="card mt-4 border-danger shadow" th:if="${match.state.name() == 'IN_PROGRESS'}">
+                            <div class="card-body">
+                                <div class="alert alert-secondary h4">
+                                    <span th:text="${match.team1.name}"></span>
+                                    <span class="badge badge-light float-right" th:if="${match.scoreTeam1 != null}"
+                                          th:text="${match.scoreTeam1}"></span>
+                                </div>
+                                <div class="alert alert-secondary h4">
+                                    <span th:text="${match.team2.name}"></span>
+                                    <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
+                                          th:text="${match.scoreTeam2}"></span>
+                                </div>
+                                <a class="btn btn-outline-dark" th:href="@{'/m/' + ${match.id}}">Punktestand ändern</a>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
+                            <div class="card-body">
+                                <div class="alert h4"
+                                     th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
+                                     th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
+                                </div>
+                                <div class="alert h4"
+                                     th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
+                                     th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
+                                </div>
+                                <a class="btn btn-outline-dark"
+                                   th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled"
+                                   th:href="@{'/m/' + ${match.id}}">Spiel starten</a>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 border-success shadow-sm" th:if="${match.state.name() == 'TEAM1_WON'}">
+                            <div class="card-body">
+                                <div class="alert alert-success h4 text-right">
+                                    <span class="float-left" th:text="${match.team1.name}"></span>
+                                    <div>
+                                        <span class="badge badge-success ml-3">Gewinner</span>
+                                        <span class="badge badge-light ml-1" th:text="${match.scoreTeam1}"></span>
+                                    </div>
+                                </div>
+                                <div class="alert alert-secondary h4 text-right">
+                                    <span class="float-left" th:text="${match.team2.name}"></span>
+                                    <span class="badge badge-light ml-3" th:text="${match.scoreTeam2}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 border-success shadow-sm" th:if="${match.state.name() == 'TEAM2_WON'}">
+                            <div class="card-body">
+                                <div class="alert alert-secondary h4">
+                                    <span th:text="${match.team1.name}"></span>
+                                    <div class="badge badge-light ml-3 float-right" th:text="${match.scoreTeam1}"></div>
+                                </div>
+                                <div class="alert alert-success h4">
+                                    <span th:text="${match.team2.name}"></span>
+                                    <div class="badge badge-success ml-3">Gewinner</div>
+                                    <div class="badge badge-light ml-1 float-right" th:text="${match.scoreTeam2}"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer mt-5 bg-dark text-light">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-md-6 text-center">&copy; 2018 Team REST &middot; <a class="text-white" th:href="@{/privacy}">Wir
+                schützen arme kleine Daten</a> &middot; <a class="text-white" th:href="@{/impressum}">Impressum</a></div>
+            <div class="col-md-6 text-center"><a href="#" class="text-white">zurück nach oben</a></div>
+        </div>
+    </div>
+</footer>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </html>
