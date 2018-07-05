@@ -32,16 +32,24 @@
                 </div>
                 <div class="form-group">
                     <label for="f-teams">Teams</label>
-                    <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}"
-                           placeholder="Liste, mit Komma getrennt (keine Leerzeichen)" required>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}"
+                               placeholder="Liste, mit Komma getrennt (keine Leerzeichen)" required>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-success" id="f-addTeam">Team hinzufügen</button>
+                        </div>
+                    </div>
                 </div>
+                <div class="frorm-group" id="f-teamnames"></div>
                 <div class="form-group">
                     <label for="f-groupSize">Gruppen Größe</label>
                     <input class="form-control" type="text" th:name="groupSize" th:id="f-groupSize" th:value="0"
                            required>
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('groupSize')}" th:errors="*{groupSize}">Fehler</div>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg w-100">Turnier erstellen</button>
+                <button type="submit" class="btn btn-success btn-lg w-100" id="f-submitBtn">Turnier erstellen</button>
             </form>
         </div>
     </div>
@@ -60,4 +68,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/create_tournament.js"></script>
 </html>
