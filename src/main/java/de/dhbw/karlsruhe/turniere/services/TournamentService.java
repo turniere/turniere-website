@@ -87,7 +87,7 @@ public class TournamentService {
             playoffService.generatePlayoffs(owner, teams, tournament);
             return tournament;
         } else {
-            groupStageService.generateGroupStage(owner, teams, tournament);
+            groupStageService.generateGroupStage(owner, teams, tournament, groupSize);
             return tournament;
         }
     }
