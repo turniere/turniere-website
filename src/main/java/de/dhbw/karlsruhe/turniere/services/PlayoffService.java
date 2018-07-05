@@ -34,7 +34,7 @@ public class PlayoffService {
      * @param teams      List of Teams to generate Playoffs with
      * @param tournament Tournament to which Playoff Stages are added
      */
-    public void generatePlayoffs(User owner, List<Team> teams, Tournament tournament) {
+    public void generatePlayoffs(List<Team> teams, Tournament tournament) {
         int stageCount = calculateRequiredStageCount(teams.size());
         // generate initial matches and save remaining teams
         Pair<List<Match>, Integer> matchesAndRemainingTeams = generateMatches(tournament.getTeams(), true);

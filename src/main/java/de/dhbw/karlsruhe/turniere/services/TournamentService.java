@@ -89,7 +89,7 @@ public class TournamentService {
         }
 
         if (groupSize < 2) {
-            playoffService.generatePlayoffs(owner, teams, tournament);
+            playoffService.generatePlayoffs(teams, tournament);
         } else {
             groupStageService.generateGroupStage(teams, tournament, groupSize);
         }
