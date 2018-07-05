@@ -29,8 +29,9 @@ public class PlayoffService {
 
     /**
      * Generate Playoff Stages for given Tournament with given Teams and save them to given owner
-     * @param owner Account to which the tournament is attached
-     * @param teams List of Teams to generate Playoffs with
+     *
+     * @param owner      Account to which the tournament is attached
+     * @param teams      List of Teams to generate Playoffs with
      * @param tournament Tournament to which Playoff Stages are added
      */
     public void generatePlayoffs(User owner, List<Team> teams, Tournament tournament) {

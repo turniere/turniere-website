@@ -27,8 +27,8 @@ public class GroupStage {
     @OneToMany
     private List<Group> groups;
 
-    public GroupStage(List<Group> groups){
-        this.groups=groups;
+    public GroupStage(List<Group> groups) {
+        this.groups = groups;
     }
 
 }

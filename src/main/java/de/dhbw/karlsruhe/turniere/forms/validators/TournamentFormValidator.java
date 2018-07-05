@@ -22,7 +22,7 @@ public class TournamentFormValidator implements Validator {
     public void validate(Object o, Errors errors) {
         TournamentForm tournamentForm = (TournamentForm) o;
         int groupSize = tournamentForm.getGroupSize();
-        if (groupSize == 0 || groupSize == 1){
+        if (groupSize == 0 || groupSize == 1) {
             return;
         }
         if (((tournamentService.splitTeamnames(tournamentForm.getTeamNames()).length) % (groupSize)) != 0) {

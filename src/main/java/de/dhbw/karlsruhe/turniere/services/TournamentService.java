@@ -22,6 +22,9 @@ public class TournamentService {
     private final PlayoffService playoffService;
     private final GroupStageService groupStageService;
 
+    public static String[] splitTeamnames(String string) {
+        return string.split(",");
+    }
 
     /**
      * Generate tournament code
@@ -90,10 +93,6 @@ public class TournamentService {
             groupStageService.generateGroupStage(owner, teams, tournament, groupSize);
             return tournament;
         }
-    }
-
-    public static String[] splitTeamnames(String string) {
-        return string.split(",");
     }
 
 
