@@ -72,7 +72,6 @@ public class TournamentService {
      * @return Saved new tournament object
      */
     public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner, Integer groupSize) {
-        // create team objects from names and save them into a list
         // generate uuid
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect(Collectors.toList());
         String code = generateUniqueCode(5);
