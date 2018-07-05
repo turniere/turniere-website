@@ -5,6 +5,7 @@ import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
+import de.dhbw.karlsruhe.turniere.database.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class TournamentService {
     private final QRService qrService;
     private final PlayoffService playoffService;
     private final GroupStageService groupStageService;
+    private final UserRepository userRepository;
 
     public static String[] splitTeamnames(String string) {
         return string.split(",");
@@ -88,11 +90,17 @@ public class TournamentService {
 
         if (groupSize < 2) {
             playoffService.generatePlayoffs(owner, teams, tournament);
-            return tournament;
         } else {
-            groupStageService.generateGroupStage(owner, teams, tournament, groupSize);
-            return tournament;
+            groupStageService.generateGroupStage(teams, tournament, groupSize);
         }
+        // save tournament object
+        tournament = tournamentRepository.save(tournament);
+        // add saved tournament object to authenticated user (owner)
+        owner.getTournaments().add(tournament);
+        // save updated user in repository
+        userRepository.save(owner);
+        return tournament;
+
     }
 
 

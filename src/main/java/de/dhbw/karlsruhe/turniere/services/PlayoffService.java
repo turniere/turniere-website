@@ -58,12 +58,6 @@ public class PlayoffService {
             matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
-        // save tournament object
-        tournament = tournamentRepository.save(tournament);
-        // add saved tournament object to authenticated user (owner)
-        owner.getTournaments().add(tournament);
-        // save updated user in repository
-        userRepository.save(owner);
     }
 
     /**
