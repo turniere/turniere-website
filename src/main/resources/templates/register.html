@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-
 <head th:replace="fragments/head :: head"></head>
-<head><title>Registrieren - turnie.re</title></head>
+
+<head>
+    <title>Registrieren - turnie.re</title>
+</head>
+
 <body>
+
 <form action="#" th:action="@{/register}" th:object="${registerForm}" method="POST">
     <table>
         <tr>
@@ -34,5 +38,6 @@
         </tr>
     </table>
 </form>
+
 </body>
 </html>
