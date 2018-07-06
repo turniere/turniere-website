@@ -1,3 +1,7 @@
 .stripes:nth-child(odd) {
     background-color: #f5f5f5;
 }
+
+.minw-25 {
+    min-width: 25%;
+}

@@ -82,7 +82,7 @@
             </h2>
 
             <div class="row">
-                <div class="col-md" th:each="match: ${stage.matches}">
+                <div class="col-md minw-25" th:each="match: ${stage.matches}">
                     <div th:if="${match.team1 == match.team2}">
 
                         <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
