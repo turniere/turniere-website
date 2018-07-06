@@ -122,7 +122,9 @@
                                     <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
                                           th:text="${match.scoreTeam2}"></span>
                                 </div>
-                                <a class="btn btn-outline-dark" th:href="@{'/m/' + ${match.id}}">Punktestand ändern</a>
+                                <a class="btn btn-outline-dark" th:if="${ownerIsAuthenticated}" th:href="@{'/m/' + ${match.id}}">
+                                    Punktestand ändern
+                                </a>
                             </div>
                         </div>
 
@@ -137,6 +139,7 @@
                                      th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                 </div>
                                 <a class="btn btn-outline-dark"
+                                   th:if="${ownerIsAuthenticated}"
                                    th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled"
                                    th:href="@{'/m/' + ${match.id}}">Spiel starten</a>
                             </div>
