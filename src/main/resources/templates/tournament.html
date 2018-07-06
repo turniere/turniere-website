@@ -78,7 +78,7 @@
     <div class="stripes pt-3 mt-4" th:each="stage: ${tournament.stages}">
         <div class="container py-4">
             <h2>
-                <span th:text="${stage.level}"></span>
+                <span th:text="${#messages.msgOrNull('tournament.stage.' + stage.level) ?: stage.level}"></span>
             </h2>
 
             <div class="row">
