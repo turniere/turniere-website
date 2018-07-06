@@ -24,6 +24,7 @@
                     <a class="btn btn-outline-dark w-100 text-left font-weight-bold mt-2"
                        th:href="@{'/t/' + ${tournament.code}}">
                         <span th:text="${tournament.name}"></span>
+                        <span class="badge badge-danger ml-2" th:if="${tournament.isPublic}">Öffentlich</span>
                         <span class="badge badge-dark ml-2" th:if="${tournament.winner}">Beendet</span>
                     </a>
                 </div>
