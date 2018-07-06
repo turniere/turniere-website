@@ -25,6 +25,7 @@
                        th:href="@{'/t/' + ${tournament.code}}"
                        th:text="${tournament.name}"></a>
                 </div>
+                <a class="btn btn-outline-primary mt-2" th:href="@{/erstellen}">Neues Turnier erstellen</a>
             </div>
         </div>
         <div th:if="${publicTournaments}" class="card">
