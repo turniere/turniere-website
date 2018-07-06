@@ -8,7 +8,7 @@ function addTeam() {
     if(input.value !== "") {
         teamnames.push(input.value);
         var div = document.createElement("div");
-        div.setAttribute("class", "h-auto alert alert-dismissible alert-success fade show");
+        div.setAttribute("class", "h-auto alert alert-dismissible alert-success shadow-sm fade show");
         div.setAttribute("style", "display: inline-block; margin-right: 5px");
         var node = document.createTextNode(input.value);
         div.appendChild(node);

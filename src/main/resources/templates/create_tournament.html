@@ -38,12 +38,10 @@
                 </div>
                 <div class="form-group">
                     <label for="f-teams">Teams</label>
-                    <div class="row">
-                        <div class="col">
+                    <div class="input-group">
                             <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}"
-                               placeholder="Liste, mit Komma getrennt (keine Leerzeichen)" required>
-                        </div>
-                        <div class="col">
+                               placeholder="Teamname" required>
+                        <div class="input-group-append">
                             <button type="button" class="btn btn-outline-success" id="f-addTeam">Team hinzufügen</button>
                         </div>
                     </div>
