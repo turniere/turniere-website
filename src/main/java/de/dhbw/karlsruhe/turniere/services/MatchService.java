@@ -57,9 +57,19 @@ public class MatchService {
      * @param match      Match to populate in given Tournament
      */
     public void populateStageBelow(Tournament tournament, Match match) {
+        // find next stage based on current one
         Stage stage = stageRepository.findByMatchesContains(match);
         Optional<Stage> nextStageOptional = stageService.findNextStage(tournament, stage);
-        Team winningTeam = match.getState() == Match.State.TEAM1_WON ? match.getTeam1() : match.getTeam2();
+        // determine winning team to move it into the next stage
+        Team winningTeam = null;
+        switch (match.getState()) {
+            case TEAM1_WON:
+                winningTeam = match.getTeam1();
+                break;
+            case TEAM2_WON:
+                winningTeam = match.getTeam2();
+                break;
+        }
         if (nextStageOptional.isPresent()) {
             Stage nextStage = nextStageOptional.get();
             // populate next stage with winning teams
@@ -69,9 +79,12 @@ public class MatchService {
                 populateMatchBelow(nextStage, match, winningTeam);
             }
         } else {
-            // final match => set tournament winner
-            tournament.setWinner(winningTeam);
-            tournamentRepository.save(tournament);
+            // ensure winning team is already set
+            if (winningTeam != null) {
+                // final match => set tournament winner
+                tournament.setWinner(winningTeam);
+                tournamentRepository.save(tournament);
+            }
         }
     }
 
