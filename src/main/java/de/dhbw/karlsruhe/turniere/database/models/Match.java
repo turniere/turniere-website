@@ -56,6 +56,10 @@ public class Match {
                 '}';
     }
 
+    public boolean isLocked() {
+        return state == State.TEAM1_WON || state == State.TEAM2_WON;
+    }
+
     public enum State {
         TEAM1_WON, TEAM2_WON, IN_PROGRESS, NOT_STARTED
     }

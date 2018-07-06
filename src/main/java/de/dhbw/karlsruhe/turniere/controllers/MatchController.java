@@ -2,18 +2,15 @@ package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
-import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
-import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.MatchIncompleteException;
+import de.dhbw.karlsruhe.turniere.exceptions.MatchLockedException;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
-import de.dhbw.karlsruhe.turniere.exceptions.StageLockedException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
-import de.dhbw.karlsruhe.turniere.services.StageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -33,9 +30,6 @@ public class MatchController {
     private final TournamentRepository tournamentRepository;
     private final MatchRepository matchRepository;
     private final MatchService matchService;
-    private final StageRepository stageRepository;
-    private final StageService stageService;
-
 
     /**
      * Get match object for matchId or throw 404/403 if applicable
@@ -45,7 +39,7 @@ public class MatchController {
      * @return Match object for matchId
      * @throws ResourceNotFoundException If there's no corresponding match
      * @throws RuntimeException          If there's no parent stage
-     * @throws StageLockedException      If the parent stage is locked
+     * @throws MatchLockedException      If the match is locked (winner was already evaluated)
      */
     private Match safeGetMatch(Long matchId, Authentication authentication) {
         // set exception message (used for 403/404)
@@ -63,17 +57,15 @@ public class MatchController {
         User authenticatedUser = userDetails.getUser();
         // find match owner
         User owner = tournamentRepository.findOwner(tournament);
-        // check owner is authenticated user
+        // verify owner is authenticated user
         if (!authenticatedUser.equals(owner)) {
             throw new AccessDeniedException(exceptionMessage);
         }
-        Stage parentStage = stageRepository.findByMatchesContains(match);
-        if (parentStage == null) {
-            throw new RuntimeException(exceptionMessage + " doesn't have a parent stage");
+        // verify match is not locked
+        if (match.isLocked()) {
+            throw new MatchLockedException(exceptionMessage + " is locked");
         }
-        if (parentStage.getIsLocked()) {
-            throw new StageLockedException("Stage with id " + parentStage.getId() + " is locked");
-        }
+        // verify match is completely initialized
         if (match.getTeam1().getName() == null || match.getTeam2().getName() == null) {
             throw new MatchIncompleteException(exceptionMessage + " is incomplete");
         }
@@ -101,13 +93,7 @@ public class MatchController {
         } else {
             matchService.setResults(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
         }
-        // check if all matches on that stage are finished
-        Stage parentStage = stageRepository.findByMatchesContains(match);
-        if (stageService.checkStageFinished(parentStage)) {
-            parentStage.lock();
-            stageRepository.save(parentStage);
-        }
-        Tournament tournament = tournamentRepository.findByStagesContains(parentStage);
+        Tournament tournament = tournamentRepository.findByMatch(match);
         if (matchResultSubmitForm.getIsLive()) {
             return "match";
         } else {
