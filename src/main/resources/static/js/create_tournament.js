@@ -14,7 +14,7 @@ function addTeam() {
         div.appendChild(node);
 
         var btn = document.createElement("button");
-        btn.setAttribute('type', 'button');
+        btn.setAttribute("type", "button");
         btn.setAttribute("class", "close");
         btn.setAttribute("data-dismiss", "alert");
         btn.setAttribute("aria-label", "Close");
@@ -45,11 +45,25 @@ function addTeam() {
         input.value = ''
     }
 }
-addBtn.addEventListener("click", addTeam);
 
+addBtn.addEventListener("click", addTeam);
+input.addEventListener("keyup", function (ev) {
+
+    if (ev.keyCode === 13) {
+    addTeam();
+}
+});
 
 submitBtn.addEventListener("click" , function() {
    if(teamnames.length > 0)  {
        input.value = teamnames.toString();
    }
 });
+
+function stopRKey(evt) {
+    evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode === 13) && (node.type==="text"))  {return false;}
+}
+
+document.onkeypress = stopRKey;
