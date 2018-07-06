@@ -1,8 +1,10 @@
 package de.dhbw.karlsruhe.turniere.database.models;
 
+import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.Authentication;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -42,6 +44,11 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public static User fromAuthentication(Authentication authentication) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        return customUserDetails.getUser();
     }
 
     @Override
