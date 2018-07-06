@@ -68,7 +68,7 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}")
-    String viewTournament(@PathVariable String code, Model model, HttpServletResponse httpServletResponse) {
+    String viewTournament(@PathVariable String code, Model model, HttpServletResponse httpServletResponse, Authentication authentication) {
         // find tournament object
         Tournament tournament = tournamentRepository.findByCode(code);
         if (tournament == null) {
@@ -79,6 +79,8 @@ public class TournamentController {
         if (tournament.getQrcode() != null) {
             model.addAttribute("qrcode", new String(tournament.getQrcode()));
         }
+        boolean ownerIsAuthenticated = authentication != null && tournamentRepository.findOwner(tournament).equals(User.fromAuthentication(authentication));
+        model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
         return "tournament";
     }
 }
