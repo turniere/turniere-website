@@ -5,3 +5,7 @@
 .minw-25 {
     min-width: 25%;
 }
+
+.overflow-auto {
+    overflow: auto;
+}
