@@ -22,10 +22,12 @@
                 <h2>Meine Turniere</h2>
                 <div th:each="tournament: ${privateTournaments}">
                     <a class="btn btn-outline-dark w-100 text-left font-weight-bold mt-2"
-                       th:href="@{'/t/' + ${tournament.code}}"
-                       th:text="${tournament.name}"></a>
+                       th:href="@{'/t/' + ${tournament.code}}">
+                        <span th:text="${tournament.name}"></span>
+                        <span class="badge badge-dark ml-2" th:if="${tournament.winner}">Beendet</span>
+                    </a>
                 </div>
-                <a class="btn btn-outline-primary mt-2" th:href="@{/erstellen}">Neues Turnier erstellen</a>
+                <a class="btn btn-outline-primary mt-3" th:href="@{/erstellen}">Neues Turnier erstellen</a>
             </div>
         </div>
         <div th:if="${publicTournaments}" class="card">
@@ -33,8 +35,10 @@
                 <h2>Öffentliche Turniere</h2>
                 <div th:each="tournament: ${publicTournaments}">
                     <a class="btn btn-outline-secondary w-100 text-left font-weight-bold mt-2"
-                       th:href="@{'/t/' + ${tournament.code}}"
-                       th:text="${tournament.name}"></a>
+                       th:href="@{'/t/' + ${tournament.code}}">
+                        <span th:text="${tournament.name}"></span>
+                        <span class="badge badge-secondary ml-2" th:if="${tournament.winner}">Beendet</span>
+                    </a>
                 </div>
             </div>
         </div>
