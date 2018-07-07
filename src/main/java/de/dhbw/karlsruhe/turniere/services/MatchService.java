@@ -10,6 +10,9 @@ import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -130,13 +133,18 @@ public class MatchService {
      */
     public void populateMatchBelow(Stage stage, Match match, Team team) {
         Match nextMatch = null;
+        List<Match> nextStageMatches = stage.getMatches();
+        //Sort Matches by position
+        Collections.sort(
+                nextStageMatches,
+                Comparator.comparingInt(Match::getPosition));
         if ((match.getPosition() & 1) == 0) {
             //even
-            nextMatch = stage.getMatches().get(match.getPosition() / 2);
+            nextMatch = nextStageMatches.get(match.getPosition() / 2);
             nextMatch.setTeam1(team);
         } else {
             //odd
-            nextMatch = stage.getMatches().get((match.getPosition() - 1) / 2);
+            nextMatch = nextStageMatches.get((match.getPosition() - 1) / 2);
             nextMatch.setTeam2(team);
         }
         matchRepository.save(nextMatch);
