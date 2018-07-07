@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -69,12 +70,18 @@ public class TournamentService {
      * @param isPublic    Tournament accessible without login (deprecated)
      * @param teamNames   Names of initial teams
      * @param owner       Owner of the tournament
+     * @param groupSize   Size of Groups to be generated
+     * @param randomize   If Teams should be randomized before generating Matches or not
      * @return Saved new tournament object
      */
-    public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner, Integer groupSize) {
+    public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner, Integer groupSize, Boolean randomize) {
         // generate uuid
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect(Collectors.toList());
         String code = generateUniqueCode(5);
+        // shuffle teams if desired
+        if (randomize) {
+            Collections.shuffle(teams);
+        }
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
         try {

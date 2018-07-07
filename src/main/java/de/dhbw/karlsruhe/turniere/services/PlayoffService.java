@@ -4,7 +4,6 @@ import de.dhbw.karlsruhe.turniere.database.models.Match;
 import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
-import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.StageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
@@ -14,7 +13,6 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -30,14 +28,13 @@ public class PlayoffService {
     /**
      * Generate Playoff Stages for given Tournament with given Teams and save them to given owner
      *
-     * @param owner      Account to which the tournament is attached
      * @param teams      List of Teams to generate Playoffs with
      * @param tournament Tournament to which Playoff Stages are added
      */
     public void generatePlayoffs(List<Team> teams, Tournament tournament) {
         int stageCount = calculateRequiredStageCount(teams.size());
         // generate initial matches and save remaining teams
-        Pair<List<Match>, Integer> matchesAndRemainingTeams = generateMatches(teams, true);
+        Pair<List<Match>, Integer> matchesAndRemainingTeams = generateMatches(teams);
         List<Match> matches = matchesAndRemainingTeams.getFirst();
         Integer remainingTeams = matchesAndRemainingTeams.getSecond();
         // put initial matches into first stage
@@ -94,10 +91,9 @@ public class PlayoffService {
      * Generate matches for given list of teams
      *
      * @param originalTeams Teams to generate matches for
-     * @param randomize     Randomize teams before arranging them into matches
      * @return Pair of list of generated matches and teams not represented in generated matches
      */
-    private Pair<List<Match>, Integer> generateMatches(List<Team> originalTeams, boolean randomize) {
+    private Pair<List<Match>, Integer> generateMatches(List<Team> originalTeams) {
         // copy original teams to new variable to not modify original list
         List<Team> teams = new ArrayList<>(originalTeams);
 
@@ -108,10 +104,6 @@ public class PlayoffService {
             return Pair.of(matches, 0);
         }
 
-        // shuffle teams if desired
-        if (randomize) {
-            Collections.shuffle(teams);
-        }
         // needed Games --> how many teams need to be kicked out to get the number of teams to the next lower power of 2
         int neededGames;
         if (nextPowerOfTwo(teams.size()) == teams.size()) {
