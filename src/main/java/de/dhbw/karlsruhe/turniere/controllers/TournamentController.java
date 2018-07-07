@@ -63,7 +63,7 @@ public class TournamentController {
         User owner = customUserDetails.getUser();
         // create tournament
         Tournament tournament = tournamentService.create(tournamentForm.getName(), tournamentForm.getDescription(),
-                tournamentForm.getIsPublic(), tournamentService.splitTeamnames(tournamentForm.getTeamNames()), owner, tournamentForm.getGroupSize());
+                tournamentForm.getIsPublic(), tournamentService.splitTeamnames(tournamentForm.getTeamNames()), owner, tournamentForm.getGroupSize(), false);
         return "redirect:/t/" + tournament.getCode();
     }
 
