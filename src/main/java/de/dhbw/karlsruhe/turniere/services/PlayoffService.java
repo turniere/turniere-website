@@ -44,17 +44,42 @@ public class PlayoffService {
         //
         List<Match> savedMatches = tournament.getStages().get(0).getMatches();
         // add remaining stages
-        for (int i = (stageCount - 1); i >= 0; i--) {
-            // fill with calculated number of empty matches
-            Stage emptyStage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
-            // save and add to tournament
-            tournament.addStage(stageRepository.save(emptyStage));
-        }
+        addStagesWithEmptyMatches(tournament, stageCount);
         //move teams without competition to next stage
         while (remainingTeams >= 0) {
             matchService.populateStageBelow(tournament, savedMatches.get(savedMatches.size() - 1 - remainingTeams));
             remainingTeams--;
         }
+    }
+
+    /**
+     * Add given number of Stages with empty Matches to Tournament
+     *
+     * @param tournament Tournament to add Stages to
+     * @param stageCount Number of Stages to add
+     */
+    private void addStagesWithEmptyMatches(Tournament tournament, int stageCount) {
+        List<Stage> stages = generateStagesWithEmptyMatches(stageCount);
+        for (Stage stage : stages) {
+            // save and add to tournament
+            tournament.addStage(stageRepository.save(stage));
+        }
+    }
+
+    /**
+     * Generates given number of Stages with right number of empty matches
+     *
+     * @param stageCount Number of stages to be generated
+     * @return List of Stages
+     */
+    private List<Stage> generateStagesWithEmptyMatches(int stageCount) {
+        List<Stage> stages = new ArrayList<>();
+        for (int i = (stageCount - 1); i >= 0; i--) {
+            // fill with calculated number of empty matches
+            Stage stage = new Stage(i, generateEmptyMatches((int) Math.pow(2, i)));
+            stages.add(stage);
+        }
+        return stages;
     }
 
     /**
