@@ -8,9 +8,9 @@ spring:
   datasource:
       platform: postgres
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://82.165.249.249:5432/dev_daniel
-      username: turniere
-      password: EtbMOd5o7Bt0T2YWP6ttFIQmD
+      url:
+      username:
+      password:
 
   thymeleaf:
       cache: false
