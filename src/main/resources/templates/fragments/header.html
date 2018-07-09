@@ -27,9 +27,9 @@
                 </ul>
                 <div sec:authorize="isAnonymous()" class="nav-item btn-group">
                     <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
-                       th:href="@{/login}">Login</a>
+                       th:href="@{'/login' + '#login'}">Login</a>
                     <a class="btn navbar-btn btn-outline-success my-2 my-sm-0 px-5" role="button"
-                       th:href="@{/register}">Registrieren</a>
+                       th:href="@{'/register' + '#register'}">Registrieren</a>
                 </div>
                 <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="post"
                       class="form-inline my-2 my-lg-0 btn-group">
