@@ -89,22 +89,22 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="reg-pw">Passphrase</label>
+                                <label for="reg-pw">Passwort</label>
                                 <input class="form-control" type="password" id="reg-pw" th:field="*{password}"
                                        minlength="12" required>
                                 <small class="text-muted">
-                                    Deine Passphrase muss mindestens 12 Zeichen lang sein. Alle Zeichen sind erlaubt.
+                                    Dein Passwort muss mindestens 12 Zeichen lang sein. Alle Zeichen sind erlaubt.
                                 </small>
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                                     class="text-danger font-italic">Passphrase fehlerhaft
+                                     class="text-danger font-italic">Passwort fehlerhaft
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="reg-pw2">Passphrase wiederholen</label>
+                                <label for="reg-pw2">Passwort wiederholen</label>
                                 <input class="form-control" type="password" id="reg-pw2" th:field="*{repassword}"
                                        minlength="12" required>
                                 <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}"
-                                     class="text-danger font-italic">Passphrasen stimmen nicht
+                                     class="text-danger font-italic">Passwörter stimmen nicht
                                     überein
                                 </div>
                             </div>
