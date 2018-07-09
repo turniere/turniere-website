@@ -21,4 +21,6 @@ public class TournamentForm {
 
     @Min(0)
     private Integer groupSize;
+
+    private Boolean mix;
 }
