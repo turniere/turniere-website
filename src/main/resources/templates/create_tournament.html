@@ -32,24 +32,41 @@
                         Beschreibung fehlerhaft
                     </div>
                 </div>
-                <div class="form-group form-check">
-                    <input class="form-check-input" id="f-public" type="checkbox" th:field="*{isPublic}">
-                    <label for="f-public" class="form-check-label">Das Turnier öffentlich anzeigen (schreibgeschützt)</label>
-                </div>
-                <div class="form-group">
-                    <label for="f-teams">Teams</label>
-                    <div class="input-group">
-                            <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}"
-                               placeholder="Teamname" required>
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-outline-success" id="f-addTeam">Team hinzufügen</button>
+                <div class="form-group custom-control custom-checkbox">
+                    <div class="row">
+                        <div class="col-5">
+                            <input class="custom-control-input" id="f-public" type="checkbox" th:field="*{isPublic}">
+                            <label for="f-public" class="custom-control-label">Das Turnier öffentlich anzeigen
+                                (schreibgeschützt)</label>
+                        </div>
+                        <div class="col-2">
+                            <input class="custom-control-input" id="f-mix" type="checkbox">
+                            <label for="f-mix" class="custom-control-label">Teams mischen</label>
+                        </div>
+                        <div class="col-2">
+                            <input class="custom-control-input" id="f-groupstage" type="checkbox">
+                            <label for="f-groupstage" class="custom-control-label">Gruppenphase</label>
                         </div>
                     </div>
                 </div>
-                <div class="frorm-group" id="f-teamnames"></div>
-                <div class="form-group">
+                <div class="form-group" style="position: relative;">
+                    <div class="alert alert-danger" id="f-teamname-error" style="display: none; position: absolute; top: -35%;">
+                        Jeder Teamname darf nur einmal vergeben werden!
+                    </div>
+                    <label for="f-teams">Teams</label>
+                    <div class="input-group">
+                            <input class="form-control" id="f-teams-input" type="text"
+                               placeholder="Teamname" >
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success" id="f-addTeam">Team hinzufügen</button>
+                        </div>
+                            <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}" style="display: none" required>
+                    </div>
+                </div>
+                <div class="form-group" id="f-teamnames"></div>
+                <div class="form-group" id="f-groupstage-options" style="display: none">
                     <label for="f-groupSize">Gruppen Größe</label>
-                    <input class="form-control" type="text" th:name="groupSize" th:id="f-groupSize" th:value="0"
+                    <input class="form-control" type="text" th:name="groupSize" th:id="f-groupSize" th:value="1"
                            required>
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('groupSize')}" th:errors="*{groupSize}">Fehler</div>
                 </div>
