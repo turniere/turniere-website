@@ -8,16 +8,16 @@ var groupCheckbox = document.getElementById("f-groupstage");
 var groupOptions = document.getElementById("f-groupstage-options");
 var errorMessage = document.getElementById("f-teamname-error");
 
-function addTeam() {
-    if (input.value !== "") {
+function addTeam(inputString) {
+    if (inputString !== "") {
         if (teamAlreadyExistend()) {
             showErrorMessage();
         } else {
-            teamnames.push(input.value);
+            teamnames.push(inputString);
             var div = document.createElement("div");
             div.setAttribute("class", "h-auto alert alert-dismissible alert-success shadow-sm fade show");
             div.setAttribute("style", "display: inline-block; margin-right: 5px");
-            var node = document.createTextNode(input.value);
+            var node = document.createTextNode(inputString);
             div.appendChild(node);
 
             var btn = document.createElement("button");
@@ -54,15 +54,28 @@ function addTeam() {
     }
 }
 
+function addTeamList() {
+    if (input.value.includes(",")) {
+        var teamList = input.value.split(",");
+        for (var i = 0; i < teamList.length; i++) {
+            addTeam(teamList[i]);
+        }
+    }
+}
+
 function teamAlreadyExistend() {
     return teamnames.indexOf(input.value) !== -1;
 }
 
-addBtn.addEventListener("click", addTeam);
+addBtn.addEventListener("click", function (ev) {
+    addTeam(input.value);
+});
+
 input.addEventListener("keyup", function (ev) {
 
     if (ev.keyCode === 13) {
-        addTeam();
+        addTeamList();
+        addTeam(input.value);
     }
 });
 
@@ -82,7 +95,9 @@ function stopRKey(evt) {
 
 function showErrorMessage() {
     errorMessage.style.display = "block";
-    setTimeout(function() {errorMessage.style.display = "none"}, 3000);
+    setTimeout(function () {
+        errorMessage.style.display = "none"
+    }, 3000);
 }
 
 document.onkeypress = stopRKey;
