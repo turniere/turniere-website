@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -14,15 +14,35 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0" sec:authorize="isAnonymous()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Features <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/">Features</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/erstellen">Turnier erstellen</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/liste">Öffentliche Turniere</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/faq">FAQ</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0" sec:authorize="isAuthenticated()">
                     <li class="nav-item">
-                        <a class="nav-link" href="/liste">Turnier ansehen</a>
+                        <a class="nav-link" href="/">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/erstellen">Turnier erstellen</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/liste#meine">Meine Turniere</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/liste#öffentlich">Öffentliche Turniere</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq">FAQ</a>
                     </li>
                 </ul>
                 <div sec:authorize="isAnonymous()" class="nav-item btn-group">
