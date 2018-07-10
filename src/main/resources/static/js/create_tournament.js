@@ -68,6 +68,7 @@ function teamAlreadyExistend() {
 }
 
 addBtn.addEventListener("click", function (ev) {
+    addTeamList();
     addTeam(input.value);
 });
 
