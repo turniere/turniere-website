@@ -18,5 +18,6 @@ public class RegisterFormValidator extends UserFormValidator implements Validato
         rejectDuplicateEmail(registerForm.getEmail(), errors);
         rejectDuplicateUsername(registerForm.getUsername(), errors);
         rejectWrongRepassword(registerForm.getPassword(), registerForm.getRepassword(), errors);
+        rejectUsernameIsValidEmail(registerForm.getUsername(), errors);
     }
 }
