@@ -42,7 +42,7 @@ public class MatchService {
      * @param scoreTeam1 Score of Team 1
      * @param scoreTeam2 Score of Team 2
      */
-    public void setResults(Match match, Integer scoreTeam1, Integer scoreTeam2) {
+    public void setResults(Match match, int scoreTeam1, int scoreTeam2) {
         // set scores
         setScore(match, scoreTeam1, scoreTeam2);
         // set state
