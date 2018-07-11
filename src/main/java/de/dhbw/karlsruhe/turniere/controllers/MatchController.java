@@ -1,16 +1,23 @@
 package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
+import de.dhbw.karlsruhe.turniere.database.models.GroupStage;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
+import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
+import de.dhbw.karlsruhe.turniere.database.repositories.GroupRepository;
+import de.dhbw.karlsruhe.turniere.database.repositories.GroupStageRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.MatchIncompleteException;
 import de.dhbw.karlsruhe.turniere.exceptions.MatchLockedException;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
+import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
+import de.dhbw.karlsruhe.turniere.services.GroupStageService;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
+import de.dhbw.karlsruhe.turniere.services.PlayoffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,6 +38,10 @@ public class MatchController {
     private final TournamentRepository tournamentRepository;
     private final MatchRepository matchRepository;
     private final MatchService matchService;
+    private final GroupStageService groupStageService;
+    private final GroupStageRepository groupStageRepository;
+    private final GroupRepository groupRepository;
+    private final PlayoffService playoffService;
 
     /**
      * Get match object for matchId or throw 404/403 if applicable
@@ -92,6 +104,17 @@ public class MatchController {
             matchService.setLivescore(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
         } else {
             matchService.setResults(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
+        }
+        if (match.getIsGroupMatch()) {
+            groupStageService.updateTeamPoints(match.getTeam1());
+            groupStageService.updateTeamPoints(match.getTeam2());
+            GroupStage groupStage = groupStageRepository.findByGroupsContains(groupRepository.findByMatchesContains(match));
+            if (groupStageService.isGroupStageOver(groupStage)){
+                List<Team> teams = groupStageService.getPlayoffTeams(groupStage);
+                Tournament tournament = tournamentRepository.findByGroupStage(groupStage);
+                playoffService.generatePlayoffs(teams, tournament);
+                tournamentRepository.save(tournament);
+            }
         }
         Tournament tournament = tournamentRepository.findByMatch(match);
         return "redirect:/t/" + tournament.getCode();
