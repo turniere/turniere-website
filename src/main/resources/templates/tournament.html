@@ -82,6 +82,16 @@
         </div>
     </div>
 
+    <ul>
+        <li th:each="group: ${tournament.groupStage.groups}">
+            <ul>
+                <li th:each="match: ${group.matches}">
+                    <a th:text="${match}" th:href="@{'/m/'+${match.id}}"></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
 
     <div class="stripes pt-3 mt-4" th:each="stage: ${tournament.stages}">
         <div class="container py-4">
