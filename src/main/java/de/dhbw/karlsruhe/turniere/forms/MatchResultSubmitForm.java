@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class MatchResultSubmitForm {
+    @NotNull
     @Min(0)
     private Integer scoreTeam1;
 
+    @NotNull
     @Min(0)
     private Integer scoreTeam2;
 
