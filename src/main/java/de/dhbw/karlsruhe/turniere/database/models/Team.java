@@ -32,6 +32,9 @@ public class Team {
 
     public Team(String name) {
         this.name = name;
+        this.groupScore = 0;
+        this.groupPointsReceived = 0;
+        this.groupPointsScored = 0;
     }
 
     @Override
