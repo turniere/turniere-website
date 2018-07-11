@@ -88,12 +88,22 @@ public class PlayoffService {
      * @param number Lower bound for calculated power of two
      * @return Next power of two after given number
      */
-    private int nextPowerOfTwo(int number) {
+    public int nextPowerOfTwo(int number) {
         Integer nextPower = 0;
         for (int i = 0; nextPower < number; i++) {
             nextPower = (int) Math.pow(2, i);
         }
         return nextPower;
+    }
+
+    /**
+     * Calculate previous power of two from given number
+     *
+     * @param number Upper bound for calculated power of two
+     * @return Last power of two before given number
+     */
+    public int previousPowerOfTwo(int number) {
+        return nextPowerOfTwo(number)/2;
     }
 
     /**
