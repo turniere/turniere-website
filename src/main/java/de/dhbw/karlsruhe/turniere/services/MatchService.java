@@ -121,7 +121,7 @@ public class MatchService {
         } else if (scoreTeam2 < scoreTeam1) {
             return Match.State.TEAM1_WON;
         } else {
-            return Match.State.IN_PROGRESS;
+            return Match.State.UNDECIDED;
         }
     }
 
