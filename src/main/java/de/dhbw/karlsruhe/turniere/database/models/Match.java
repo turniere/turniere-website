@@ -35,13 +35,16 @@ public class Match {
 
     private Integer position;
 
-    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position) {
+    private Boolean isGroupMatch;
+
+    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position, Boolean isGroupMatch) {
         this.team1 = team1;
         this.team2 = team2;
         this.scoreTeam1 = scoreTeam1;
         this.scoreTeam2 = scoreTeam2;
         this.state = state;
         this.position = position;
+        this.isGroupMatch = isGroupMatch;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Match {
                 ", scoreTeam2=" + scoreTeam2 +
                 ", state=" + state +
                 ", position=" + position +
+                ", isGroupMatch=" +isGroupMatch +
                 '}';
     }
 
@@ -61,6 +65,6 @@ public class Match {
     }
 
     public enum State {
-        TEAM1_WON, TEAM2_WON, IN_PROGRESS, NOT_STARTED
+        TEAM1_WON, TEAM2_WON, UNDECIDED, IN_PROGRESS, NOT_STARTED
     }
 }

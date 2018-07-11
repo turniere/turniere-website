@@ -117,7 +117,7 @@ public class PlayoffService {
         teamRepository.save(dummy);
         List<Match> matches = new ArrayList<>();
         for (int i = 0; i < numberOfMatches; i++) {
-            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED, i));
+            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED, i, false));
         }
         return matches;
     }
@@ -135,7 +135,7 @@ public class PlayoffService {
         // prevent error with only one team
         if (teams.size() == 1) {
             List<Match> matches = new ArrayList<>();
-            matches.add(new Match(teams.get(0), teams.get(0), 0, 0, Match.State.TEAM1_WON, 0));
+            matches.add(new Match(teams.get(0), teams.get(0), 0, 0, Match.State.TEAM1_WON, 0, false));
             return Pair.of(matches, 0);
         }
 
@@ -150,7 +150,7 @@ public class PlayoffService {
         // generate neededGames number of matches and add them to the list matches
         Integer lastPos = 0;
         for (int i = 0; i < neededGames; i++) {
-            matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED, i));
+            matches.add(new Match(teams.get(0), teams.get(1), null, null, Match.State.NOT_STARTED, i, false));
             teams.remove(1);
             teams.remove(0);
             lastPos = i;
@@ -158,7 +158,7 @@ public class PlayoffService {
         lastPos++;
         Integer halfEmptyGames = 0;
         while (teams.size() != 0) {
-            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, lastPos));
+            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, lastPos, false));
             teams.remove(0);
             lastPos++;
             halfEmptyGames++;
