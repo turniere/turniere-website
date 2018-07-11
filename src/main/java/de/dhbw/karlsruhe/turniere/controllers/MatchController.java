@@ -94,10 +94,6 @@ public class MatchController {
             matchService.setResults(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
         }
         Tournament tournament = tournamentRepository.findByMatch(match);
-        if (matchResultSubmitForm.getIsLive()) {
-            return "match";
-        } else {
-            return "redirect:/t/" + tournament.getCode();
-        }
+        return "redirect:/t/" + tournament.getCode();
     }
 }
