@@ -31,18 +31,18 @@ public class ProfileController {
         User user = User.fromAuthentication(authentication);
         model.addAttribute("user", user);
         // validate profile form
-        profileFormValidator.validate(profileForm, bindingResult);
+        profileFormValidator.validate(profileForm, user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "profile";
         }
         // set new attributes if set in form
-        String email = profileForm.getEmail();
-        String username = profileForm.getUsername();
-        if (!email.equals("")) {
-            user.setEmail(email);
+        String formEmail = profileForm.getEmail();
+        String formUsername = profileForm.getUsername();
+        if (!formEmail.equals("") && !formEmail.equals(user.getEmail())) {
+            user.setEmail(formEmail);
         }
-        if (!username.equals("")) {
-            user.setUsername(username);
+        if (!formUsername.equals("") && !formUsername.equals(user.getUsername())) {
+            user.setUsername(formUsername);
         }
         // save changed user
         userRepository.save(user);

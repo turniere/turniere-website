@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.turniere.forms.validators;
 
+import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.forms.ProfileForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,13 +17,17 @@ public class ProfileFormValidator extends UserFormValidator implements Validator
 
     @Override
     public void validate(Object o, Errors errors) {
-        ProfileForm registerForm = (ProfileForm) o;
-        if (!registerForm.getEmail().equals("")) {
-            rejectDuplicateEmail(registerForm.getEmail(), errors);
+    }
+
+    public void validate(ProfileForm profileForm, User user, Errors errors) {
+        String formEmail = profileForm.getEmail();
+        String formUsername = profileForm.getUsername();
+        if (!formEmail.equals("") && !formEmail.equals(user.getEmail())) {
+            rejectDuplicateEmail(profileForm.getEmail(), errors);
         }
-        if (!registerForm.getUsername().equals("")) {
-            rejectDuplicateUsername(registerForm.getUsername(), errors);
-            rejectUsernameIsValidEmail(registerForm.getUsername(), errors);
+        if (!formUsername.equals("") && !formUsername.equals(user.getUsername())) {
+            rejectDuplicateUsername(profileForm.getUsername(), errors);
+            rejectUsernameIsValidEmail(profileForm.getUsername(), errors);
         }
     }
 }
