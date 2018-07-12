@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Turnie.re - Profil</title>
+</head>
+<body>
+<h1>Profil</h1>
+<form action="#" th:action="@{/profil}" th:object="${profileForm}" method="POST">
+    <table>
+        <tr>
+            <td>E-Mail:</td>
+            <td><input type="text" th:field="*{email}" th:placeholder="${user.email}"/></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-Mail Adresse fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Nutzername:</td>
+            <td><input type="text" th:field="*{username}" th:placeholder="${user.username}"/></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/passwortaendern}">Passwort ändern</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Abschicken</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
