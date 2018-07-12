@@ -117,6 +117,8 @@ input.addEventListener("keyup", function (ev) {
 submitBtn.addEventListener("click", function () {
     if (teamnames.length > 0) {
         output.value = teamnames.toString();
+    } else {
+        showErrorMessage("Es wurden keine Teams hinzugefügt!");
     }
 });
 
