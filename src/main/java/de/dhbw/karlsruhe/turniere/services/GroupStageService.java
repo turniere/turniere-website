@@ -160,7 +160,10 @@ public class GroupStageService {
 
         for (int j = 0; j < howManyPlacesFitInt; j++) {
             for (int i = 0; i < groupNumber; i++) {
-                playoffTeams.add(groups.get(i).getTeams().get(j));
+                List<Team> teamsOfGroup = groups.get(i).getTeams();
+                teamsOfGroup.sort(Comparator.comparingInt(Team::getGroupPlace));
+                Team team = teamsOfGroup.get(j);
+                playoffTeams.add(team);
             }
         }
         if (playoffTeams.size() != playoffSize) {
