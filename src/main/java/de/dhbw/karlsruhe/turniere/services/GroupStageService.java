@@ -151,8 +151,8 @@ public class GroupStageService {
     public List<Team> getPlayoffTeams(GroupStage groupStage) {
         List<Team> playoffTeams = new ArrayList<>();
         List<Group> groups = groupStage.getGroups();
-        int groupNumber = groupStage.getGroups().size();
-        int groupSize = groupStage.getGroups().get(0).getTeams().size();
+        int groupNumber = groups.size();
+        int groupSize = groups.get(0).getTeams().size();
         int playoffSize = playoffService.previousPowerOfTwo(groupSize * groupNumber);
 
         Double howManyPlacesFitDouble = (double) playoffSize / groupNumber;
