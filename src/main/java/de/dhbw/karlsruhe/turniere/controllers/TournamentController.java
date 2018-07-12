@@ -79,8 +79,10 @@ public class TournamentController {
         if (tournament.getQrcode() != null) {
             model.addAttribute("qrcode", new String(tournament.getQrcode()));
         }
-        boolean ownerIsAuthenticated = authentication != null && tournamentRepository.findOwner(tournament).equals(User.fromAuthentication(authentication));
+        User owner = tournamentRepository.findOwner(tournament);
+        boolean ownerIsAuthenticated = authentication != null && owner.equals(User.fromAuthentication(authentication));
         model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
+        model.addAttribute("ownerName", owner.getUsername());
         return "tournament";
     }
 }
