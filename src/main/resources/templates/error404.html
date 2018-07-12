@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head"></head>
+
+<head>
+    <title>Seite nicht gefunden -turnie.re</title>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main role="main">
+
+    <div class="big-image">
+        <h1 class="display-1">Error 404</h1>
+    </div>
+
+    <div class="card my-2" style="width: 95%; margin:0 auto">
+        <h2>Die von Ihnen aufgerufene Seite wurde leider nicht gefunden.</h2>
+        <p>
+            Anscheinend ist der von Ihnen eingegeben Link kaputt, oder doe Seite wurde von uns entfernt.
+        </p>
+        <p>
+            Versuchen Sie die gewünschte Seite von unserer <a href="index.html">Startseite</a> aus zu erreichen.
+        </p>
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
