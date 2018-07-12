@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toList;
 
 @Component
 @RequiredArgsConstructor
@@ -107,7 +108,7 @@ public class GroupStageService {
     public void updateTeamPoints(Team team) {
         Group group = groupRepository.findByTeamsContains(team);
         List<Team> allTeams = group.getTeams();
-        List<Match> allMatches = group.getMatches().stream().filter(match -> match.getTeam1().equals(team) || match.getTeam2().equals(team)).collect(Collectors.toList());
+        List<Match> allMatches = group.getMatches().stream().filter(match -> match.getTeam1().equals(team) || match.getTeam2().equals(team)).collect(toList());
         int pointsRecieved = 0;
         int pointsScored = 0;
         int score = 0;
@@ -153,15 +154,8 @@ public class GroupStageService {
         int groupNumber = groupStage.getGroups().size();
         int groupSize = groupStage.getGroups().get(0).getTeams().size();
         int playoffSize = playoffService.previousPowerOfTwo(groupSize * groupNumber);
-        int cycle = 0;
 
-        /*List<List<Team>> allTeams = new ArrayList<>();
-        for (Group group : groups) {
-            List<Team> groupTeams = group.getTeams();
-            groupTeams.sort(Comparator.comparingInt(Team::getGroupPlace));
-            allTeams.add(groupTeams);
-        }*/
-        Double howManyPlacesFitDouble = (double) playoffSize / groupSize;
+        Double howManyPlacesFitDouble = (double) playoffSize / groupNumber;
         int howManyPlacesFitInt = howManyPlacesFitDouble.intValue();
 
         for (int j = 0; j < howManyPlacesFitInt; j++) {
@@ -174,58 +168,18 @@ public class GroupStageService {
             for (int i = 0; i < groupNumber; i++) {
                 remainingTeams.add(groups.get(i).getTeams().get(howManyPlacesFitInt));
             }
-            remainingTeams.sort(Comparator.comparingInt(Team::getGroupPlace));
+            remainingTeams.sort(Comparator.comparingInt(Team::getGroupPlace)
+                    .thenComparing(comparing(Team::getGroupScore).reversed())
+                    .thenComparing(comparing(Team::getGroupPointsScored).reversed())
+                    .thenComparing(Team::getGroupPointsReceived));
+
             int remainingTeamsNeeded = playoffSize - playoffTeams.size();
             for (int i = 0; i < (remainingTeamsNeeded); i++) {
                 playoffTeams.add(remainingTeams.get(i));
             }
 
         }
-/*        for (List<Team> teams : allTeams) {
-            for (Team team : teams) {
 
-            }
-        }*/
-
-
-
-        /*
-        for (int i = 1; i < playoffSize/groupSize; i++){
-            for (Group group: groups){
-                List<Team> teams = group.getTeams();
-                Collections.sort(teams, Comparator.comparingInt(Team::getGroupScore));
-                playoffTeams.add(teams.get(i - 1));
-                cycle++;
-            }
-        }
-        List<Team> remainingTeams = new ArrayList<>();
-        for (Group group: groups){
-            List<Team> teams = group.getTeams();
-            Collections.sort(teams, Comparator.comparingInt(Team::getGroupScore));
-            remainingTeams.add(teams.get(cycle));
-        }
-        Collections.sort(remainingTeams,Comparator.comparingInt(Team::getGroupScore));
-        for (int i = 0; i<playoffSize; i++){
-            playoffTeams.add(remainingTeams.get(i));
-        }
-*/
-/*
-
-        for (int i = 0; i < playoffSize; i++){
-            playoffTeams.add(teams.get(i));
-        }
-
-
-
-
-        for (int i = 0; i < playoffSize; i++) {
-            for (int j = 0; i < playoffSize; j++, i++) {
-                List<Team> teams = groups.get(i).getTeams();
-                Collections.sort(teams, Comparator.comparingInt(Team::getGroupPlace));
-                playoffTeams.add(teams.get(j));
-            }
-        }
-*/
         return playoffTeams;
     }
 
