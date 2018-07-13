@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <ul>
+    <ul th:if="${tournament.groupStage}">
         <li th:each="group: ${tournament.groupStage.groups}">
             <ul>
                 <li th:each="match: ${group.matches}">
