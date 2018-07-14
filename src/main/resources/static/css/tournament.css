@@ -1,5 +1,9 @@
-.stripes:nth-child(odd) {
+.groupphase, .stripes-odd:nth-child(odd) {
     background-color: #f5f5f5;
+}
+
+.inline-flex {
+    display: inline-flex;
 }
 
 .minw-25 {
