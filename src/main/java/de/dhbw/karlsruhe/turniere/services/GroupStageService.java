@@ -136,16 +136,27 @@ public class GroupStageService {
         team.setGroupPointsReceived(pointsRecieved);
         team.setGroupPointsScored(pointsScored);
         team.setGroupScore(score);
-        teamRepository.save(team);
-        Collections.sort(allTeams, comparingInt(Team::getGroupScore));
         int allTeamsSize = allTeams.size();
+        for (int i = 0; i < allTeamsSize; i++) {
+            allTeams.get(allTeamsSize - 1 - i).setGroupPlace(0);
+        }
+        sortTeams(allTeams);
         for (int i = 0; i < allTeamsSize; i++) {
             allTeams.get(allTeamsSize - 1 - i).setGroupPlace(i);
         }
+        teamRepository.saveAll(allTeams);
     }
 
     public Boolean isGroupOver(Match match) {
         return isOver(groupRepository.findByMatchesContains(match));
+    }
+
+    private List<Team> sortTeams(List<Team> teams){
+        teams.sort(Comparator.comparingInt(Team::getGroupPlace)
+                .thenComparing(comparing(Team::getGroupScore).reversed())
+                .thenComparing(comparing(Team::getGroupPointsScored).reversed())
+                .thenComparing(Team::getGroupPointsReceived));
+        return teams;
     }
 
     public List<Team> getPlayoffTeams(GroupStage groupStage) {
@@ -171,10 +182,7 @@ public class GroupStageService {
             for (int i = 0; i < groupNumber; i++) {
                 remainingTeams.add(groups.get(i).getTeams().get(howManyPlacesFitInt));
             }
-            remainingTeams.sort(Comparator.comparingInt(Team::getGroupPlace)
-                    .thenComparing(comparing(Team::getGroupScore).reversed())
-                    .thenComparing(comparing(Team::getGroupPointsScored).reversed())
-                    .thenComparing(Team::getGroupPointsReceived));
+            sortTeams(remainingTeams);
 
             int remainingTeamsNeeded = playoffSize - playoffTeams.size();
             for (int i = 0; i < (remainingTeamsNeeded); i++) {
