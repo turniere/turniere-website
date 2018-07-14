@@ -21,7 +21,7 @@
             <div class="card-body" id="meine">
                 <h2>Meine Turniere</h2>
                 <div th:each="tournament: ${privateTournaments}">
-                    <a class="btn btn-outline-dark w-100 text-left font-weight-bold mt-2"
+                    <a class="btn btn-outline-dark w-100 text-left font-weight-bold mt-2 text-truncate"
                        th:href="@{'/t/' + ${tournament.code}}">
                         <span th:text="${tournament.name}"></span>
                         <span class="badge badge-danger ml-2" th:if="${tournament.isPublic}">Öffentlich</span>
@@ -35,7 +35,7 @@
             <div class="card-body">
                 <h2>Öffentliche Turniere</h2>
                 <div th:each="tournament: ${publicTournaments}">
-                    <a class="btn btn-outline-secondary w-100 text-left font-weight-bold mt-2"
+                    <a class="btn btn-outline-secondary w-100 text-left font-weight-bold mt-2 text-truncate"
                        th:href="@{'/t/' + ${tournament.code}}">
                         <span th:text="${tournament.name}"></span>
                         <span class="badge badge-secondary ml-2" th:if="${tournament.winner}">Beendet</span>
