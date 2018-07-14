@@ -20,22 +20,26 @@
             <div class="col-md-8" th:text="${tournament.description}">
             </div>
 
-            <div class="col-md-4 text-right">
-                <div class="h3">
-                    <div class="badge badge-danger font-weight-light" th:if="${tournament.isPublic}">
-                        Das Turnier ist öffentlich
+            <div class="col-md-4">
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-warning" th:if="${tournament.isPublic}">
+                        Das Turnier ist öffentlich.
                     </div>
-                    <div class="badge badge-secondary font-weight-light" th:if="${! tournament.isPublic}">
-                        Das Turnier ist privat
+                    <div class="list-group-item" th:if="${! tournament.isPublic}">
+                        Das Turnier ist privat.
+                    </div>
+                    <div class="list-group-item">
+                        von <strong th:text="${ownerName}"></strong>
+                    </div>
+                    <div class="list-group-item">
+                        Turnier-Code: <strong th:text="${tournament.code}"></strong>
                     </div>
                 </div>
                 <!-- QrModal trigger button -->
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#qrModal">
+                <button type="button" class="btn btn-outline-primary mt-3 w-100" data-toggle="modal" data-target="#qrModal">
                     Turnier per QR-Code teilen
                 </button>
-                <div class="pt-3 pl-3">
-                    Turnier-Code: <strong th:text="${tournament.code}"></strong>
-                </div>
+
                 <!-- QrModal -->
                 <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
                      aria-hidden="true">
