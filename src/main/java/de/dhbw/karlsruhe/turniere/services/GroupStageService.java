@@ -138,11 +138,11 @@ public class GroupStageService {
         team.setGroupScore(score);
         int allTeamsSize = allTeams.size();
         for (int i = 0; i < allTeamsSize; i++) {
-            allTeams.get(allTeamsSize - 1 - i).setGroupPlace(0);
+            allTeams.get(i).setGroupPlace(0);
         }
         sortTeams(allTeams);
         for (int i = 0; i < allTeamsSize; i++) {
-            allTeams.get(allTeamsSize - 1 - i).setGroupPlace(i);
+            allTeams.get(i).setGroupPlace(i);
         }
         teamRepository.saveAll(allTeams);
     }
