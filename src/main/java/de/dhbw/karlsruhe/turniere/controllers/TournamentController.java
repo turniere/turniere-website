@@ -1,8 +1,7 @@
 package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
-import de.dhbw.karlsruhe.turniere.database.models.Tournament;
-import de.dhbw.karlsruhe.turniere.database.models.User;
+import de.dhbw.karlsruhe.turniere.database.models.*;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -74,6 +75,19 @@ public class TournamentController {
         if (tournament == null) {
             throw new ResourceNotFoundException("Tournament with code '" + code + "'");
         }
+        //sort matches and teams
+        tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
+        tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
+        Optional.ofNullable(tournament.getGroupStage())
+                .ifPresent(groupStage -> groupStage.getGroups().forEach(group -> {
+                    group.getTeams().forEach(team -> {
+                        if (team.getGroupPlace() == null) {
+                            team.setGroupPlace(0);
+                        }
+                    });
+                    group.getTeams().sort(Comparator.comparing(Team::getGroupPlace).thenComparing(Team::getName));
+                    group.getMatches().sort(Comparator.comparing(Match::getPosition));
+                }));
         // add tournament object to model
         model.addAttribute("tournament", tournament);
         if (tournament.getQrcode() != null) {
