@@ -204,6 +204,19 @@
                                             </div>
                                         </div>
 
+                                        <div class="card mt-4 border-success shadow-sm" th:if="${match.state.name() == 'UNDECIDED'}">
+                                            <div class="card-body">
+                                                <div class="alert alert-success h4">
+                                                    <span th:text="${match.team1.name}"></span>
+                                                    <div class="badge badge-light ml-3 float-right" th:text="${match.scoreTeam1}"></div>
+                                                </div>
+                                                <div class="alert alert-success h4">
+                                                    <span th:text="${match.team2.name}"></span>
+                                                    <div class="badge badge-light ml-3 float-right" th:text="${match.scoreTeam2}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
