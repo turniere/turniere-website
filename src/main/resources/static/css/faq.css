@@ -1,8 +1,14 @@
-.card-header-tabs {
+.card-header-tabs, h2 {
     font-family: Halt, sans-serif;
 }
 
-h2 {
-    font-family: Halt, sans-serif;
-    font-size: 1.5em;
+.tab-pane p {
+    margin-left: 1em;
+    margin-right: 1em;
+    text-indent: 0.5em;
+    text-align: justify;
+}
+
+.tab-pane h4:not(:first-child) {
+    margin-top: 2em;
 }
