@@ -46,7 +46,7 @@ public class MatchService {
         // set scores
         setScore(match, scoreTeam1, scoreTeam2);
         // set state
-        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2()));
+        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2(),match.getIsGroupMatch()));
         // find next stage
         populateStageBelow(tournamentRepository.findByMatch(match), match);
         // save match
@@ -114,7 +114,7 @@ public class MatchService {
      * @param scoreTeam2 Score of Team 2
      * @return Winner of the Game as State
      */
-    private Match.State evaluateWinner(Integer scoreTeam1, Integer scoreTeam2) {
+    private Match.State evaluateWinner(Integer scoreTeam1, Integer scoreTeam2, Boolean isGroupMatch) {
         if (scoreTeam1 == null) {
             return Match.State.TEAM1_WON;
         }
@@ -123,7 +123,11 @@ public class MatchService {
         } else if (scoreTeam2 < scoreTeam1) {
             return Match.State.TEAM1_WON;
         } else {
-            return Match.State.UNDECIDED;
+            if (isGroupMatch){
+                return Match.State.UNDECIDED;
+            }else{
+                return Match.State.IN_PROGRESS;
+            }
         }
     }
 
