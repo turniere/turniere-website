@@ -124,7 +124,7 @@ public class GroupStageService {
             } else if (match.getTeam2() == team) {
                 pointsRecieved = pointsRecieved + match.getScoreTeam1();
                 pointsScored = pointsScored + match.getScoreTeam2();
-                if (match.getState() == Match.State.TEAM1_WON) {
+                if (match.getState() == Match.State.TEAM2_WON) {
                     score = score + 3;
                 } else if (match.getState() == Match.State.UNDECIDED) {
                     score = score + 1;
