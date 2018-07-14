@@ -93,7 +93,16 @@
                 <div th:each="group : ${tournament.groupStage.groups}">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body">
-                            <h2 class="alert alert-light text-dark">Gruppe <span th:text="${group.name}"></span></h2>
+                            <h2 class="alert alert-light text-dark">Gruppe <span th:text="${group.name}"></span>
+                                <small class="float-right">
+                                    <a class="btn btn-outline-secondary" data-toggle="collapse"
+                                       th:href="'#group-matches-' + ${group.name}"
+                                       role="button" aria-expanded="false"
+                                       data-th-attr="aria-controls=${'#group-matches-' + group.name}">
+                                        Matches anzeigen
+                                    </a>
+                                </small>
+                            </h2>
                             <table class="table table-hover">
                                 <thead><tr>
                                     <th scope="col">Platz</th>
@@ -112,7 +121,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div class="row">
+                            <div class="row collapse" th:id="'group-matches-' + ${group.name}">
                                 <div class="col-lg minw-25" th:each="match: ${group.matches}">
                                     <div th:if="${match.team1 == match.team2}">
 
