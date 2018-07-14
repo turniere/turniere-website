@@ -82,11 +82,13 @@ public class MatchService {
                 populateMatchBelow(nextStage, match, winningTeam);
             }
         } else {
-            // ensure winning team is already set
-            if (winningTeam != null) {
-                // final match => set tournament winner
-                tournament.setWinner(winningTeam);
-                tournamentRepository.save(tournament);
+            if(!match.getIsGroupMatch()){
+                // ensure winning team is already set
+                if (winningTeam != null) {
+                    // final match => set tournament winner
+                    tournament.setWinner(winningTeam);
+                    tournamentRepository.save(tournament);
+                }
             }
         }
     }
