@@ -100,7 +100,7 @@
                                 </tr></thead>
                                 <tbody th:each="team : ${group.teams}">
                                 <tr>
-                                    <th scope="row" th:text="${team.groupPlace}"></th>
+                                    <th scope="row" th:text="${team.groupPlace + 1}"></th>
                                     <td th:text="${team.name}"></td>
                                     <td th:text="${team.groupScore}"></td>
                                     <td th:text="${team.groupPointsScored}"></td>
