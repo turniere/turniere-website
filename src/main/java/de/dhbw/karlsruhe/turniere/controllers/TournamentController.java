@@ -80,11 +80,6 @@ public class TournamentController {
         tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
         Optional.ofNullable(tournament.getGroupStage())
                 .ifPresent(groupStage -> groupStage.getGroups().forEach(group -> {
-                    group.getTeams().forEach(team -> {
-                        if (team.getGroupPlace() == null) {
-                            team.setGroupPlace(0);
-                        }
-                    });
                     group.getTeams().sort(Comparator.comparing(Team::getGroupPlace).thenComparing(Team::getName));
                     group.getMatches().sort(Comparator.comparing(Match::getPosition));
                 }));
