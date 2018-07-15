@@ -14,25 +14,30 @@ import de.dhbw.karlsruhe.turniere.exceptions.MatchIncompleteException;
 import de.dhbw.karlsruhe.turniere.exceptions.MatchLockedException;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.MatchResultSubmitForm;
-import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
 import de.dhbw.karlsruhe.turniere.services.GroupStageService;
 import de.dhbw.karlsruhe.turniere.services.MatchService;
 import de.dhbw.karlsruhe.turniere.services.PlayoffService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MatchController {
     private final TournamentRepository tournamentRepository;
@@ -85,38 +90,56 @@ public class MatchController {
     }
 
     @GetMapping("/m/{matchId}")
-    String match(@PathVariable Long matchId, Model model, MatchResultSubmitForm matchResultSubmitForm, Authentication authentication) {
-        model.addAttribute("match", safeGetMatch(matchId, authentication));
-        return "match";
+    ResponseEntity<?> match(@PathVariable Long matchId, Authentication authentication) {
+        Match match = safeGetMatch(matchId, authentication);
+        return new ResponseEntity<>(new MatchResponse(match), HttpStatus.OK);
     }
 
     @PostMapping("/m/{matchId}")
-    String postMatch(@PathVariable Long matchId, @Valid MatchResultSubmitForm matchResultSubmitForm, BindingResult bindingResult, Model model, Authentication authentication) {
+    ResponseEntity<?> postMatch(@PathVariable Long matchId, @Valid @RequestBody MatchResultSubmitForm matchResultSubmitForm, BindingResult bindingResult, Authentication authentication) {
         Match match = safeGetMatch(matchId, authentication);
-        // add match to template model
-        model.addAttribute("match", match);
         // validate form doesn't have errors
         if (bindingResult.hasErrors()) {
-            return "match";
+            // convert form errors to json serializable objects
+            return new ResponseEntity<>(new MatchResponse(bindingResult.getFieldErrors()), HttpStatus.BAD_REQUEST);
         }
         // set scores
-        if (matchResultSubmitForm.getIsLive()) {
-            matchService.setLivescore(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
+        if (matchResultSubmitForm.getLive()) {
+            matchService.setLivescore(match, matchResultSubmitForm.getScore1(), matchResultSubmitForm.getScore2());
         } else {
-            matchService.setResults(match, matchResultSubmitForm.getScoreTeam1(), matchResultSubmitForm.getScoreTeam2());
+            matchService.setResults(match, matchResultSubmitForm.getScore1(), matchResultSubmitForm.getScore2());
         }
         if (match.getIsGroupMatch()) {
             groupStageService.updateTeamPoints(match.getTeam1());
             groupStageService.updateTeamPoints(match.getTeam2());
             GroupStage groupStage = groupStageRepository.findByGroupsContains(groupRepository.findByMatchesContains(match));
-            if (groupStageService.isGroupStageOver(groupStage)){
+            if (groupStageService.isGroupStageOver(groupStage)) {
                 List<Team> teams = groupStageService.getPlayoffTeams(groupStage);
                 Tournament tournament = tournamentRepository.findByGroupStage(groupStage);
                 playoffService.generatePlayoffs(teams, tournament);
                 tournamentRepository.save(tournament);
             }
         }
-        Tournament tournament = tournamentRepository.findByMatch(match);
-        return "redirect:/t/" + tournament.getCode();
+        return new ResponseEntity<>(new MatchResponse(match), HttpStatus.OK);
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class MatchResponse {
+        private String error = "";
+        private List<FieldError> formErrors = new ArrayList<>();
+        private Match data;
+
+        private MatchResponse(String error) {
+            this.error = error;
+        }
+
+        private MatchResponse(List<FieldError> formErrors) {
+            this.formErrors = formErrors;
+        }
+
+        private MatchResponse(Match data) {
+            this.data = data;
+        }
     }
 }

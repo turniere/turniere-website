@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 public class MatchResultSubmitForm {
     @NotNull
     @Min(0)
-    private Integer scoreTeam1;
+    private Integer score1;
 
     @NotNull
     @Min(0)
-    private Integer scoreTeam2;
+    private Integer score2;
 
     @NotNull
-    private Boolean isLive;
+    private Boolean live;
 }
