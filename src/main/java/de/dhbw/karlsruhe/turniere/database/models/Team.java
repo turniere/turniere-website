@@ -35,6 +35,7 @@ public class Team {
         this.groupScore = 0;
         this.groupPointsReceived = 0;
         this.groupPointsScored = 0;
+        this.groupPlace = 0;
     }
 
     @Override
