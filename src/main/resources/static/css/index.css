@@ -21,6 +21,11 @@
     margin-bottom: 2em;
 }
 
+.index-cards {
+    background: url("../images/tennis-blurred.jpg") no-repeat center;
+    background-size: cover;
+}
+
 .big-image h1 {
     font-size: 6em;
     text-shadow: 0.1em 0.1em black;
