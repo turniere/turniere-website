@@ -154,7 +154,7 @@
                                     </div>
                                     <div th:if="${match.team1 != match.team2}">
 
-                                        <div class="card mt-4 border-warning shadow-sm" th:if="${match.state.name() == 'IN_PROGRESS'}">
+                                        <div class="card mt-4 border-warning shadow-sm" th:if="${match.state.name() == 'IN_PROGRESS'}" data-th-attr="aria-controls=${match.id}">
                                             <div class="card-body">
                                                 <div class="alert alert-warning h6">
                                                     <span th:text="${match.team1.name}"></span>
@@ -166,13 +166,17 @@
                                                     <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
                                                           th:text="${match.scoreTeam2}"></span>
                                                 </div>
-                                                <a class="btn btn-outline-dark" th:if="${ownerIsAuthenticated}" th:href="@{'/m/' + ${match.id}}">
-                                                    Punktestand ändern
-                                                </a>
+                                                <div th:if="${ownerIsAuthenticated}">
+                                                    <!-- PointsModal trigger button -->
+                                                    <button type="button" class="btn btn-outline-dark changeScoreButton" data-toggle="modal"
+                                                            data-target="#pointsModal">
+                                                        Punktestand ändern
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
+                                        <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}" data-th-attr="aria-controls=${match.id}">
                                             <div class="card-body">
                                                 <div class="alert h6"
                                                      th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
@@ -182,10 +186,10 @@
                                                      th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
                                                      th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                                 </div>
-                                                <a class="btn btn-outline-dark"
-                                                   th:if="${ownerIsAuthenticated}"
-                                                   th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled"
-                                                   th:href="@{'/m/' + ${match.id}}">Spiel starten</a>
+                                                <button type="button" class="btn btn-outline-dark startGameButton"
+                                                        th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled">
+                                                    Spiel starten
+                                                </button>
                                             </div>
                                         </div>
 
@@ -297,52 +301,6 @@
                                                 data-target="#pointsModal">
                                             Punktestand ändern
                                         </button>
-                                        <!-- PointsModal -->
-                                        <div class="modal fade" id="pointsModal" tabindex="-1" role="dialog"
-                                             aria-labelledby="qrModalLabel"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title overflow-auto" id="pointsModalLabel">
-                                                            Punktestand ändern
-                                                        </h4>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div>
-                                                            <div class="form-group">
-                                                                <label for="score1Input">
-                                                                    Punkte <strong id="modalNameTeam1"></strong>
-                                                                </label>
-                                                                <input class="form-control" id="score1Input" type="number"
-                                                                       name="scoreTeam1">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="score2Input">
-                                                                    Punkte <strong id="modalNameTeam2"></strong>
-                                                                </label>
-                                                                <input class="form-control" id="score2Input" type="number"
-                                                                       name="scoreTeam2">
-                                                            </div>
-                                                            <div class="form-group custom-control custom-checkbox">
-                                                                <input class="custom-control-input" id="isLiveInput"
-                                                                       type="checkbox" name="isLive" checked>
-                                                                <label for="isLiveInput" class="custom-control-label">
-                                                                    Spiel läuft noch
-                                                                </label>
-                                                            </div>
-                                                            <button class="btn btn-success w-100" id="submitScoreButton">
-                                                                aktualisieren
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -404,6 +362,52 @@
         </div>
     </div>
 
+    <!-- PointsModal -->
+    <div class="modal fade" id="pointsModal" tabindex="-1" role="dialog"
+         aria-labelledby="qrModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title overflow-auto" id="pointsModalLabel">
+                        Punktestand ändern
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="score1Input">
+                                Punkte <strong id="modalNameTeam1"></strong>
+                            </label>
+                            <input class="form-control" id="score1Input" type="number"
+                                   name="scoreTeam1">
+                        </div>
+                        <div class="form-group">
+                            <label for="score2Input">
+                                Punkte <strong id="modalNameTeam2"></strong>
+                            </label>
+                            <input class="form-control" id="score2Input" type="number"
+                                   name="scoreTeam2">
+                        </div>
+                        <div class="form-group custom-control custom-checkbox">
+                            <input class="custom-control-input" id="isLiveInput"
+                                   type="checkbox" name="isLive" checked>
+                            <label for="isLiveInput" class="custom-control-label">
+                                Spiel läuft noch
+                            </label>
+                        </div>
+                        <button class="btn btn-success w-100" id="submitScoreButton">
+                            aktualisieren
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

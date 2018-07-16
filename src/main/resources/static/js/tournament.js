@@ -8,6 +8,7 @@ $(function () {
 
 $(".changeScoreButton").click(function () {
     var matchID = $(this).parent().parent().parent().attr("aria-controls");
+    $("#pointsModal").attr("data-matchID", matchID);
     $.ajax({
         type: "GET",
         url: "/m/" + matchID,
@@ -22,7 +23,7 @@ $(".changeScoreButton").click(function () {
 });
 
 $(".startGameButton").click(function () {
-    var matchID = $(this).parent().parent().children().first().text();
+    var matchID = $(this).parent().parent().attr("aria-controls");
     var matchInfo = {
         "live": true,
         "score1": 0,
@@ -44,7 +45,7 @@ $(".startGameButton").click(function () {
 });
 
 $("#submitScoreButton").click(function () {
-    var matchID = $(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("aria-controls");
+    var matchID = $("#pointsModal").attr("data-matchID");
     var matchInfo = {
         "live": ($("#isLiveInput").is(":checked")),
         "score1": $("#score1Input").val(),
