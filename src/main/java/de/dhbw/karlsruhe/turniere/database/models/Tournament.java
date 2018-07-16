@@ -3,6 +3,8 @@ package de.dhbw.karlsruhe.turniere.database.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,6 +50,7 @@ public class Tournament {
     private GroupStage groupStage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     private List<Stage> stages = new ArrayList<>();
 
     private byte[] qrcode;
