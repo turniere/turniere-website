@@ -100,6 +100,7 @@ public class TournamentService {
         }
         // set owner to authenticated user
         tournament.setOwner(owner);
+        owner.getTournaments().add(tournament);
         // save tournament object
         tournament = tournamentRepository.save(tournament);
         return tournament;
