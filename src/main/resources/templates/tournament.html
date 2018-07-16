@@ -278,7 +278,8 @@
                         </div>
                         <div th:if="${match.team1 != match.team2}">
 
-                            <div class="card mt-4 border-warning shadow-sm" th:if="${match.state.name() == 'IN_PROGRESS'}">
+                            <div class="card mt-4 border-warning shadow-sm" th:if="${match.state.name() == 'IN_PROGRESS'}" data-th-attr="aria-controls=${match.id}">
+                            <span th:text="${match.id}" style="display: none"></span>
                                 <div class="card-body">
                                     <div class="alert alert-warning h6">
                                         <span th:text="${match.team1.name}"></span>
@@ -292,7 +293,7 @@
                                     </div>
                                     <div th:if="${ownerIsAuthenticated}">
                                         <!-- PointsModal trigger button -->
-                                        <button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                                        <button type="button" class="btn btn-outline-dark changeScoreButton" data-toggle="modal"
                                                 data-target="#pointsModal">
                                             Punktestand ändern
                                         </button>
@@ -312,20 +313,20 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" th:action="@{'/m/' + ${match.id}}">
+                                                        <div>
                                                             <div class="form-group">
                                                                 <label for="score1Input">
-                                                                    Punkte <strong th:text="${match.team1.name}"></strong>
+                                                                    Punkte <strong id="modalNameTeam1"></strong>
                                                                 </label>
                                                                 <input class="form-control" id="score1Input" type="number"
-                                                                       name="scoreTeam1" th:value="${match.scoreTeam1}">
+                                                                       name="scoreTeam1">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="score2Input">
-                                                                    Punkte <strong th:text="${match.team2.name}"></strong>
+                                                                    Punkte <strong id="modalNameTeam2"></strong>
                                                                 </label>
                                                                 <input class="form-control" id="score2Input" type="number"
-                                                                       name="scoreTeam2" th:value="${match.scoreTeam2}">
+                                                                       name="scoreTeam2">
                                                             </div>
                                                             <div class="form-group custom-control custom-checkbox">
                                                                 <input class="custom-control-input" id="isLiveInput"
@@ -334,10 +335,10 @@
                                                                     Spiel läuft noch
                                                                 </label>
                                                             </div>
-                                                            <button class="btn btn-success w-100" type="submit">
+                                                            <button class="btn btn-success w-100" id="submitScoreButton">
                                                                 aktualisieren
                                                             </button>
-                                                        </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,6 +348,7 @@
                             </div>
 
                         <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
+                            <span th:text="${match.id}" style="display: none"></span>
                             <div class="card-body">
                                 <div class="alert h6"
                                      th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
@@ -356,15 +358,10 @@
                                      th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
                                      th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                 </div>
-                                <form th:action="@{'/m/' + ${match.id}}" method="post" th:if="${ownerIsAuthenticated}">
-                                    <input type="number" name="scoreTeam1" value="0" hidden>
-                                    <input type="number" name="scoreTeam2" value="0" hidden>
-                                    <input type="checkbox" name="isLive" checked hidden>
-                                    <button type="submit" class="btn btn-outline-dark"
+                                <button type="button" class="btn btn-outline-dark startGameButton"
                                             th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled">
                                         Spiel starten
                                     </button>
-                                </form>
                             </div>
                         </div>
 
@@ -410,8 +407,8 @@
 </main>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -419,4 +416,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+<script src="/js/tournament.js"></script>
 </html>
