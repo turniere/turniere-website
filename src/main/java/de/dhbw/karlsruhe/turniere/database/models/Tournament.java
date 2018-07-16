@@ -55,6 +55,9 @@ public class Tournament {
     @ManyToOne
     private Team winner;
 
+    @ManyToOne
+    private User owner;
+
     public Tournament(String name, String code, String description, Boolean isPublic, List<Team> teams) {
         this.name = name;
         this.code = code;

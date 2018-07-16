@@ -37,7 +37,7 @@ public class User {
 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "owner")
     private List<Tournament> tournaments = new ArrayList<>();
 
     public User(String username, String email, String password) {
