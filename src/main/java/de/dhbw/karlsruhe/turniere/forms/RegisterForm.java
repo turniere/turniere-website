@@ -11,17 +11,17 @@ import javax.validation.constraints.Size;
 @Setter
 public class RegisterForm {
     @NotEmpty
+    @Size(max = 255)
     private String username;
 
     @NotEmpty
     @Email
+    @Size(max = 255)
     private String email;
 
-    @NotEmpty
-    @Size(min = 12)
+    @Size(min = 12, max = 255)
     private String password;
 
-    @NotEmpty
-    @Size(min = 12)
+    @Size(min = 12, max = 255)
     private String repassword;
 }
