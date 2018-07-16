@@ -39,8 +39,4 @@ public class TournamentRepositoryImpl implements CustomTournamentRepository {
         // find corresponding tournament
         return tournamentRepository.findByStagesContains(stage);
     }
-
-    public User findOwner(Tournament tournament) {
-        return userRepository.findByTournamentsContains(tournament);
-    }
 }

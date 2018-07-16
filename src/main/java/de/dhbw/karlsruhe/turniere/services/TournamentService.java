@@ -23,7 +23,6 @@ public class TournamentService {
     private final QRService qrService;
     private final PlayoffService playoffService;
     private final GroupStageService groupStageService;
-    private final UserRepository userRepository;
 
     public static String[] splitTeamnames(String string) {
         return string.split(",");
@@ -99,12 +98,10 @@ public class TournamentService {
         } else {
             groupStageService.generateGroupStage(teams, tournament, groupSize);
         }
+        // set owner to authenticated user
+        tournament.setOwner(owner);
         // save tournament object
         tournament = tournamentRepository.save(tournament);
-        // add saved tournament object to authenticated user (owner)
-        owner.getTournaments().add(tournament);
-        // save updated user in repository
-        userRepository.save(owner);
         return tournament;
 
     }

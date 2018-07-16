@@ -68,7 +68,7 @@ public class MatchController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User authenticatedUser = userDetails.getUser();
         // find match owner
-        User owner = tournamentRepository.findOwner(tournament);
+        User owner = tournament.getOwner();
         // verify owner is authenticated user
         if (!authenticatedUser.equals(owner)) {
             throw new AccessDeniedException(exceptionMessage);
