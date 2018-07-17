@@ -138,7 +138,7 @@
                                                 <div class="alert alert-light h6">
                                                     steht noch nicht fest
                                                 </div>
-                                                <div class="alert alert-light h6">
+                                                <div class="alert alert-light h6 mb-0">
                                                     steht noch nicht fest
                                                 </div>
                                             </div>
@@ -150,7 +150,7 @@
                                                 <div class="alert alert-success h6">
                                                     <strong><span th:text="${match.team1.name}"></span></strong>
                                                 </div>
-                                                <div class="alert alert-light h6">
+                                                <div class="alert alert-light h6 mb-0">
                                                     kein Gegner
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@
                                                           th:if="${match.scoreTeam1 != null}"
                                                           th:text="${match.scoreTeam1}"></span>
                                                 </div>
-                                                <div class="alert alert-warning h6">
+                                                <div class="alert alert-warning h6 mb-0">
                                                     <span th:text="${match.team2.name}"></span>
                                                     <span class="badge badge-light float-right"
                                                           th:if="${match.scoreTeam2 != null}"
@@ -177,7 +177,7 @@
                                                 </div>
                                                 <div th:if="${ownerIsAuthenticated}">
                                                     <!-- PointsModal trigger button -->
-                                                    <button type="button" class="btn btn-outline-dark changeScoreButton"
+                                                    <button type="button" class="btn btn-outline-dark mt-3 changeScoreButton"
                                                             data-toggle="modal"
                                                             data-target="#pointsModal">
                                                         Punktestand ändern
@@ -193,11 +193,11 @@
                                                      th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
                                                      th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
                                                 </div>
-                                                <div class="alert h6"
+                                                <div class="alert h6 mb-0"
                                                      th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
                                                      th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                                 </div>
-                                                <button type="button" class="btn btn-outline-dark startGameButton"
+                                                <button type="button" class="btn btn-outline-dark mt-3 startGameButton"
                                                         th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
                                                     Spiel starten
                                                 </button>
@@ -215,7 +215,7 @@
                                                               th:text="${match.scoreTeam1}"></span>
                                                     </div>
                                                 </div>
-                                                <div class="alert alert-secondary h6 text-right">
+                                                <div class="alert alert-secondary h6 text-right mb-0">
                                                     <span class="float-left" th:text="${match.team2.name}"></span>
                                                     <span class="badge badge-light ml-3"
                                                           th:text="${match.scoreTeam2}"></span>
@@ -231,7 +231,7 @@
                                                     <div class="badge badge-light ml-3 float-right"
                                                          th:text="${match.scoreTeam1}"></div>
                                                 </div>
-                                                <div class="alert alert-success h6 overflow-auto">
+                                                <div class="alert alert-success h6 overflow-auto mb-0">
                                                     <span th:text="${match.team2.name}"></span>
                                                     <div class="float-right inline-flex">
                                                         <span class="badge badge-success ml-3">Gewinner</span>
@@ -250,7 +250,7 @@
                                                     <div class="badge badge-light ml-3 float-right"
                                                          th:text="${match.scoreTeam1}"></div>
                                                 </div>
-                                                <div class="alert alert-success h6">
+                                                <div class="alert alert-success h6 mb-0">
                                                     <span th:text="${match.team2.name}"></span>
                                                     <div class="badge badge-light ml-3 float-right"
                                                          th:text="${match.scoreTeam2}"></div>
@@ -282,7 +282,7 @@
                                     <div class="alert alert-light h6">
                                         steht noch nicht fest
                                     </div>
-                                    <div class="alert alert-light h6">
+                                    <div class="alert alert-light h6 mb-0">
                                         steht noch nicht fest
                                     </div>
                                 </div>
@@ -294,7 +294,7 @@
                                     <div class="alert alert-success h6">
                                         <strong><span th:text="${match.team1.name}"></span></strong>
                                     </div>
-                                    <div class="alert alert-light h6">
+                                    <div class="alert alert-light h6 mb-0">
                                         kein Gegner
                                     </div>
                                 </div>
@@ -313,14 +313,14 @@
                                         <span class="badge badge-light float-right" th:if="${match.scoreTeam1 != null}"
                                               th:text="${match.scoreTeam1}"></span>
                                     </div>
-                                    <div class="alert alert-warning h6">
+                                    <div class="alert alert-warning h6 mb-0">
                                         <span th:text="${match.team2.name}"></span>
                                         <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
                                               th:text="${match.scoreTeam2}"></span>
                                     </div>
                                     <div th:if="${ownerIsAuthenticated}">
                                         <!-- PointsModal trigger button -->
-                                        <button type="button" class="btn btn-outline-dark changeScoreButton"
+                                        <button type="button" class="btn btn-outline-dark mt-3 changeScoreButton"
                                                 data-toggle="modal"
                                                 data-target="#pointsModal">
                                             Punktestand ändern
@@ -335,11 +335,11 @@
                                          th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
                                          th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
                                     </div>
-                                    <div class="alert h6"
+                                    <div class="alert h6 mb-0"
                                          th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
                                          th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                     </div>
-                                    <button type="button" class="btn btn-outline-dark startGameButton"
+                                    <button type="button" class="btn btn-outline-dark mt-3 startGameButton"
                                             th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
                                         Spiel starten
                                     </button>
@@ -356,7 +356,7 @@
                                             <span class="badge badge-light ml-2" th:text="${match.scoreTeam1}"></span>
                                         </div>
                                     </div>
-                                    <div class="alert alert-secondary h6 text-right">
+                                    <div class="alert alert-secondary h6 text-right mb-0">
                                         <span class="float-left" th:text="${match.team2.name}"></span>
                                         <span class="badge badge-light ml-3" th:text="${match.scoreTeam2}"></span>
                                     </div>
@@ -371,7 +371,7 @@
                                         <div class="badge badge-light ml-3 float-right"
                                              th:text="${match.scoreTeam1}"></div>
                                     </div>
-                                    <div class="alert alert-success h6 overflow-auto">
+                                    <div class="alert alert-success h6 overflow-auto mb-0">
                                         <span th:text="${match.team2.name}"></span>
                                         <div class="float-right inline-flex">
                                             <span class="badge badge-success ml-3">Gewinner</span>
