@@ -52,18 +52,18 @@ $("#submitScoreButton").click(function () {
         "score2": $("#score2Input").val()
     };
     $.ajax({
-         headers: {
-             'Accept': 'application/json',
-             'Content-Type': 'application/json'
-         },
-         type: "POST",
-         url: "/m/" + matchID,
-         data: JSON.stringify(matchInfo),
-         dataType: "json"
-     })
-         .done(function (json) {
-           location.reload();
-         })
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url: "/m/" + matchID,
+        data: JSON.stringify(matchInfo),
+        dataType: "json"
+    })
+        .done(function (json) {
+            location.reload();
+        })
 });
 
 

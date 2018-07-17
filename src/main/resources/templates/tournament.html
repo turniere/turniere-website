@@ -328,8 +328,7 @@
                                 </div>
                             </div>
 
-                            <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
-                                <span th:text="${match.id}" style="display: none"></span>
+                            <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}" data-th-attr="aria-controls=${match.id}">
                                 <div class="card-body">
                                     <div class="alert h6"
                                          th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
