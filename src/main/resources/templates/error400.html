@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head"></head>
+
+<head>
+    <title>Anfrage fehlerhaft -turnie.re</title>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main role="main">
+
+    <div class="container mb-2">
+        <div class="row mb-5">
+            <div class="col-lg text-center">
+                <img src="/images/logo-questionmark.png" class="w-75 img-fluid">
+            </div>
+            <div class="col-lg" style="display:flex;justify-content:center;align-items:center;">
+                <h1 class="custom-font py-5" style="font-size:10em;">400</h1>
+            </div>
+        </div>
+        <h2>Diese Anfrage ist fehlerhaft.</h2>
+        <p>
+            Die Anfrage konnte leider nicht verarbeitet werden, da sie fehlerhaft ist.
+        </p>
+        <p>
+            Wir empfehlen, die eingegebene Seite über die <a href="index.html">Startseite</a> zu suchen.
+        </p>
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

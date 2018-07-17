@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head"></head>
+
+<head>
+    <title>Seite funktioniert nicht -turnie.re</title>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main role="main">
+
+    <div class="container mb-2">
+        <div class="row mb-5">
+            <div class="col-lg text-center">
+                <img src="/images/logo-questionmark.png" class="w-75 img-fluid">
+            </div>
+            <div class="col-lg" style="display:flex;justify-content:center;align-items:center;">
+                <h1 class="custom-font py-5" style="font-size:10em;">500</h1>
+            </div>
+        </div>
+        <h2>Diese Seite funktioniert nicht.</h2>
+        <p>
+            turnie.re kann deine Anfrage im Moment nicht verarbeiten. Bitte versuche es später erneut.
+        </p>
+
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
