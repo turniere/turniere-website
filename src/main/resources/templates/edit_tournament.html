@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head"></head>
+
+<head>
+    <title>Turnier bearbeiten - turnie.re</title>
+</head>
+
+<body>
+
+<form action="#" th:action="@{'/t/' + ${tournament.code} + '/edit'}" th:object="${changeTournamentForm}" method="POST">
+    <table>
+        <tr>
+            <td>Name: </td>
+            <td><input type="text" th:name="name" th:id="name" th:value="${tournament.name}"/></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Beschreibung: </td>
+            <td><input type="text" th:name="description" th:id="description" th:value="${tournament.description}"/></td>
+            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>Öffentlich: </td>
+            <td><input type="checkbox" th:name="isPublic" th:id="isPublic" th:checked="${tournament.isPublic}"/></td>
+                <td th:if="${#fields.hasErrors('isPublic')}" th:errors="*{isPublic}">Öffentlich fehlerhaft</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Ändern</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

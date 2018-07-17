@@ -8,10 +8,12 @@ import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
+import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.validators.TournamentFormValidator;
 import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,21 @@ public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
     private final TournamentFormValidator tournamentFormValidator;
+
+    private Tournament safeGetTournament(String code) {
+        Optional<Tournament> optionalTournament = tournamentRepository.findByCode(code);
+        if (!optionalTournament.isPresent()) {
+            throw new ResourceNotFoundException("Tournament with code '" + code + "'");
+        }
+        return optionalTournament.get();
+    }
+
+    private void verifyOwnership(Tournament tournament, Authentication authentication) {
+        User user = User.fromAuthentication(authentication);
+        if (!tournament.getOwner().equals(user)) {
+            throw new AccessDeniedException("Tournament with code '" + tournament.getCode() + "'");
+        }
+    }
 
     @GetMapping("/liste")
     String tournamentList(Model model, Authentication authentication) {
@@ -76,10 +93,7 @@ public class TournamentController {
     @GetMapping("/t/{code}")
     String viewTournament(@PathVariable String code, Model model, HttpServletResponse httpServletResponse, Authentication authentication) {
         // find tournament object
-        Tournament tournament = tournamentRepository.findByCode(code);
-        if (tournament == null) {
-            throw new ResourceNotFoundException("Tournament with code '" + code + "'");
-        }
+        Tournament tournament = safeGetTournament(code);
         //sort matches and teams
         tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
         tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
@@ -107,6 +121,29 @@ public class TournamentController {
         } else {
             return "redirect:/t/" + code;
         }
+    }
 
+    @GetMapping("/t/{code}/edit")
+    String editTournament(@PathVariable String code, ChangeTournamentForm changeTournamentForm, Model model, Authentication authentication) {
+        // find tournament object
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        model.addAttribute("tournament", tournament);
+        return "edit_tournament";
+    }
+
+    @PostMapping("/t/{code}/edit")
+    String postEditTournament(@PathVariable String code, @Valid ChangeTournamentForm changeTournamentForm, BindingResult bindingResult, Model model, Authentication authentication) {
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        model.addAttribute("tournament", tournament);
+        if (bindingResult.hasErrors()) {
+            return "edit_tournament";
+        }
+        tournament.setName(changeTournamentForm.getName());
+        tournament.setDescription(changeTournamentForm.getDescription());
+        tournament.setIsPublic(changeTournamentForm.getIsPublic());
+        tournamentRepository.save(tournament);
+        return "redirect:/t/" + tournament.getCode();
     }
 }
