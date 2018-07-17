@@ -106,6 +106,15 @@ public class MatchService {
         matchRepository.save(match);
     }
 
+    /**
+     * Evaluates the winner of a given Match
+     *
+     * @param match The Match to evaluate who won
+     * @return Winner of the Game as State Object
+     */
+    public Match.State evaluateWinner(Match match) {
+        return evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2(), match.getIsGroupMatch());
+    }
 
     /**
      * Evaluate the Winner of two given scores

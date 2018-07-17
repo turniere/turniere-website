@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class GroupStageService {
 
     private final GroupStageRepository groupStageRepository;
+    private final MatchService matchService;
     private final GroupRepository groupRepository;
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
@@ -113,20 +114,26 @@ public class GroupStageService {
         int pointsScored = 0;
         int score = 0;
         for (Match match : allMatches) {
+            Match.State matchState;
+            if (match.getState() == Match.State.IN_PROGRESS){
+                matchState = matchService.evaluateWinner(match);
+            }else {
+                matchState = match.getState();
+            }
             if (match.getTeam1() == team) {
                 pointsScored = pointsScored + match.getScoreTeam1();
                 pointsRecieved = pointsRecieved + match.getScoreTeam2();
-                if (match.getState() == Match.State.TEAM1_WON) {
+                if (matchState == Match.State.TEAM1_WON) {
                     score = score + 3;
-                } else if (match.getState() == Match.State.UNDECIDED) {
+                } else if (matchState == Match.State.UNDECIDED) {
                     score = score + 1;
                 }
             } else if (match.getTeam2() == team) {
                 pointsRecieved = pointsRecieved + match.getScoreTeam1();
                 pointsScored = pointsScored + match.getScoreTeam2();
-                if (match.getState() == Match.State.TEAM2_WON) {
+                if (matchState == Match.State.TEAM2_WON) {
                     score = score + 3;
-                } else if (match.getState() == Match.State.UNDECIDED) {
+                } else if (matchState == Match.State.UNDECIDED) {
                     score = score + 1;
                 }
 
