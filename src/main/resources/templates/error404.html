@@ -11,17 +11,21 @@
 <div th:replace="fragments/header :: header"></div>
 <main role="main">
 
-    <div class="big-image">
-        <h1 class="display-1">Error 404</h1>
-    </div>
-
-    <div class="card my-2" style="width: 95%; margin:0 auto">
-        <h2>Die von Ihnen aufgerufene Seite wurde leider nicht gefunden.</h2>
+    <div class="container mb-2">
+        <div class="row mb-5">
+            <div class="col-lg text-center">
+                <img src="/images/logo-questionmark.png" class="w-75 img-fluid">
+            </div>
+            <div class="col-lg" style="display:flex;justify-content:center;align-items:center;">
+                <h1 class="custom-font py-5" style="font-size:10em;">404</h1>
+            </div>
+        </div>
+        <h2>Die aufgerufene Seite wurde leider nicht gefunden.</h2>
         <p>
-            Anscheinend ist der von Ihnen eingegeben Link kaputt, oder doe Seite wurde von uns entfernt.
+            Entweder hast du dich vertippt, oder die gesuchte Seite gibt es nicht.
         </p>
         <p>
-            Versuchen Sie die gewünschte Seite von unserer <a href="index.html">Startseite</a> aus zu erreichen.
+            Wir empfehlen, die eingegebene Seite über die <a href="index.html">Startseite</a> zu suchen.
         </p>
     </div>
 </main>

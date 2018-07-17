@@ -3,7 +3,7 @@
     src: url('../fonts/Halt.ttf') format('truetype');
 }
 
-.big-image h1, .marketing h2 {
+.big-image h1, .marketing h2, .custom-font {
     font-family: Halt, sans-serif;
 }
 
