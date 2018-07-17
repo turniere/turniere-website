@@ -6,9 +6,10 @@ import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TournamentRepository extends CrudRepository<Tournament, Long>, CustomTournamentRepository {
-    Tournament findByCode(String code);
+    Optional<Tournament> findByCode(String code);
 
     List<Tournament> findByIsPublic(Boolean isPublic);
 
