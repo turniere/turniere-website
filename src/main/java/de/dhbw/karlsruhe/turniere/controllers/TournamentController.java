@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -93,5 +94,15 @@ public class TournamentController {
         model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
         model.addAttribute("ownerName", owner.getUsername());
         return "tournament";
+    }
+
+    @GetMapping("/t")
+    String redirectToTournament(@RequestParam("code") String code) {
+        if (code == null) {
+            return "redirect:/liste";
+        } else {
+            return "redirect:/t/" + code;
+        }
+
     }
 }
