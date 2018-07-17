@@ -176,7 +176,7 @@ public class PlayoffService {
         if (numberOfTeams == 0 || numberOfTeams == 1) {
             return 0;
         } else {
-            return (int) (Math.log(nextPowerOfTwo(numberOfTeams) / 2) / Math.log(2));
+            return (int) (Math.log(previousPowerOfTwo(numberOfTeams)) / Math.log(2));
         }
     }
 }
