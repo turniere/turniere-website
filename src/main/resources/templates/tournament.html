@@ -100,11 +100,12 @@
                         <div class="card-body">
                             <h2 class="alert alert-light text-dark">Gruppe <span th:text="${group.name}"></span>
                                 <small class="float-right">
-                                    <a class="btn btn-outline-secondary" data-toggle="collapse"
+                                    <a class="btn btn-outline-secondary collapsed" data-toggle="collapse"
                                        th:href="'#group-matches-' + ${group.name}"
                                        role="button" aria-expanded="false"
                                        data-th-attr="aria-controls=${'#group-matches-' + group.name}">
-                                        Matches anzeigen
+                                        Matches <span class="if-collapsed">anzeigen</span>
+                                        <span class="if-not-collapsed">ausblenden</span>
                                     </a>
                                 </small>
                             </h2>
