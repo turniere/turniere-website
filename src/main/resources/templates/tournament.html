@@ -198,7 +198,7 @@
                                                      th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                                 </div>
                                                 <button type="button" class="btn btn-outline-dark startGameButton"
-                                                        th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled">
+                                                        th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
                                                     Spiel starten
                                                 </button>
                                             </div>
@@ -340,7 +340,7 @@
                                          th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                     </div>
                                     <button type="button" class="btn btn-outline-dark startGameButton"
-                                            th:classappend="${match.team1.name == null || match.team2.name == null} ? disabled">
+                                            th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
                                         Spiel starten
                                     </button>
                                 </div>
