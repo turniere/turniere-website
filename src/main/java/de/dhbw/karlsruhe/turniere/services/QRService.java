@@ -41,7 +41,7 @@ public class QRService {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         // initialize BitMatrix with qrcode
-        BitMatrix bitMatrix = qrCodeWriter.encode("www.joke-powered.de/t/" + code, BarcodeFormat.QR_CODE, 1000, 1000, hints);
+        BitMatrix bitMatrix = qrCodeWriter.encode("dev.turnie.re/t/" + code, BarcodeFormat.QR_CODE, 500, 500, hints);
         MatrixToImageConfig config = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
         // convert qrcode BitMatrix to BufferedImage
         BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, config);
