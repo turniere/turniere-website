@@ -130,7 +130,7 @@
                             </table>
                             <div class="row collapse" th:id="'group-matches-' + ${group.name}">
                                 <div class="col-lg minw-25" th:each="match: ${group.matches}">
-                                    <div th:if="${match.team1 == match.team2}">
+                                    <div th:if="${match.team1 == match.team2}" th:id="'match-' + ${match.position}">
 
                                         <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
                                             <div class="card-body">
@@ -156,7 +156,7 @@
                                         </div>
 
                                     </div>
-                                    <div th:if="${match.team1 != match.team2}">
+                                    <div th:if="${match.team1 != match.team2}" th:id="'match-' + ${match.position}">
 
                                         <div class="card mt-4 border-warning shadow-sm"
                                              th:if="${match.state.name() == 'IN_PROGRESS'}"
@@ -274,7 +274,7 @@
 
                 <div class="row">
                     <div class="col-lg minw-25" th:each="match: ${stage.matches}">
-                        <div th:if="${match.team1 == match.team2}">
+                        <div th:if="${match.team1 == match.team2}" th:id="'match-' + ${match.position}">
 
                             <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
                                 <div class="card-body">
@@ -300,7 +300,7 @@
                             </div>
 
                         </div>
-                        <div th:if="${match.team1 != match.team2}">
+                        <div th:if="${match.team1 != match.team2}" th:id="'match-' + ${match.position}">
 
                             <div class="card mt-4 border-warning shadow-sm"
                                  th:if="${match.state.name() == 'IN_PROGRESS'}"
