@@ -46,7 +46,7 @@ public class MatchService {
         // set scores
         setScore(match, scoreTeam1, scoreTeam2);
         // set state
-        match.setState(evaluateWinner(match.getScoreTeam1(), match.getScoreTeam2(), match.getIsGroupMatch()));
+        match.setState(evaluateWinner(match));
         // find next stage
         populateStageBelow(tournamentRepository.findByMatch(match), match);
         // save match
