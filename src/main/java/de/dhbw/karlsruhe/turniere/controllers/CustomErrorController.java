@@ -20,7 +20,7 @@ public class CustomErrorController implements ErrorController {
             if(statusCode == HttpStatus.BAD_REQUEST.value()) {
                 return "error400";
             }
-            if(statusCode == HttpStatus.UNAUTHORIZED.value()) {
+            if(statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "error403";
             }
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
