@@ -104,7 +104,7 @@ public class PlayoffService {
      * @return Last power of two before given number
      */
     public int previousPowerOfTwo(int number) {
-        return nextPowerOfTwo(number)/2;
+        return nextPowerOfTwo(number) / 2;
     }
 
     /**

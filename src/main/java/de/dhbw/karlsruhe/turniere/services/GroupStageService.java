@@ -13,12 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -116,9 +114,9 @@ public class GroupStageService {
         int score = 0;
         for (Match match : allMatches) {
             Match.State matchState;
-            if (match.getState() == Match.State.IN_PROGRESS){
+            if (match.getState() == Match.State.IN_PROGRESS) {
                 matchState = matchService.evaluateWinner(match);
-            }else {
+            } else {
                 matchState = match.getState();
             }
             if (match.getTeam1() == team) {
@@ -159,7 +157,7 @@ public class GroupStageService {
         return isOver(groupRepository.findByMatchesContains(match));
     }
 
-    public List<Team> sortTeams(List<Team> teams){
+    public List<Team> sortTeams(List<Team> teams) {
         teams.sort(Comparator.comparingInt(Team::getGroupPlace)
                 .thenComparing(comparing(Team::getGroupScore).reversed())
                 .thenComparing(comparing(Team::getGroupPointsScored).reversed())

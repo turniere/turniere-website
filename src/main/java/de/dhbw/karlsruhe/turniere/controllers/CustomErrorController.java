@@ -17,16 +17,15 @@ public class CustomErrorController implements ErrorController {
 
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
-            if(statusCode == HttpStatus.BAD_REQUEST.value()) {
+            if (statusCode == HttpStatus.BAD_REQUEST.value()) {
                 return "error400";
             }
-            if(statusCode == HttpStatus.FORBIDDEN.value()) {
+            if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "error403";
             }
-            if(statusCode == HttpStatus.NOT_FOUND.value()) {
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "error404";
-            }
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error500";
             }
             /*if(statusCode == HttpStatus.I_AM_A_TEAPOT.value()) {

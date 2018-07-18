@@ -26,11 +26,10 @@ public class GroupStage {
 
     @OneToMany
     private List<Group> groups;
+    private int playoffSize;
 
     public GroupStage(List<Group> groups) {
         this.groups = groups;
     }
-
-    private int playoffSize;
 
 }

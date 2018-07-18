@@ -1,7 +1,11 @@
 package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
-import de.dhbw.karlsruhe.turniere.database.models.*;
+import de.dhbw.karlsruhe.turniere.database.models.Match;
+import de.dhbw.karlsruhe.turniere.database.models.Stage;
+import de.dhbw.karlsruhe.turniere.database.models.Team;
+import de.dhbw.karlsruhe.turniere.database.models.Tournament;
+import de.dhbw.karlsruhe.turniere.database.models.User;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;

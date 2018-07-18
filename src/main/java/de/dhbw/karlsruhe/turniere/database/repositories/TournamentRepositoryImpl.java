@@ -5,7 +5,6 @@ import de.dhbw.karlsruhe.turniere.database.models.GroupStage;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
 import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
-import de.dhbw.karlsruhe.turniere.database.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TournamentRepositoryImpl implements CustomTournamentRepository {

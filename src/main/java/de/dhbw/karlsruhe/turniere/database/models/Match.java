@@ -56,7 +56,7 @@ public class Match {
                 ", scoreTeam2=" + scoreTeam2 +
                 ", state=" + state +
                 ", position=" + position +
-                ", isGroupMatch=" +isGroupMatch +
+                ", isGroupMatch=" + isGroupMatch +
                 '}';
     }
 
