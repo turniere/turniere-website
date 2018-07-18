@@ -159,7 +159,7 @@ public class GroupStageService {
         return isOver(groupRepository.findByMatchesContains(match));
     }
 
-    private List<Team> sortTeams(List<Team> teams){
+    public List<Team> sortTeams(List<Team> teams){
         teams.sort(Comparator.comparingInt(Team::getGroupPlace)
                 .thenComparing(comparing(Team::getGroupScore).reversed())
                 .thenComparing(comparing(Team::getGroupPointsScored).reversed())
@@ -219,7 +219,6 @@ public class GroupStageService {
             }
         }
         return true;
-        //return group.getMatches().stream().filter(match -> match.getState() == Match.State.UNDECIDED || match.getState() == Match.State.IN_PROGRESS).count() == 0;
     }
 
 }
