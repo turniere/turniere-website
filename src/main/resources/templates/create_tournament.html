@@ -67,6 +67,11 @@
                     <input class="form-control" type="text" th:name="groupSize" th:id="f-groupSize" th:value="1"
                            required>
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('groupSize')}" th:errors="*{groupSize}">Fehler</div>
+
+                    <label for="f-playoffSize">Playoff Phasen Größe</label>
+                    <input class="form-control" type="text" th:name="playoffSize" th:id="f-playoffSize" th:value="1"
+                           required>
+                    <div class="text-danger font-italic" th:if="${#fields.hasErrors('playoffSize')}" th:errors="*{playoffSize}">Fehler</div>
                 </div>
                 <button type="submit" class="btn btn-success btn-lg w-100" id="f-submitBtn">Turnier erstellen</button>
             </form>

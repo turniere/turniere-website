@@ -72,7 +72,7 @@ public class TournamentService {
      * @param randomize   If Teams should be randomized before generating Matches or not
      * @return Saved new tournament object
      */
-    public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner, Integer groupSize, Boolean randomize) {
+    public Tournament create(String name, String description, Boolean isPublic, String[] teamNames, User owner, Integer groupSize, Boolean randomize, Integer playoffSize) {
         // generate uuid
         List<Team> teams = Arrays.stream(teamNames).map(teamName -> teamRepository.save(new Team(teamName))).collect(Collectors.toList());
         String code = generateUniqueCode(5);
@@ -95,7 +95,6 @@ public class TournamentService {
         if (groupSize < 2) {
             playoffService.generatePlayoffs(teams, tournament);
         } else {
-            int playoffSize = playoffService.previousPowerOfTwo(groupSize * teams.size() / groupSize);
             groupStageService.generateGroupStage(teams, tournament, groupSize, playoffSize);
         }
         // set owner to authenticated user

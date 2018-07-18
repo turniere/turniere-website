@@ -30,4 +30,7 @@ public class TournamentForm {
 
     @NotNull
     private Boolean randomize;
+
+    @NotNull
+    private Integer playoffSize;
 }
