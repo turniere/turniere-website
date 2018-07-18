@@ -38,11 +38,8 @@ public class TournamentController {
     private final TournamentFormValidator tournamentFormValidator;
 
     private Tournament safeGetTournament(String code) {
-        Optional<Tournament> optionalTournament = tournamentRepository.findByCode(code);
-        if (!optionalTournament.isPresent()) {
-            throw new ResourceNotFoundException("Tournament with code '" + code + "'");
-        }
-        return optionalTournament.get();
+        return tournamentRepository.findByCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Tournament with code '" + code + "'"));
     }
 
     private void verifyOwnership(Tournament tournament, Authentication authentication) {

@@ -54,7 +54,7 @@ public class TournamentService {
      */
     private String generateUniqueCode(int length) {
         String code = generateCode(length);
-        while (tournamentRepository.findByCode(code) != null) {
+        while (tournamentRepository.findByCode(code).isPresent()) {
             code = generateCode(length);
         }
         return code;
