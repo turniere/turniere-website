@@ -29,5 +29,5 @@ public class TournamentForm {
     private Integer groupSize;
 
     @NotNull
-    private Boolean mix;
+    private Boolean randomize;
 }
