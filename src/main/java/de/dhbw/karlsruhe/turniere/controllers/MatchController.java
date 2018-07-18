@@ -115,6 +115,8 @@ public class MatchController {
             GroupStage groupStage = groupStageRepository.findByGroupsContains(groupRepository.findByMatchesContains(match));
             if (groupStageService.isGroupStageOver(groupStage)) {
                 List<Team> teams = groupStageService.getPlayoffTeams(groupStage);
+                teams = groupStageService.sortTeams(teams);
+                teams = playoffService.sortByMatchups(teams, groupStage.getGroups().size());
                 Tournament tournament = tournamentRepository.findByGroupStage(groupStage);
                 playoffService.generatePlayoffs(teams, tournament);
                 tournamentRepository.save(tournament);

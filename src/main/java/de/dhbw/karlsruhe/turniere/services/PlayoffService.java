@@ -13,6 +13,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -178,5 +179,20 @@ public class PlayoffService {
         } else {
             return (int) (Math.log(previousPowerOfTwo(numberOfTeams)) / Math.log(2));
         }
+    }
+
+    public List<Team> sortByMatchups(List<Team> teams, int groupCount) {
+        int teamsSize = teams.size();
+        List<Team> playoffTeams = new ArrayList<>();
+        if (teamsSize % 2 == 0 && groupCount % 2 == 0) {
+            for (int i = 0; i < teamsSize / 2; i++) {
+                playoffTeams.add(teams.get(i));
+                playoffTeams.add(teams.get(teamsSize - i - 1));
+            }
+        } else {
+            playoffTeams = new ArrayList<>(teams);
+            Collections.shuffle(playoffTeams);
+        }
+        return playoffTeams;
     }
 }
