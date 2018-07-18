@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head"></head>
 
 <head>
-    <title>Turnier bearbeiten - turnie.re</title>
+    <title>Turnier bearbeiten -turnie.re</title>
 </head>
 
 <body>
+<div th:replace="fragments/header :: header"></div>
+<main role="main">
 
-<form action="#" th:action="@{'/t/' + ${tournament.code} + '/edit'}" th:object="${changeTournamentForm}" method="POST">
-    <table>
-        <tr>
-            <td>Name: </td>
-            <td><input type="text" th:name="name" th:id="name" th:value="${tournament.name}"/></td>
-            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</td>
-        </tr>
-        <tr>
-            <td>Beschreibung: </td>
-            <td><input type="text" th:name="description" th:id="description" th:value="${tournament.description}"/></td>
-            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung fehlerhaft</td>
-        </tr>
-        <tr>
-            <td>Öffentlich: </td>
-            <td><input type="checkbox" th:name="isPublic" th:id="isPublic" th:checked="${tournament.isPublic}"/></td>
-                <td th:if="${#fields.hasErrors('isPublic')}" th:errors="*{isPublic}">Öffentlich fehlerhaft</td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Ändern</button>
-            </td>
-        </tr>
-    </table>
-</form>
+    <div class="big-image">
+        <h1 class="display-1 overflow-auto" th:text="${tournament.name}">Dein Turnier</h1>
+    </div>
+
+    <div class="container card">
+        <div class="card-body">
+            <form action="#" th:action="@{'/t/' + ${tournament.code} + '/edit'}" th:object="${changeTournamentForm}"
+                  method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" th:name="name" id="name" th:value="${tournament.name}"
+                           th:placeholder="${tournament.name}"
+                           required>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Beschreibung</label>
+                    <input class="form-control" type="text" th:name="description" id="description"
+                           th:placeholder="${tournament.description}"
+                           th:value="${tournament.description}">
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung
+                        fehlerhaft
+                    </div>
+                </div>
+                <div class="form-group custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" th:name="isPublic" id="isPublic"
+                           th:checked="${tournament.isPublic}"/>
+                    <label for="isPublic" class="custom-control-label">Das Turnier öffentlich anzeigen</label>
+                    <div th:if="${#fields.hasErrors('isPublic')}" th:errors="*{isPublic}">Öffentlich fehlerhaft</div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-success px-5">Ändern</button>
+                        <a class="btn btn-outline-secondary ml-2" href="./">zurück zum Turnier</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/create_tournament.js"></script>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head"></head>
 
 <head>
@@ -19,7 +19,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8" th:text="${tournament.description}">
+            <div class="col-md-8">
+                <div th:text="${tournament.description}"></div>
+                <a class="btn btn-outline-secondary mt-3" th:href="'/t/' + ${tournament.code} + '/edit'">Bearbeiten</a>
             </div>
 
             <div class="col-md-4">
