@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -53,19 +54,23 @@ public class TournamentController {
 
     @GetMapping("/liste")
     String tournamentList(Model model, Authentication authentication) {
-        // add public tournaments to template
-        model.addAttribute("publicTournaments", tournamentRepository.findByIsPublic(true));
+        List<Tournament> publicTournaments;
+        List<Tournament> privateTournaments;
         // check if user is logged in
         if (authentication != null) {
-            // fetch user tournaments
-            CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-            User user = customUserDetails.getUser();
-            List<Tournament> userTournaments = user.getTournaments();
-            // add to template if not empty
-            if (!userTournaments.isEmpty()) {
-                model.addAttribute("privateTournaments", userTournaments);
-            }
+            // find private tournaments and public tournaments not owned by authenticated user
+            User user = User.fromAuthentication(authentication);
+            publicTournaments = tournamentRepository.findByOwnerNotAndIsPublic(user, true);
+            ;
+            privateTournaments = tournamentRepository.findByOwner(user);
+        } else {
+            // find public tournaments
+            publicTournaments = tournamentRepository.findByIsPublic(true);
+            privateTournaments = new ArrayList<>();
         }
+        // add tournament lists to model
+        model.addAttribute("publicTournaments", publicTournaments);
+        model.addAttribute("privateTournaments", privateTournaments);
         return "tournaments";
     }
 
