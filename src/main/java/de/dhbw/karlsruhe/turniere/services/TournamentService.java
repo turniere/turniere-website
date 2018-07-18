@@ -96,7 +96,8 @@ public class TournamentService {
         if (groupSize < 2) {
             playoffService.generatePlayoffs(teams, tournament);
         } else {
-            groupStageService.generateGroupStage(teams, tournament, groupSize);
+            int playoffSize = playoffService.previousPowerOfTwo(groupSize * teams.size() / groupSize);
+            groupStageService.generateGroupStage(teams, tournament, groupSize, playoffSize);
         }
         // set owner to authenticated user
         tournament.setOwner(owner);

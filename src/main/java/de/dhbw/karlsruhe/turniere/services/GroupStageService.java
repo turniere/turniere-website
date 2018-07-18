@@ -40,7 +40,7 @@ public class GroupStageService {
      * @param groupSize  Size of the given Groups
      * @return Generated GroupStage populated with Groups and Matches
      */
-    public GroupStage generateGroupStage(List<Team> origTeams, Tournament tournament, Integer groupSize) {
+    public GroupStage generateGroupStage(List<Team> origTeams, Tournament tournament, Integer groupSize, int playoffSize) {
         List<Team> teams = new ArrayList<>(origTeams);
         int requiredGroupCount = teams.size() / groupSize;
         List<Group> groups = new ArrayList<>();
@@ -66,6 +66,7 @@ public class GroupStageService {
         List<Group> savedGroups = new ArrayList<>();
         savedGroupsIterable.forEach(savedGroups::add);
         GroupStage groupStage = new GroupStage(savedGroups);
+        groupStage.setPlayoffSize(playoffSize);
         groupStage = groupStageRepository.save(groupStage);
         tournament.setGroupStage(groupStage);
 
@@ -171,7 +172,7 @@ public class GroupStageService {
         List<Group> groups = groupStage.getGroups();
         int groupNumber = groups.size();
         int groupSize = groups.get(0).getTeams().size();
-        int playoffSize = playoffService.previousPowerOfTwo(groupSize * groupNumber);
+        int playoffSize = groupStage.getPlayoffSize();
 
         Double howManyPlacesFitDouble = (double) playoffSize / groupNumber;
         int howManyPlacesFitInt = howManyPlacesFitDouble.intValue();

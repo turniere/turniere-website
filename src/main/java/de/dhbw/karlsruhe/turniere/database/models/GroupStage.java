@@ -31,4 +31,6 @@ public class GroupStage {
         this.groups = groups;
     }
 
+    private int playoffSize;
+
 }
