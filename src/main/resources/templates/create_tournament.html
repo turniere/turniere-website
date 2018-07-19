@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="f-desc">Beschreibung</label>
-                    <input class="form-control" id="f-desc" type="text" th:field="*{description}" maxlength="255">
+                    <input class="form-control" id="f-desc" type="text" th:field="*{description}" maxlength="255" placeholder="optional">
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
                         Beschreibung fehlerhaft
                     </div>
@@ -56,24 +56,24 @@
                             <input class="form-control" id="f-teams-input" type="text"
                                placeholder="Teamname" maxlength="255">
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-outline-success" id="f-addTeam">Team hinzufügen</button>
+                            <button type="button" class="btn btn-outline-success rounded-right" id="f-addTeam">Team hinzufügen</button>
                         </div>
                             <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}" style="display: none" required>
                     </div>
                 </div>
                 <div class="form-group" id="f-teamnames"></div>
                 <div class="form-group" id="f-groupstage-options" style="display: none">
-                    <label for="f-groupSize">Gruppen Größe</label>
-                    <input class="form-control" type="text" th:name="groupSize" th:id="f-groupSize" th:value="1"
+                    <label for="f-groupSize">Anzahl Teams pro Gruppe</label>
+                    <input class="form-control" type="text" th:name="groupSize" id="f-groupSize" th:value="1"
                            required>
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('groupSize')}" th:errors="*{groupSize}">Fehler</div>
 
-                    <label for="f-playoffSize">Playoff Phasen Größe</label>
-                    <input class="form-control" type="text" th:name="playoffSize" th:id="f-playoffSize" th:value="1"
+                    <label for="f-playoffSize" class="mt-3">Wie viele Teams sollen nach der Gruppenphase weiterkommen?</label>
+                    <input class="form-control" type="text" th:name="playoffSize" id="f-playoffSize" th:value="1"
                            required>
                     <div class="text-danger font-italic" th:if="${#fields.hasErrors('playoffSize')}" th:errors="*{playoffSize}">Fehler</div>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg w-100" id="f-submitBtn">Turnier erstellen</button>
+                <button type="submit" class="btn btn-success btn-lg w-100 mt-2" id="f-submitBtn">Turnier erstellen</button>
             </form>
         </div>
     </div>
