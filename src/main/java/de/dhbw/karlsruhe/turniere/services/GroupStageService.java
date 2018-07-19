@@ -240,14 +240,20 @@ public class GroupStageService {
      */
     public Boolean isGroupStageOver(GroupStage groupStage) {
         for (Group group : groupStage.getGroups()) {
-            if (!isOver(group)) {
+            if (!isGroupOver(group)) {
                 return false;
             }
         }
         return true;
     }
 
-    public Boolean isOver(Group group) {
+    /**
+     * Checks if given Group finished all Matches
+     *
+     * @param group The Group to check
+     * @return true when all Matches finished
+     */
+    public Boolean isGroupOver(Group group) {
         for (Match match : group.getMatches()) {
             Match.State state = match.getState();
             if (state == Match.State.NOT_STARTED || state == Match.State.IN_PROGRESS) {
