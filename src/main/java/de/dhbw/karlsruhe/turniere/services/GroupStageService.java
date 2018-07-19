@@ -105,23 +105,38 @@ public class GroupStageService {
         return matches;
     }
 
+    /**
+     * Updates a Teams points and Table in GroupStage
+     *
+     * @param team The Team to update the Points for
+     */
     public void updateTeamPoints(Team team) {
+        //get the Teams Group
         Group group = groupRepository.findByTeamsContains(team);
+        //get all Teams of Group
         List<Team> allTeams = group.getTeams();
+        //get all Matches of the Team
         List<Match> allMatches = group.getMatches().stream().filter(match -> match.getTeam1().equals(team) || match.getTeam2().equals(team)).collect(toList());
+        //initialize Variables
         int pointsRecieved = 0;
         int pointsScored = 0;
         int score = 0;
+        //iterate over all Matches
         for (Match match : allMatches) {
             Match.State matchState;
+            //Set matchState to actual live State
             if (match.getState() == Match.State.IN_PROGRESS) {
+                //If Match is IN_PROGRESS Winner is evaluated (Match is not over yet, this is just for Live Scores)
                 matchState = matchService.evaluateWinner(match);
             } else {
+                //If Match is Over The State is just read out of it
                 matchState = match.getState();
             }
+            //evaluate Points of the Team for the Match
             if (match.getTeam1() == team) {
                 pointsScored = pointsScored + match.getScoreTeam1();
                 pointsRecieved = pointsRecieved + match.getScoreTeam2();
+                //Give Points for winning and draws
                 if (matchState == Match.State.TEAM1_WON) {
                     score = score + 3;
                 } else if (matchState == Match.State.UNDECIDED) {
@@ -130,6 +145,7 @@ public class GroupStageService {
             } else if (match.getTeam2() == team) {
                 pointsRecieved = pointsRecieved + match.getScoreTeam1();
                 pointsScored = pointsScored + match.getScoreTeam2();
+                //Give Points for winning and draws
                 if (matchState == Match.State.TEAM2_WON) {
                     score = score + 3;
                 } else if (matchState == Match.State.UNDECIDED) {
@@ -139,32 +155,48 @@ public class GroupStageService {
             }
 
         }
+        //Give Team its Scores
         team.setGroupPointsReceived(pointsRecieved);
         team.setGroupPointsScored(pointsScored);
         team.setGroupScore(score);
+        //Remove GroupPlace for all Teams for sorting
         int allTeamsSize = allTeams.size();
         for (int i = 0; i < allTeamsSize; i++) {
             allTeams.get(i).setGroupPlace(0);
         }
         sortTeams(allTeams);
+        //Set GroupPlace for the Teams according to the sorted List
         for (int i = 0; i < allTeamsSize; i++) {
             allTeams.get(i).setGroupPlace(i);
         }
+        //save to Database
         teamRepository.saveAll(allTeams);
     }
 
-    public Boolean isGroupOver(Match match) {
-        return isOver(groupRepository.findByMatchesContains(match));
-    }
-
+    /**
+     * Sorts the Teams by GroupPlace,GroupScore,GroupPointsScored and GroupPointsRecieved.
+     *
+     * @param teams List of Teams to sort
+     * @return Sorted List of Teams
+     */
     public List<Team> sortTeams(List<Team> teams) {
+        //sort Teams by GroupPlace (lower is better)
         teams.sort(Comparator.comparingInt(Team::getGroupPlace)
+                //by GroupScore (higher is better)
                 .thenComparing(comparing(Team::getGroupScore).reversed())
+                //by GroupPointsScored (higher is better)
                 .thenComparing(comparing(Team::getGroupPointsScored).reversed())
+                //by GroupPointsRecieved (lower is better)
                 .thenComparing(Team::getGroupPointsReceived));
         return teams;
     }
 
+    /**
+     * Given the GroupStage, return the List of Teams that Advance to Playoffs
+     *
+     * @param groupStage The Groupstage to get the Playoff Teams from
+     * @return List of Teams that advance to Playoffs
+     */
     public List<Team> getPlayoffTeams(GroupStage groupStage) {
         List<Team> playoffTeams = new ArrayList<>();
         List<Group> groups = groupStage.getGroups();
@@ -200,6 +232,12 @@ public class GroupStageService {
         return playoffTeams;
     }
 
+    /**
+     * Checks if all Groups in given GroupStage are finished
+     *
+     * @param groupStage GroupStage to check
+     * @return true when all Groups finished
+     */
     public Boolean isGroupStageOver(GroupStage groupStage) {
         for (Group group : groupStage.getGroups()) {
             if (!isOver(group)) {
