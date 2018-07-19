@@ -21,7 +21,8 @@
         <div class="row">
             <div class="col-md-8">
                 <div th:text="${tournament.description}"></div>
-                <a class="btn btn-outline-secondary mt-3" th:href="'/t/' + ${tournament.code} + '/edit'">Bearbeiten</a>
+                <a class="btn btn-outline-secondary mt-3" th:if="${ownerIsAuthenticated}"
+                   th:href="'/t/' + ${tournament.code} + '/edit'">Bearbeiten</a>
             </div>
 
             <div class="col-md-4">
