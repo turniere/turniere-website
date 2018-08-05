@@ -2,15 +2,13 @@
 Do you want to play some games with some teams but are too lazy to organize a tournament?
 Luckily for you, some smart and good looking students from the DHBW Karlsruhe created a amazing website that just fits all your small and big needs!
 
-# Development
-* Download SQLite JDBC driver jar from [here](https://oss.sonatype.org/content/repositories/releases/org/xerial/sqlite-jdbc/) and put it into your `<tomcat>/lib` folder
-* Add Tomcat Run configuration and make sure there are artifacts selected for deployment (IntelliJ: Tomcat Run configuration -> Deployment -> Add -> Artifact -> Add -> Web Application: Exploded -> From module -> webengineeringdhbw)
-* Specify SDK for java files
-* change the sqlite path to the respective absolute path to the database file on your system;  [should be here](database.sqlite)
-* mvn clean & install
+# Installing 
+* Eclipse
+   - Download & Install Lombok for Eclipse (https://projectlombok.org/download) 
+   - Right click `pom.xml` -> Run as -> Maven Build -> Goals : `clean install`
+   - Run `de.dhbw.karlsruhe.turniere` (TurniereApplication) 
 
 ## Troubleshooting
-#### IntelliJ can't find my Servlets
-File -> Project Structure -> Modules -> Select `src/` -> Click `Mark as: Sources`
+* Everything works !
 
-###### Thanks to Team Rest for your great work!
+###### Team Rest
