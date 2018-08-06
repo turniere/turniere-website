@@ -15,6 +15,7 @@ Luckily for you, some smart and good looking students from the DHBW Karlsruhe cr
    <br>
      
 * General
+   - Import as Maven Project
    - Activate Lombok Plugin for your IDE
    - run `mvn clean install`
    - Run `de.dhbw.karlsruhe.turniere` (TurniereApplication)
