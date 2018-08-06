@@ -8,7 +8,14 @@ Luckily for you, some smart and good looking students from the DHBW Karlsruhe cr
    - Right click `pom.xml` -> Run as -> Maven Build -> Goals : `clean install`
    - Run `de.dhbw.karlsruhe.turniere` (TurniereApplication) 
 
-## Troubleshooting
+   <br>
+     
+* General
+   - Activate Lombok Plugin for your IDE
+   - run `mvn clean install`
+   - Run `de.dhbw.karlsruhe.turniere` (TurniereApplication)
+
+# Troubleshooting
 * Everything works !
 
 ###### Team Rest
