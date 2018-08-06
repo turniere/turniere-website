@@ -8,6 +8,8 @@ Luckily for you, some smart and good looking students from the DHBW Karlsruhe cr
    - Open Eclipse
    - Click file -> Import -> Maven -> Existing Maven Projects -> Next
    - Choose root Folder of turniere -> Finish
+   - Select right JDK (Window -> Preferences -> Java -> Installed JREs -> Add..
+   - Choose JDK Home -> Apply and Close)
    - Right click `pom.xml` -> Run as -> Maven Build -> Goals : `clean install`
    - Run `de.dhbw.karlsruhe.turniere` (TurniereApplication) (Right Click -> Run as -> Java Application)
    - Server is now available at `localhost:8080`
