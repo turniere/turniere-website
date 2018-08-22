@@ -191,7 +191,9 @@ public class PlayoffService {
             }
         } else {
             playoffTeams = new ArrayList<>(teams);
-            Collections.shuffle(playoffTeams);
+            for (int i = 0; i < 5; i++) {
+                Collections.shuffle(playoffTeams);
+            }
         }
         return playoffTeams;
     }

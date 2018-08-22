@@ -78,7 +78,9 @@ public class TournamentService {
         String code = generateUniqueCode(5);
         // shuffle teams if desired
         if (randomize) {
-            Collections.shuffle(teams);
+            for (int i = 0; i < 5; i++) {
+                Collections.shuffle(teams);
+            }
         }
         // create and save tournament object
         Tournament tournament = new Tournament(name, code, description, isPublic, teams);
