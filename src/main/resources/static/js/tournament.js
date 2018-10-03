@@ -72,7 +72,7 @@ $("#submitScoreButton").click(function () {
     };
     postMatchInfo(matchID, matchInfo, function () {
         updateMatch(matchID);
-        $('#pointsModal').modal('close');
+        $('#pointsModal').modal('hide');
     });
 });
 
