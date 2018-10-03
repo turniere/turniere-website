@@ -30,6 +30,16 @@ function getMatchInfo(matchID, cb) {
    });
 }
 
+function updateMatch(matchId) {
+    getMatchInfo(matchId, function (matchInfo) {
+        var ariaControlsMatch = "[aria-controls='" + matchId + "']";
+        var spanScore1 = $(ariaControlsMatch + ' .score1');
+        var spanScore2 = $(ariaControlsMatch + ' .score2');
+        spanScore1.text(matchInfo.score1);
+        spanScore2.text(matchInfo.score2);
+    });
+}
+
 $(".changeScoreButton").click(function () {
     var matchID = $(this).parent().parent().parent().attr("aria-controls");
     $("#pointsModal").attr("data-matchID", matchID);
@@ -50,7 +60,7 @@ $(".startGameButton").click(function () {
         "score1": 0,
         "score2": 0
     };
-    postMatchInfo(matchID, matchInfo, function () {location.reload()});
+    postMatchInfo(matchID, matchInfo, function () {updateMatch(matchID)});
 });
 
 $("#submitScoreButton").click(function () {
@@ -60,7 +70,10 @@ $("#submitScoreButton").click(function () {
         "score1": $("#score1Input").val(),
         "score2": $("#score2Input").val()
     };
-    postMatchInfo(matchID, matchInfo, function () {location.reload()});
+    postMatchInfo(matchID, matchInfo, function () {
+        updateMatch(matchID);
+        $('#pointsModal').modal('close');
+    });
 });
 
 
