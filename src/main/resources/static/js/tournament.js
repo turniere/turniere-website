@@ -6,7 +6,7 @@ $(function () {
     });
 });
 
-function updateMatch(matchID, data, cb) {
+function postMatchInfo(matchID, data, cb) {
     $.ajax("/m/" + matchID, {
         type: "POST",
         headers: {
@@ -50,7 +50,7 @@ $(".startGameButton").click(function () {
         "score1": 0,
         "score2": 0
     };
-    updateMatch(matchID, matchInfo, function () {location.reload()});
+    postMatchInfo(matchID, matchInfo, function () {location.reload()});
 });
 
 $("#submitScoreButton").click(function () {
@@ -60,7 +60,7 @@ $("#submitScoreButton").click(function () {
         "score1": $("#score1Input").val(),
         "score2": $("#score2Input").val()
     };
-    updateMatch(matchID, matchInfo, function () {location.reload()});
+    postMatchInfo(matchID, matchInfo, function () {location.reload()});
 });
 
 
