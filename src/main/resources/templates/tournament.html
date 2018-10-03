@@ -168,13 +168,13 @@
                                             <div class="card-body">
                                                 <div class="alert alert-warning h6">
                                                     <span th:text="${match.team1.name}"></span>
-                                                    <span class="badge badge-light float-right"
+                                                    <span class="badge badge-light float-right score1"
                                                           th:if="${match.scoreTeam1 != null}"
                                                           th:text="${match.scoreTeam1}"></span>
                                                 </div>
                                                 <div class="alert alert-warning h6 mb-0">
                                                     <span th:text="${match.team2.name}"></span>
-                                                    <span class="badge badge-light float-right"
+                                                    <span class="badge badge-light float-right score2"
                                                           th:if="${match.scoreTeam2 != null}"
                                                           th:text="${match.scoreTeam2}"></span>
                                                 </div>
@@ -311,12 +311,12 @@
                                 <div class="card-body">
                                     <div class="alert alert-warning h6">
                                         <span th:text="${match.team1.name}"></span>
-                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam1 != null}"
+                                        <span class="badge badge-light float-right score1" th:if="${match.scoreTeam1 != null}"
                                               th:text="${match.scoreTeam1}"></span>
                                     </div>
                                     <div class="alert alert-warning h6 mb-0">
                                         <span th:text="${match.team2.name}"></span>
-                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
+                                        <span class="badge badge-light float-right score2" th:if="${match.scoreTeam2 != null}"
                                               th:text="${match.scoreTeam2}"></span>
                                     </div>
                                     <div th:if="${ownerIsAuthenticated}">
@@ -367,14 +367,14 @@
                                 <div class="card-body">
                                     <div class="alert alert-secondary h6">
                                         <span th:text="${match.team1.name}"></span>
-                                        <div class="badge badge-light ml-3 float-right"
+                                        <div class="badge badge-light ml-3 float-right score1"
                                              th:text="${match.scoreTeam1}"></div>
                                     </div>
                                     <div class="alert alert-success h6 overflow-auto mb-0">
                                         <span th:text="${match.team2.name}"></span>
                                         <div class="float-right inline-flex">
                                             <span class="badge badge-success ml-3">Gewinner</span>
-                                            <span class="badge badge-light ml-2" th:text="${match.scoreTeam2}"></span>
+                                            <span class="badge badge-light ml-2 score2" th:text="${match.scoreTeam2}"></span>
                                         </div>
                                     </div>
                                 </div>
