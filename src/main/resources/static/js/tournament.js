@@ -6,20 +6,39 @@ $(function () {
     });
 });
 
+function updateMatch(matchID, data, cb) {
+    $.ajax("/m/" + matchID, {
+        type: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(data)
+    }).done(cb);
+}
+
+function getMatchInfo(matchID, cb) {
+   $.ajax("/m/" + matchID, {
+       type: "GET",
+       dataType: "json"
+   }).done(function (data) {
+        cb({
+            name1: data.data.name1,
+            name2: data.data.name2,
+            score1: data.data.score1,
+            score2: data.data.score2
+        });
+   });
+}
+
 $(".changeScoreButton").click(function () {
     var matchID = $(this).parent().parent().parent().attr("aria-controls");
     $("#pointsModal").attr("data-matchID", matchID);
-    $.ajax({
-        type: "GET",
-        url: "/m/" + matchID,
-        dataType: "json"
-    })
-        .done(function (json) {
-            $("#modalNameTeam1").text(json.data.name1);
-            $("#modalNameTeam2").text(json.data.name2);
-            $("#score1Input").val(json.data.score1);
-            $("#score2Input").val(json.data.score2);
-        });
+    getMatchInfo(matchID, function (matchInfo) {
+        $("#modalNameTeam1").text(matchInfo.name1);
+        $("#modalNameTeam2").text(matchInfo.name2);
+        $("#score1Input").val(matchInfo.score1);
+        $("#score2Input").val(matchInfo.score2);
+    });
 });
 
 $(".startGameButton").click(function () {
@@ -29,19 +48,7 @@ $(".startGameButton").click(function () {
         "score1": 0,
         "score2": 0
     };
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: "/m/" + matchID,
-        data: JSON.stringify(matchInfo),
-        dataType: "json"
-    })
-        .done(function (json) {
-            location.reload();
-        });
+    updateMatch(matchID, matchInfo, function () {location.reload()});
 });
 
 $("#submitScoreButton").click(function () {
@@ -51,19 +58,7 @@ $("#submitScoreButton").click(function () {
         "score1": $("#score1Input").val(),
         "score2": $("#score2Input").val()
     };
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: "/m/" + matchID,
-        data: JSON.stringify(matchInfo),
-        dataType: "json"
-    })
-        .done(function (json) {
-            location.reload();
-        })
+    updateMatch(matchID, matchInfo, function () {location.reload()});
 });
 
 
