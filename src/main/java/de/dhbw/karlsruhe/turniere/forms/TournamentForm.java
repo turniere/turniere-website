@@ -22,7 +22,6 @@ public class TournamentForm {
     private Boolean isPublic;
 
     @NotEmpty
-    @Size(max = 255)
     private String teamNames;
 
     @Min(0)

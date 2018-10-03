@@ -21,11 +21,15 @@ public class TournamentFormValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         TournamentForm tournamentForm = (TournamentForm) o;
+        int teamsCount = tournamentService.splitTeamnames(tournamentForm.getTeamNames()).length;
+        if (teamsCount > 200) {
+            errors.rejectValue("teamNames", "tooManyTeams");
+        }
         int groupSize = tournamentForm.getGroupSize();
         if (groupSize == 0 || groupSize == 1) {
             return;
         }
-        if (((tournamentService.splitTeamnames(tournamentForm.getTeamNames()).length) % (groupSize)) != 0) {
+        if ((teamsCount % groupSize) != 0) {
             errors.rejectValue("groupSize", "teamSizedoesntMatchGroupSize");
         }
         /*
