@@ -38,6 +38,8 @@ $(".changeScoreButton").click(function () {
         $("#modalNameTeam2").text(matchInfo.name2);
         $("#score1Input").val(matchInfo.score1);
         $("#score2Input").val(matchInfo.score2);
+        // open modal
+        $("#pointsModal").modal('show');
     });
 });
 
