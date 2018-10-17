@@ -53,6 +53,8 @@ public class Tournament {
     @Fetch(FetchMode.SELECT)
     private List<Stage> stages = new ArrayList<>();
 
+    private String currentStage;
+
     private byte[] qrcode;
 
     @ManyToOne

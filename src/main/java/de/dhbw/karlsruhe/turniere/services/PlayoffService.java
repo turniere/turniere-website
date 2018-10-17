@@ -42,6 +42,7 @@ public class PlayoffService {
         Stage stage = new Stage(stageCount, matches);
         // save and add to tournament
         tournament.addStage(stageRepository.save(stage));
+        tournament.setCurrentStage(Integer.toString(stageCount));
         //
         List<Match> savedMatches = tournament.getStages().get(0).getMatches();
         // add remaining stages
