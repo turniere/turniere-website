@@ -81,6 +81,21 @@ public class MatchService {
             } else if (match.getState() == Match.State.TEAM2_WON) {
                 populateMatchBelow(nextStage, match, winningTeam);
             }
+            //this sets the current stage according to the matches which are decided
+            boolean stageIsOver = false;
+            for (Match loopMatch:stage.getMatches()){
+                Match.State matchState = loopMatch.getState();
+                if (matchState == Match.State.IN_PROGRESS || matchState == Match.State.NOT_STARTED){
+                    tournament.setCurrentStage(Long.toString(stage.getLevel()));
+                    stageIsOver = false;
+                    break;
+                }else{
+                    stageIsOver = true;
+                }
+            }
+            if (stageIsOver){
+                tournament.setCurrentStage(Long.toString(stage.getLevel()-1));
+            }
         } else {
             if (!match.getIsGroupMatch()) {
                 // ensure winning team is already set
@@ -88,6 +103,7 @@ public class MatchService {
                     // final match => set tournament winner
                     tournament.setWinner(winningTeam);
                     tournamentRepository.save(tournament);
+                    tournament.setCurrentStage("winner");
                 }
             }
         }

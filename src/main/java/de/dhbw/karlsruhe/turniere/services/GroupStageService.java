@@ -67,6 +67,7 @@ public class GroupStageService {
         groupStage.setPlayoffSize(playoffSize);
         groupStage = groupStageRepository.save(groupStage);
         tournament.setGroupStage(groupStage);
+        tournament.setCurrentStage("groupStage");
 
         return groupStage;
     }
