@@ -130,6 +130,12 @@ public class TournamentController {
         }
     }
 
+    @GetMapping("/t/{code}/fullscreen")
+    String fullscreenTournament(@PathVariable String code, Model model, Authentication authentication){
+        getTournamentAndAddToModel(model, authentication, code);
+        return "tournament_fullscreen";
+    }
+
     @GetMapping("/t/{code}/edit")
     String editTournament(@PathVariable String code, ChangeTournamentForm changeTournamentForm, Model model, Authentication authentication) {
         // find tournament object
