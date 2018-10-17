@@ -49,6 +49,29 @@ public class TournamentController {
         }
     }
 
+    private Model getTournamentAndAddToModel(Model model, Authentication authentication, String tournamentCode) {
+        // find tournament object
+        Tournament tournament = safeGetTournament(tournamentCode);
+        //sort matches and teams
+        tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
+        tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
+        Optional.ofNullable(tournament.getGroupStage())
+                .ifPresent(groupStage -> groupStage.getGroups().forEach(group -> {
+                    group.getTeams().sort(Comparator.comparing(Team::getGroupPlace).thenComparing(Team::getName));
+                    group.getMatches().sort(Comparator.comparing(Match::getPosition));
+                }));
+        // add tournament object to model
+        model.addAttribute("tournament", tournament);
+        if (tournament.getQrcode() != null) {
+            model.addAttribute("qrcode", new String(tournament.getQrcode()));
+        }
+        User owner = tournament.getOwner();
+        boolean ownerIsAuthenticated = authentication != null && owner.equals(User.fromAuthentication(authentication));
+        model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
+        model.addAttribute("ownerName", owner.getUsername());
+        return model;
+    }
+
     @GetMapping("/liste")
     String tournamentList(Model model, Authentication authentication) {
         List<Tournament> publicTournaments;
@@ -93,26 +116,8 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}")
-    String viewTournament(@PathVariable String code, Model model, HttpServletResponse httpServletResponse, Authentication authentication) {
-        // find tournament object
-        Tournament tournament = safeGetTournament(code);
-        //sort matches and teams
-        tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
-        tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
-        Optional.ofNullable(tournament.getGroupStage())
-                .ifPresent(groupStage -> groupStage.getGroups().forEach(group -> {
-                    group.getTeams().sort(Comparator.comparing(Team::getGroupPlace).thenComparing(Team::getName));
-                    group.getMatches().sort(Comparator.comparing(Match::getPosition));
-                }));
-        // add tournament object to model
-        model.addAttribute("tournament", tournament);
-        if (tournament.getQrcode() != null) {
-            model.addAttribute("qrcode", new String(tournament.getQrcode()));
-        }
-        User owner = tournament.getOwner();
-        boolean ownerIsAuthenticated = authentication != null && owner.equals(User.fromAuthentication(authentication));
-        model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
-        model.addAttribute("ownerName", owner.getUsername());
+    String viewTournament(@PathVariable String code, Model model, Authentication authentication) {
+        getTournamentAndAddToModel(model, authentication, code);
         return "tournament";
     }
 
