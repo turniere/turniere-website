@@ -2,7 +2,7 @@ FROM alpine:3.8
 
 RUN apk add openjdk8-jre
 
-COPY target/turniere-0.0.1-SNAPSHOT.jar /home/turniere/turniere.jar
+COPY target/turniere.jar /home/turniere/turniere.jar
 
 WORKDIR /home/turniere
 
