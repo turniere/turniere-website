@@ -17,17 +17,17 @@ function updateMatch(matchID, data, cb) {
 }
 
 function getMatchInfo(matchID, cb) {
-   $.ajax("/m/" + matchID, {
-       type: "GET",
-       dataType: "json"
-   }).done(function (data) {
+    $.ajax("/m/" + matchID, {
+        type: "GET",
+        dataType: "json"
+    }).done(function (data) {
         cb({
             name1: data.data.name1,
             name2: data.data.name2,
             score1: data.data.score1,
             score2: data.data.score2
         });
-   });
+    });
 }
 
 $(".changeScoreButton").click(function () {
@@ -50,7 +50,9 @@ $(".startGameButton").click(function () {
         "score1": 0,
         "score2": 0
     };
-    updateMatch(matchID, matchInfo, function () {location.reload()});
+    updateMatch(matchID, matchInfo, function () {
+        location.reload()
+    });
 });
 
 $("#submitScoreButton").click(function () {
@@ -60,7 +62,9 @@ $("#submitScoreButton").click(function () {
         "score1": $("#score1Input").val(),
         "score2": $("#score2Input").val()
     };
-    updateMatch(matchID, matchInfo, function () {location.reload()});
+    updateMatch(matchID, matchInfo, function () {
+        location.reload()
+    });
 });
 
 

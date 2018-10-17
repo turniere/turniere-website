@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head"></head>
 
@@ -54,12 +54,12 @@
                     <div class="alert alert-danger" th:if="${#fields.hasErrors('teamNames')}" th:errors="*{teamNames}">Fehler</div>
                     <label for="f-teams">Teams</label>
                     <div class="input-group">
-                            <input class="form-control" id="f-teams-input" type="text"
+                        <input class="form-control" id="f-teams-input" type="text"
                                placeholder="Teamname"><br>
                         <div class="input-group-append">
                             <button type="button" class="btn btn-outline-success rounded-right" id="f-addTeam">Team hinzufügen</button>
                         </div>
-                            <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}" style="display: none" required>
+                        <input class="form-control" id="f-teams" type="text" th:field="*{teamNames}" style="display: none" required>
                     </div>
                 </div>
                 <div class="form-group" id="f-teamnames"></div>
