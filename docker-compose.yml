@@ -5,11 +5,11 @@ services:
     image: turniere/turniere-website:latest
     #env_file: ./it/src/it/resources/turniere.properties
     ports:
-      - 8080:8080
+    - 8080:8080
     volumes:
-      - ./src/main/resources/application.yml:/home/turniere/application.yml
+    - ./src/main/resources/application.yml:/home/turniere/application.yml
     links:
-      - postgres:postgres
+    - postgres:postgres
 
   postgres:
     image: postgres:11-alpine

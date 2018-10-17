@@ -6,11 +6,11 @@ spring:
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
 
   datasource:
-      platform: postgres
-      driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://postgres:5432/turniere
-      username: postgres
-      password: password
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/turniere
+    username: postgres
+    password: password
 
   thymeleaf:
-      cache: false
+    cache: false

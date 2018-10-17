@@ -83,18 +83,18 @@ public class MatchService {
             }
             //this sets the current stage according to the matches which are decided
             boolean stageIsOver = false;
-            for (Match loopMatch:stage.getMatches()){
+            for (Match loopMatch : stage.getMatches()) {
                 Match.State matchState = loopMatch.getState();
-                if (matchState == Match.State.IN_PROGRESS || matchState == Match.State.NOT_STARTED){
+                if (matchState == Match.State.IN_PROGRESS || matchState == Match.State.NOT_STARTED) {
                     tournament.setCurrentStage(Long.toString(stage.getLevel()));
                     stageIsOver = false;
                     break;
-                }else{
+                } else {
                     stageIsOver = true;
                 }
             }
-            if (stageIsOver){
-                tournament.setCurrentStage(Long.toString(stage.getLevel()-1));
+            if (stageIsOver) {
+                tournament.setCurrentStage(Long.toString(stage.getLevel() - 1));
             }
         } else {
             if (!match.getIsGroupMatch()) {

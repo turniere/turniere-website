@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -49,7 +48,7 @@ public class TournamentController {
         }
     }
 
-    private Model getTournamentAndAddToModel(Model model, Authentication authentication, String code){
+    private Model getTournamentAndAddToModel(Model model, Authentication authentication, String code) {
         // find tournament object
         Tournament tournament = safeGetTournament(code);
         return getTournamentAndAddToModel(model, authentication, tournament);
@@ -85,7 +84,6 @@ public class TournamentController {
             // find private tournaments and public tournaments not owned by authenticated user
             User user = User.fromAuthentication(authentication);
             publicTournaments = tournamentRepository.findByOwnerNotAndIsPublic(user, true);
-            ;
             privateTournaments = tournamentRepository.findByOwner(user);
         } else {
             // find public tournaments
@@ -135,10 +133,10 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}/fullscreen")
-    String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication){
+    String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication) {
         Tournament tournament = safeGetTournament(code);
         getTournamentAndAddToModel(model, authentication, tournament);
-        if (stage == "current"){
+        if (stage == "current") {
             stage = tournament.getCurrentStage();
         }
         model.addAttribute("stage", stage);
