@@ -49,9 +49,13 @@ public class TournamentController {
         }
     }
 
-    private Model getTournamentAndAddToModel(Model model, Authentication authentication, String tournamentCode) {
+    private Model getTournamentAndAddToModel(Model model, Authentication authentication, String code){
         // find tournament object
-        Tournament tournament = safeGetTournament(tournamentCode);
+        Tournament tournament = safeGetTournament(code);
+        return getTournamentAndAddToModel(model, authentication, tournament);
+    }
+
+    private Model getTournamentAndAddToModel(Model model, Authentication authentication, Tournament tournament) {
         //sort matches and teams
         tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
         tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
@@ -131,8 +135,13 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}/fullscreen")
-    String fullscreenTournament(@PathVariable String code, Model model, Authentication authentication){
-        getTournamentAndAddToModel(model, authentication, code);
+    String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication){
+        Tournament tournament = safeGetTournament(code);
+        getTournamentAndAddToModel(model, authentication, tournament);
+        if (stage == "current"){
+            stage = tournament.getCurrentStage();
+        }
+        model.addAttribute("stage", stage);
         return "tournament_fullscreen";
     }
 
