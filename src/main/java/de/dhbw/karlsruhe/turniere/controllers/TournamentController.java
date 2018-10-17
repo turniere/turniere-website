@@ -240,4 +240,9 @@ public class TournamentController {
         });
         return "redirect:/t/" + tournament.getCode();
     }
+
+    @GetMapping("/loaderio-80aecb32d07160a9cebbdcc324044a07.txt")
+    String loaderIO(){
+        return "loaderio-80aecb32d07160a9cebbdcc324044a07";
+    }
 }
