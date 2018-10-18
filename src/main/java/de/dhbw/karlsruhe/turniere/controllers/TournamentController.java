@@ -68,6 +68,10 @@ public class TournamentController {
         if (tournament.getQrcode() != null) {
             model.addAttribute("qrcode", new String(tournament.getQrcode()));
         }
+        return model;
+    }
+
+    private Model getUserAuthentication(Model model, Authentication authentication, Tournament tournament) {
         User owner = tournament.getOwner();
         boolean ownerIsAuthenticated = authentication != null && owner.equals(User.fromAuthentication(authentication));
         model.addAttribute("ownerIsAuthenticated", ownerIsAuthenticated);
@@ -119,7 +123,7 @@ public class TournamentController {
 
     @GetMapping("/t/{code}")
     String viewTournament(@PathVariable String code, Model model, Authentication authentication) {
-        getTournamentAndAddToModel(model, authentication, code);
+        model = getTournamentAndAddToModel(model, authentication, code);
         return "tournament";
     }
 
@@ -135,11 +139,32 @@ public class TournamentController {
     @GetMapping("/t/{code}/fullscreen")
     String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication) {
         Tournament tournament = safeGetTournament(code);
-        getTournamentAndAddToModel(model, authentication, tournament);
-        if (stage == "current") {
+
+        model = getUserAuthentication(model, authentication, tournament);
+
+        //getTournamentAndAddToModel(model, authentication, tournament);
+        if (stage.equals("current")) {
             stage = tournament.getCurrentStage();
         }
-        model.addAttribute("stage", stage);
+        switch (stage) {
+            case "groupStage":
+                model.addAttribute("tournament.groupStage", tournament.getGroupStage());
+                break;
+            case "winner":
+                model.addAttribute("tournament.winner", tournament.getWinner());
+                break;
+            default:
+                int stageInt;
+                try {
+                    stageInt = Integer.valueOf(stage);
+                } catch (NumberFormatException e) {
+                    return "error404";
+                }
+                model.addAttribute("tournament.stage", tournament.getStages().get(stageInt));
+
+        }
+        model.addAttribute("tournament.name", tournament.getName());
+        model.addAttribute("tournament.code", tournament.getCode());
         return "tournament_fullscreen";
     }
 
