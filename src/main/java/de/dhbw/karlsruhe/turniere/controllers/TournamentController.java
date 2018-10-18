@@ -152,10 +152,10 @@ public class TournamentController {
         }
         switch (stage) {
             case "groupStage":
-                model.addAttribute("tournament.groupStage", tournament.getGroupStage());
+                model.addAttribute("tgroupStage", tournament.getGroupStage());
                 break;
             case "winner":
-                model.addAttribute("tournament.winner", tournament.getWinner());
+                model.addAttribute("twinner", tournament.getWinner());
                 break;
             default:
                 int stageInt;
@@ -164,11 +164,11 @@ public class TournamentController {
                 } catch (NumberFormatException e) {
                     return "error404";
                 }
-                model.addAttribute("tournament.stage", tournament.getStages().get(stageInt));
+                model.addAttribute("tstage", tournament.getStages().get(stageInt));
 
         }
-        model.addAttribute("tournament.name", tournament.getName());
-        model.addAttribute("tournament.code", tournament.getCode());
+        model.addAttribute("tname", tournament.getName());
+        model.addAttribute("tcode", tournament.getCode());
         return "tournament_fullscreen";
     }
 
