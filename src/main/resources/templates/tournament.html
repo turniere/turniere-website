@@ -19,10 +19,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div th:text="${tournament.description}"></div>
-                <a class="btn btn-outline-secondary mt-3" th:if="${ownerIsAuthenticated}"
-                   th:href="'/t/' + ${tournament.code} + '/edit'">Bearbeiten</a>
+                <div class="border-top d-inline-block mt-3 px-1">
+                    von <strong th:text="${ownerName}"></strong>
+                </div><br>
             </div>
 
             <div class="col-md-4">
@@ -34,17 +35,23 @@
                         Das Turnier ist privat.
                     </div>
                     <div class="list-group-item">
-                        von <strong th:text="${ownerName}"></strong>
-                    </div>
-                    <div class="list-group-item">
                         Turnier-Code: <strong th:text="${tournament.code}"></strong>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <a role="button" class="btn btn-outline-secondary mb-3 w-100" th:if="${ownerIsAuthenticated}"
+                   th:href="'/t/' + ${tournament.code} + '/edit'">Turnier bearbeiten</a>
+
                 <!-- QrModal trigger button -->
-                <button type="button" class="btn btn-outline-primary mt-3 w-100" data-toggle="modal"
+                <button type="button" class="btn btn-outline-primary mb-3 w-100" data-toggle="modal"
                         data-target="#qrModal">
                     Turnier per QR-Code teilen
                 </button>
+
+                <a role="button" class="btn btn-outline-primary w-100" th:href="${'/t/' + tournament.code + '/fullscreen?stage=current'}">
+                    Vollbildmodus
+                </a>
 
                 <!-- QrModal -->
                 <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
