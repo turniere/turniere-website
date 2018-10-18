@@ -10,13 +10,13 @@ public class UserFormValidator {
     UserRepository userRepository;
 
     public void rejectDuplicateEmail(String email, Errors errors) {
-        if (userRepository.findByEmail(email) != null) {
+        if (userRepository.findByEmailIgnoreCase(email.toLowerCase()) != null) {
             errors.rejectValue("email", "duplicate");
         }
     }
 
     public void rejectDuplicateUsername(String username, Errors errors) {
-        if (userRepository.findByUsername(username) != null) {
+        if (userRepository.findByUsernameIgnoreCase(username.toLowerCase()) != null) {
             errors.rejectValue("username", "duplicate");
         }
     }
