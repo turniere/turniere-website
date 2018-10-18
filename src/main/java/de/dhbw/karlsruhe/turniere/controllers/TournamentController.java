@@ -143,14 +143,14 @@ public class TournamentController {
     }
 
     @GetMapping("/t/{code}/fullscreen")
-    String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication) {
+    String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stageCode, Model model, Authentication authentication) {
         Tournament tournament = safeGetTournament(code);
         model = getUserAuthentication(model, authentication, tournament);
         //getTournamentAndAddToModel(model, authentication, tournament);
-        if (stage.equals("current")) {
-            stage = tournament.getCurrentStage();
+        if (stageCode.equals("current")) {
+            stageCode = tournament.getCurrentStage();
         }
-        switch (stage) {
+        switch (stageCode) {
             case "groupStage":
                 model.addAttribute("tgroupStage", tournament.getGroupStage());
                 break;
@@ -160,11 +160,15 @@ public class TournamentController {
             default:
                 int stageInt;
                 try {
-                    stageInt = Integer.valueOf(stage);
+                    stageInt = Integer.valueOf(stageCode);
                 } catch (NumberFormatException e) {
-                    return "error404";
+                    throw new ResourceNotFoundException("Stage doesn't exist");
                 }
-                model.addAttribute("tstage", tournament.getStages().get(stageInt));
+                Optional<Stage> modelStageOptional = tournament.getStages().stream().filter(stage -> stage.getLevel().equals(stageInt)).findFirst();
+                if (!modelStageOptional.isPresent()) {
+                    throw new ResourceNotFoundException("Stage doesn't exist");
+                }
+                model.addAttribute("tstage", modelStageOptional.get());
 
         }
         model.addAttribute("tname", tournament.getName());
