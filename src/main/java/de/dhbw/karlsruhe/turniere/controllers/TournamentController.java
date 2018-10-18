@@ -71,6 +71,11 @@ public class TournamentController {
         return model;
     }
 
+    private Model getUserAuthentication(Model model, Authentication authentication, String code) {
+        Tournament tournament = safeGetTournament(code);
+        return getUserAuthentication(model, authentication, tournament);
+    }
+
     private Model getUserAuthentication(Model model, Authentication authentication, Tournament tournament) {
         User owner = tournament.getOwner();
         boolean ownerIsAuthenticated = authentication != null && owner.equals(User.fromAuthentication(authentication));
@@ -124,6 +129,7 @@ public class TournamentController {
     @GetMapping("/t/{code}")
     String viewTournament(@PathVariable String code, Model model, Authentication authentication) {
         model = getTournamentAndAddToModel(model, authentication, code);
+        model = getUserAuthentication(model, authentication, code);
         return "tournament";
     }
 
@@ -139,9 +145,7 @@ public class TournamentController {
     @GetMapping("/t/{code}/fullscreen")
     String fullscreenTournament(@PathVariable String code, @RequestParam("stage") String stage, Model model, Authentication authentication) {
         Tournament tournament = safeGetTournament(code);
-
         model = getUserAuthentication(model, authentication, tournament);
-
         //getTournamentAndAddToModel(model, authentication, tournament);
         if (stage.equals("current")) {
             stage = tournament.getCurrentStage();
