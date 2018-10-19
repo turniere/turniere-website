@@ -5,7 +5,7 @@
 
   <groupId>de.dhbw.karlsruhe</groupId>
   <artifactId>turniere</artifactId>
-  <version>0.0.2-SNAPSHOT-feature_beamer</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>turniere</name>
