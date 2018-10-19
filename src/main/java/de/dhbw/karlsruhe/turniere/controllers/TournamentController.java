@@ -13,6 +13,7 @@ import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.validators.TournamentFormValidator;
+import de.dhbw.karlsruhe.turniere.services.MatchService;
 import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -36,6 +37,7 @@ import java.util.Optional;
 public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
+    private final MatchService matchService;
     private final TournamentFormValidator tournamentFormValidator;
     private final MatchRepository matchRepository;
 
@@ -213,8 +215,7 @@ public class TournamentController {
         }
         Stage stage = optionalStage.get();
         for (Match match : stage.getMatches()) {
-            match.setState(Match.State.IN_PROGRESS);
-            matchRepository.save(match);
+            matchService.startMatch(match);
         }
         return "redirect:/t/" + tournament.getCode();
     }
@@ -232,8 +233,7 @@ public class TournamentController {
             Optional<Match> optionalFirstNotStartedMatch = group.getMatches().stream().filter(match -> match.getState() == Match.State.NOT_STARTED).findFirst();
             if (optionalFirstNotStartedMatch.isPresent()) {
                 Match firstNotStartedMatch = optionalFirstNotStartedMatch.get();
-                firstNotStartedMatch.setState(Match.State.IN_PROGRESS);
-                matchRepository.save(firstNotStartedMatch);
+                matchService.startMatch(firstNotStartedMatch);
             } else {
                 // TODO: Handle this somehow...
             }
