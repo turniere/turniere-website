@@ -1,16 +1,19 @@
 package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
+import de.dhbw.karlsruhe.turniere.database.models.GroupStage;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
 import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
+import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.TournamentForm;
 import de.dhbw.karlsruhe.turniere.forms.validators.TournamentFormValidator;
+import de.dhbw.karlsruhe.turniere.services.MatchService;
 import de.dhbw.karlsruhe.turniere.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -34,7 +37,9 @@ import java.util.Optional;
 public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
+    private final MatchService matchService;
     private final TournamentFormValidator tournamentFormValidator;
+    private final MatchRepository matchRepository;
 
     private Tournament safeGetTournament(String code) {
         return tournamentRepository.findByCode(code)
@@ -197,6 +202,42 @@ public class TournamentController {
         tournament.setDescription(changeTournamentForm.getDescription());
         tournament.setIsPublic(changeTournamentForm.getIsPublic());
         tournamentRepository.save(tournament);
+        return "redirect:/t/" + tournament.getCode();
+    }
+
+    @GetMapping("/t/{code}/{stageId}/start")
+    String startStage(@PathVariable String code, @PathVariable Long stageId, Authentication authentication) {
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        Optional<Stage> optionalStage = tournament.getStages().stream().filter((Stage stage) -> stage.getId().equals(stageId)).findFirst();
+        if (!optionalStage.isPresent()) {
+            throw new ResourceNotFoundException("Requested stage doesn't exist");
+        }
+        Stage stage = optionalStage.get();
+        for (Match match : stage.getMatches()) {
+            matchService.startMatch(match);
+        }
+        return "redirect:/t/" + tournament.getCode();
+    }
+
+    @GetMapping("/t/{code}/group/next")
+    String startNextGroupMatches(@PathVariable String code, Authentication authentication) {
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        Optional<GroupStage> optionalGroupStage = Optional.ofNullable(tournament.getGroupStage());
+        if (!optionalGroupStage.isPresent()) {
+            throw new ResourceNotFoundException("GroupStage doesn't exist");
+        }
+        GroupStage groupStage = optionalGroupStage.get();
+        groupStage.getGroups().forEach(group -> {
+            Optional<Match> optionalFirstNotStartedMatch = group.getMatches().stream().filter(match -> match.getState() == Match.State.NOT_STARTED).findFirst();
+            if (optionalFirstNotStartedMatch.isPresent()) {
+                Match firstNotStartedMatch = optionalFirstNotStartedMatch.get();
+                matchService.startMatch(firstNotStartedMatch);
+            } else {
+                // TODO: Handle this somehow...
+            }
+        });
         return "redirect:/t/" + tournament.getCode();
     }
 }

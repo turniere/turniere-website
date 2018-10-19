@@ -123,6 +123,17 @@ public class MatchService {
     }
 
     /**
+     * Starts the Match after checking if the Match has two teams and is not started yet.
+     *
+     * @param match The Match to start
+     */
+    public void startMatch(Match match) {
+        if (match.getTeam1().getName() != null && match.getTeam2().getName() != null && match.getState() == Match.State.NOT_STARTED) {
+            match.setState(Match.State.IN_PROGRESS);
+            matchRepository.save(match);
+        }
+    }
+    /**
      * Evaluates the winner of a given Match
      *
      * @param match The Match to evaluate who won
