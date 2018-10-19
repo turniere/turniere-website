@@ -1,11 +1,13 @@
 package de.dhbw.karlsruhe.turniere.controllers;
 
 import de.dhbw.karlsruhe.turniere.authentication.CustomUserDetails;
+import de.dhbw.karlsruhe.turniere.database.models.GroupStage;
 import de.dhbw.karlsruhe.turniere.database.models.Match;
 import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
+import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
@@ -35,6 +37,7 @@ public class TournamentController {
     private final TournamentRepository tournamentRepository;
     private final TournamentService tournamentService;
     private final TournamentFormValidator tournamentFormValidator;
+    private final MatchRepository matchRepository;
 
     private Tournament safeGetTournament(String code) {
         return tournamentRepository.findByCode(code)
@@ -199,4 +202,21 @@ public class TournamentController {
         tournamentRepository.save(tournament);
         return "redirect:/t/" + tournament.getCode();
     }
+
+    @GetMapping("/t/{code}/{stageId}/start")
+    String startStage(@PathVariable String code, @PathVariable Long stageId, Authentication authentication) {
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        Optional<Stage> optionalStage = tournament.getStages().stream().filter((Stage stage) -> stage.getId().equals(stageId)).findFirst();
+        if (!optionalStage.isPresent()) {
+            throw new ResourceNotFoundException("Requested stage doesn't exist");
+        }
+        Stage stage = optionalStage.get();
+        for (Match match : stage.getMatches()) {
+            match.setState(Match.State.IN_PROGRESS);
+            matchRepository.save(match);
+        }
+        return "redirect:/t/" + tournament.getCode();
+    }
+
 }
