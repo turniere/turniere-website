@@ -10,6 +10,9 @@ fi
 # build docker image
 mvn docker:build
 
+# replace / in branch name with . because / is not allowed in docker tags
+TRAVIS_BRANCH=${TRAVIS_BRANCH/\//.}
+
 # build docker image tag
 BRANCH_REV="${TRAVIS_BRANCH}-$(git rev-parse --short HEAD)"
 
