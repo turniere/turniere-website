@@ -128,7 +128,7 @@ public class MatchService {
      * @param match The Match to start
      */
     public void startMatch(Match match) {
-        if (match.getTeam1() != null && match.getTeam2() != null && match.getState() == Match.State.NOT_STARTED) {
+        if (match.getTeam1().getName() != null && match.getTeam2().getName() != null && match.getState() == Match.State.NOT_STARTED) {
             match.setState(Match.State.IN_PROGRESS);
             matchRepository.save(match);
         }
