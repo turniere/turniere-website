@@ -7,3 +7,6 @@ deploy:
   skip_cleanup: true
   on:
     all_branches: true
+notifications:
+  webhooks:
+    - https://h.turnie.re/turniere/deploy
