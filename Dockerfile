@@ -1,6 +1,4 @@
-FROM alpine:3.8
-
-RUN apk add openjdk8-jre
+FROM turniere/docker_base-openjdk8:8.171.11-r0-dockerv00
 
 COPY target/turniere.jar /home/turniere/turniere.jar
 
