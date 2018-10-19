@@ -219,4 +219,25 @@ public class TournamentController {
         return "redirect:/t/" + tournament.getCode();
     }
 
+    @GetMapping("/t/{code}/group/next")
+    String startNextGroupMatches(@PathVariable String code, Authentication authentication) {
+        Tournament tournament = safeGetTournament(code);
+        verifyOwnership(tournament, authentication);
+        Optional<GroupStage> optionalGroupStage = Optional.ofNullable(tournament.getGroupStage());
+        if (!optionalGroupStage.isPresent()) {
+            throw new ResourceNotFoundException("GroupStage doesn't exist");
+        }
+        GroupStage groupStage = optionalGroupStage.get();
+        groupStage.getGroups().forEach(group -> {
+            Optional<Match> optionalFirstNotStartedMatch = group.getMatches().stream().filter(match -> match.getState() == Match.State.NOT_STARTED).findFirst();
+            if (optionalFirstNotStartedMatch.isPresent()) {
+                Match firstNotStartedMatch = optionalFirstNotStartedMatch.get();
+                firstNotStartedMatch.setState(Match.State.IN_PROGRESS);
+                matchRepository.save(firstNotStartedMatch);
+            } else {
+                // TODO: Handle this somehow...
+            }
+        });
+        return "redirect:/t/" + tournament.getCode();
+    }
 }

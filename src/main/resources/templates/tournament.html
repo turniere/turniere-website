@@ -105,6 +105,11 @@
         <div class="groupphase" th:if="${tournament.groupStage != null}">
             <div class="container pt-4 pb-1">
                 <h2 class="py-3">Gruppenphase</h2>
+                <a type="button" class="btn btn-outline-dark mt-3"
+                   th:href="${'/t/' + tournament.code + '/group/next'}"
+                   th:if="${ownerIsAuthenticated}">
+                    Nächste Spiele starten
+                </a>
                 <div th:each="group : ${tournament.groupStage.groups}">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body">
