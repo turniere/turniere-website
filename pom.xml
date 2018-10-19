@@ -119,6 +119,9 @@
                 <assembly>
                   <descriptorRef>rootWar</descriptorRef>
                 </assembly>
+                <tags>
+                  <tag>latest</tag>
+                </tags>
               </build>
               <run>
                 <ports>
