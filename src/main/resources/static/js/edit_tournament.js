@@ -28,7 +28,7 @@ function getTeamInfo(teamID, cb) {
 }
 
 $(".changeTeamnameButton").click(function () {
-    var teamID = $(this).parent().parent().attr("aria-controls");
+    var teamID = $(this).parent().attr("aria-controls");
     $("#teamModal").attr("data-teamID", teamID);
     getTeamInfo(teamID, function (teamInfo) {
         $("#teamName").text(teamInfo.name);

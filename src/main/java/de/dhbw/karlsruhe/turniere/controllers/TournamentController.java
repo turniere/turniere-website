@@ -185,6 +185,7 @@ public class TournamentController {
         // find tournament object
         Tournament tournament = safeGetTournament(code);
         verifyOwnership(tournament, authentication);
+        tournament.getTeams().sort(Comparator.comparing(Team::getName));
         model.addAttribute("tournament", tournament);
         return "edit_tournament";
     }

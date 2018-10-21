@@ -17,19 +17,24 @@
         <h1 class="display-1 overflow-auto" th:text="${tournament.name}">Dein Turnier</h1>
     </div>
 
+    <div class="container px-0">
+        <a class="btn btn-secondary mb-5 w-100" href="./">zurück zum Turnier</a>
+    </div>
+
     <div class="container card">
         <div class="card-body">
+            <h2>Turnier-Eigenschaften ändern</h2>
             <form action="#" th:action="@{'/t/' + ${tournament.code} + '/edit'}" th:object="${changeTournamentForm}"
                   method="POST">
                 <div class="form-group">
-                    <label for="name">Name</label>
+                    <label for="name">Turnier-Name</label>
                     <input class="form-control" type="text" th:name="name" id="name" th:value="${tournament.name}"
                            th:placeholder="${tournament.name}"
                            required>
                     <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name fehlerhaft</div>
                 </div>
                 <div class="form-group">
-                    <label for="description">Beschreibung</label>
+                    <label for="description">Turnier-Beschreibung</label>
                     <input class="form-control" type="text" th:name="description" id="description"
                            th:placeholder="${tournament.description}"
                            th:value="${tournament.description}">
@@ -46,35 +51,32 @@
                 <div class="form-group">
                     <div class="input-group">
                         <button type="submit" class="btn btn-success px-5">Ändern</button>
-                        <a class="btn btn-outline-secondary ml-2" href="./">zurück zum Turnier</a>
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
 
-            <!--TODO Felix please make it look nicer and or make more sense ui wise-->
-
-            <div th:each="team: ${tournament.teams}" class="stripes-odd">
-                <div class="card mt-4 border-warning shadow-sm"
-                     data-th-attr="aria-controls=${team.id}">
-                    <span th:text="${team.id}" style="display: none"></span>
-                    <div class="card-body">
-                        <div class="alert alert-warning h6">
-                            <span th:text="${team.name}"></span>
-                            <span class="badge badge-light float-right" th:if="${team.name != null}"
-                                  th:text="${team.name}"></span>
-                        </div>
-                        <button type="button" class="btn btn-outline-dark mt-3 changeTeamnameButton">
-                            Teamname ändern
+    <div class="container card my-4">
+        <div class="card-body">
+            <h2>Team-Namen ändern</h2>
+            <table class="table table-striped mt-3">
+                <tbody>
+                <tr th:each="team: ${tournament.teams}">
+                    <td data-th-attr="aria-controls=${team.id}">
+                        <button type="button" class="btn btn-outline-dark btn-sm changeTeamnameButton">
+                            ändern
                         </button>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                    <td th:text="${team.name}" class="w-100"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <!--Teamname Modal-->
     <div class="modal fade" id="teamModal" tabindex="-1" role="dialog"
-         aria-labelledby="qrModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -93,7 +95,7 @@
                             <label for="teamnameInput">
                                 Neuer Name für <strong id="teamName"></strong>
                             </label>
-                            <input class="form-control" id="teamNameInput" type="String"
+                            <input required class="form-control" id="teamNameInput" type="String"
                                    name="teamname">
                         </div>
                         <button class="btn btn-success w-100" id="submitTeamnameButton">
