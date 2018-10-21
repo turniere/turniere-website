@@ -104,12 +104,16 @@
     <div class="mt-5">
         <div class="groupphase" th:if="${tournament.groupStage != null}">
             <div class="container pt-4 pb-1">
-                <h2 class="py-3">Gruppenphase</h2>
-                <a type="button" class="btn btn-outline-dark mt-3"
-                   th:href="${'/t/' + tournament.code + '/group/next'}"
-                   th:if="${ownerIsAuthenticated}">
-                    Nächste Spiele starten
-                </a>
+                <h2 class="py-3">
+                    Gruppenphase
+                    <small class="float-right">
+                        <a role="button" class="btn btn-outline-dark"
+                           th:href="${'/t/' + tournament.code + '/group/next'}"
+                           th:if="${ownerIsAuthenticated}">
+                            Nächste Spiele starten
+                        </a>
+                    </small>
+                </h2>
                 <div th:each="group : ${tournament.groupStage.groups}">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body">
@@ -284,6 +288,13 @@
             <div class="container pt-5 pb-4">
                 <h2 class="mb-0">
                     <span th:text="${#messages.msgOrNull('tournament.stage.' + stage.level) ?: stage.level}"></span>
+                    <small class="float-right">
+                        <a role="button" class="btn btn-outline-dark"
+                           th:href="${'/t/' + tournament.code + '/' + stage.id + '/start'}"
+                           th:if="${ownerIsAuthenticated && stage.hasStartableMatches()}">
+                            Alle Spiele starten
+                        </a>
+                    </small>
                 </h2>
 
                 <div class="row">
@@ -354,11 +365,6 @@
                                             th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
                                         Spiel starten
                                     </button>
-                                    <a type="button" class="btn btn-outline-dark mt-3"
-                                       th:href="${'/t/' + tournament.code + '/' + stage.id + '/start'}"
-                                       th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
-                                        Alle Spiele starten
-                                    </a>
                                 </div>
                             </div>
 
