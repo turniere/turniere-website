@@ -5,6 +5,32 @@
 
 <head>
     <title>turnie.re</title>
+    <!-- Feedback Collector -->
+    <script type="text/javascript"
+            src="https://jiratinf16b4.it.dh-karlsruhe.de:8443/s/fea5daece1cac06920eb0bb2e060e1c9-T/-tom3sc/712002/b6b48b2829824b869586ac216d119363/2.0.31/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=e275a6f5"></script>
+    <!-- Bug Collector -->
+    <script type="text/javascript"
+            src="https://jiratinf16b4.it.dh-karlsruhe.de:8443/s/fea5daece1cac06920eb0bb2e060e1c9-T/-tom3sc/712002/b6b48b2829824b869586ac216d119363/2.0.31/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=f6324c8b"></script>
+    <script type="text/javascript">
+        window.ATL_JQ_PAGE_PROPS = $.extend(window.ATL_JQ_PAGE_PROPS, {
+            'e275a6f5': {
+                triggerFunction: function (showFeedbackDialog) {
+                    $('#feedbackLink').on('click', function (e) {
+                        e.preventDefault();
+                        showFeedbackDialog();
+                    });
+                }
+            },
+            'f6324c8b': {
+                triggerFunction: function (showBugDialog) {
+                    $('#bugLink').on('click', function (e) {
+                        e.preventDefault();
+                        showBugDialog();
+                    });
+                }
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -44,7 +70,11 @@
         </div>
         <div class="alert alert-danger shadow-sm mt-4">
             <h4 class="alert-heading">Public Beta</h4>
-            <p>Diese Website ist noch in der Entwicklung. Bei Problemen melde dich bitte <a href="/impressum" class="alert-link">hier</a>.</p>
+            <p>
+                Diese Website ist noch in der Entwicklung.<br>
+                Bei Problemen fülle bitte <a href="#" id="bugLink" class="alert-link">dieses</a>
+                und für Feedback <a href="#" id="feedbackLink" class="alert-link">dieses</a> Formular aus.
+            </p>
         </div>
     </div>
 
