@@ -241,8 +241,8 @@ public class TournamentController {
         return "redirect:/t/" + tournament.getCode();
     }
 
-    @GetMapping("/loaderio-80aecb32d07160a9cebbdcc324044a07.txt")
+    @GetMapping("/loaderio-d3fc2192c0688bfc33063381190b4111.html")
     String loaderIO(){
-        return "loaderio-80aecb32d07160a9cebbdcc324044a07";
+        return "loaderio-d3fc2192c0688bfc33063381190b4111";
     }
 }
