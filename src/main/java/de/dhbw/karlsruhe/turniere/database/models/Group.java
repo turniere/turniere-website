@@ -28,10 +28,12 @@ public class Group {
     @OneToMany
     private List<Team> teams;
 
-    private Character name;
+    private String name;
 
-    public Group(Character name) {
+    private int position;
+    public Group(String name, int position) {
         this.name = name;
+        this.position = position;
     }
 
 }
