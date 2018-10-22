@@ -43,7 +43,7 @@ public class GroupStageService {
         int requiredGroupCount = teams.size() / groupSize;
         List<Group> groups = new ArrayList<>();
         //first group Name
-        int name = '1';
+        int name = 1;
 
         //iterate through number of groups
         for (int i = 0; i < requiredGroupCount; i++) {
