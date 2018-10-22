@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.turniere.forms;
 
 import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
