@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeRequests().antMatchers("/", "/loaderio-80aecb32d07160a9cebbdcc324044a07.txt", "/register", "/css/**", "/fonts/**", "/images/**", "/liste", "/t/*", "/t/*/fullscreen", "/t", "/impressum", "/privacy", "/js/**", "/faq", "/favicon.ico").permitAll()
+                .authorizeRequests().antMatchers("/", "/loaderio-d3fc2192c0688bfc33063381190b4111.html", "/register", "/css/**", "/fonts/**", "/images/**", "/liste", "/t/*", "/t/*/fullscreen", "/t", "/impressum", "/privacy", "/js/**", "/faq", "/favicon.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
