@@ -59,14 +59,6 @@ public class TournamentController {
     }
 
     private Model getTournamentAndAddToModel(Model model, Authentication authentication, Tournament tournament) {
-        //sort matches and teams
-        tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
-        tournament.getStages().forEach(stage -> stage.getMatches().sort(Comparator.comparing(Match::getPosition)));
-        Optional.ofNullable(tournament.getGroupStage())
-                .ifPresent(groupStage -> groupStage.getGroups().forEach(group -> {
-                    group.getTeams().sort(Comparator.comparing(Team::getGroupPlace).thenComparing(Team::getName));
-                    group.getMatches().sort(Comparator.comparing(Match::getPosition));
-                }));
         // add tournament object to model
         model.addAttribute("tournament", tournament);
         if (tournament.getQrcode() != null) {
@@ -168,7 +160,7 @@ public class TournamentController {
                 } catch (NumberFormatException e) {
                     throw new ResourceNotFoundException("Stage doesn't exist");
                 }
-                Optional<Stage> modelStageOptional = tournament.getStages().stream().filter(stage -> stage.getLevel().equals(stageInt)).findFirst();
+                Optional<Stage> modelStageOptional = tournament.getStages().stream().filter(stage -> stage.getLevel() == stageInt).findFirst();
                 if (!modelStageOptional.isPresent()) {
                     throw new ResourceNotFoundException("Stage doesn't exist");
                 }

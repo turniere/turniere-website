@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.turniere.database.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class GroupStage {
     private Long id;
 
     @OneToMany
+    @OrderBy(clause = "position ASC")
     private List<Group> groups;
     private int playoffSize;
 

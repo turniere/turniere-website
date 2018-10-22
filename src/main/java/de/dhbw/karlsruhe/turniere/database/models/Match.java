@@ -17,6 +17,7 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 public class Match {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,11 +34,11 @@ public class Match {
 
     private State state;
 
-    private Integer position;
+    private int position;
 
     private Boolean isGroupMatch;
 
-    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position, Boolean isGroupMatch) {
+    public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, int position, Boolean isGroupMatch) {
         this.team1 = team1;
         this.team2 = team2;
         this.scoreTeam1 = scoreTeam1;

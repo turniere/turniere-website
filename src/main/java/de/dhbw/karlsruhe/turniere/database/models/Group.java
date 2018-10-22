@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.turniere.database.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,14 +24,17 @@ public class Group {
     private Long id;
 
     @OneToMany
+    @OrderBy(clause = "POSITION ASC")
     private List<Match> matches;
 
     @OneToMany
+    @OrderBy(clause = "groupPlace ASC")
     private List<Team> teams;
 
     private String name;
 
     private int position;
+
     public Group(String name, int position) {
         this.name = name;
         this.position = position;

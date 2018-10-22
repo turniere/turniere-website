@@ -42,12 +42,10 @@ public class GroupStageService {
         List<Team> teams = new ArrayList<>(origTeams);
         int requiredGroupCount = teams.size() / groupSize;
         List<Group> groups = new ArrayList<>();
-        //first group Name
-        int name = 1;
 
         //iterate through number of groups
         for (int i = 0; i < requiredGroupCount; i++) {
-            groups.add(new Group(Integer.toString(name + i), i));
+            groups.add(new Group(Integer.toString(i+1), i));
             List<Team> groupTeams = new ArrayList<>();
             //generate list of teams to add to group
             for (int j = 0; j < origTeams.size() / requiredGroupCount; j++) {

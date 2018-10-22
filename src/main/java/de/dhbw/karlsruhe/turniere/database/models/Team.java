@@ -22,13 +22,13 @@ public class Team {
 
     private String name;
 
-    private Integer groupScore;
+    private int groupScore;
 
-    private Integer groupPointsScored;
+    private int groupPointsScored;
 
-    private Integer groupPointsReceived;
+    private int groupPointsReceived;
 
-    private Integer groupPlace;
+    private int groupPlace;
 
     public Team(String name) {
         this.name = name;

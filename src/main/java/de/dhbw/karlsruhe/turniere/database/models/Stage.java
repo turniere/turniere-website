@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.turniere.database.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,12 +28,13 @@ public class Stage {
     private Long id;
 
     @NotNull
-    private Integer level;
+    private int level;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy(clause="POSITION ASC")
     private List<Match> matches = new ArrayList<>();
 
-    public Stage(Integer level, List<Match> matches) {
+    public Stage(int level, List<Match> matches) {
         this.level = level;
         this.matches = matches;
     }
