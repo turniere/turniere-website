@@ -7,7 +7,7 @@ import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
-import de.dhbw.karlsruhe.turniere.database.repositories.MatchRepository;
+import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
@@ -39,7 +39,6 @@ public class TournamentController {
     private final TournamentService tournamentService;
     private final MatchService matchService;
     private final TournamentFormValidator tournamentFormValidator;
-    private final MatchRepository matchRepository;
 
     private Tournament safeGetTournament(String code) {
         return tournamentRepository.findByCode(code)
@@ -186,6 +185,7 @@ public class TournamentController {
         // find tournament object
         Tournament tournament = safeGetTournament(code);
         verifyOwnership(tournament, authentication);
+        tournament.getTeams().sort(Comparator.comparing(Team::getName));
         model.addAttribute("tournament", tournament);
         return "edit_tournament";
     }
