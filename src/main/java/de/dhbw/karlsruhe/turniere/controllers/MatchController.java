@@ -121,6 +121,8 @@ public class MatchController {
                 playoffService.generatePlayoffs(teams, tournament);
                 tournamentRepository.save(tournament);
             }
+            groupStage.setCurrentPhase(match.getPosition());
+            groupStageRepository.save(groupStage);
         }
         return new ResponseEntity<>(new MatchResponse(match), HttpStatus.OK);
     }
