@@ -37,6 +37,8 @@ public class Match {
 
     private Boolean isGroupMatch;
 
+    private int stageId;
+
     public Match(Team team1, Team team2, Integer scoreTeam1, Integer scoreTeam2, State state, Integer position, Boolean isGroupMatch) {
         this.team1 = team1;
         this.team2 = team2;

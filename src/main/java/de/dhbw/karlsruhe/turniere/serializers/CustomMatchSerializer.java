@@ -19,6 +19,8 @@ public class CustomMatchSerializer extends JsonSerializer<Match> {
         jsonGenerator.writeNumberField("score1", Optional.ofNullable(match.getScoreTeam1()).orElse(0));
         jsonGenerator.writeNumberField("score2", Optional.ofNullable(match.getScoreTeam2()).orElse(0));
         jsonGenerator.writeBooleanField("live", match.getState() == Match.State.IN_PROGRESS);
+        jsonGenerator.writeNumberField("id", match.getId());
+        jsonGenerator.writeNumberField("stageid", match.getStageId());
         jsonGenerator.writeEndObject();
     }
 }

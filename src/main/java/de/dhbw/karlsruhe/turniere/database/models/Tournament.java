@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -73,5 +74,38 @@ public class Tournament {
 
     public void addStage(Stage stage) {
         stages.add(stage);
+    }
+
+    public List<Match> getAllMatches(){
+        List<Match> response = new ArrayList<>();
+        GroupStage groupStage = this.groupStage;
+        int i = 0;
+        if (groupStage != null){
+            List<Group> groups = groupStage.getGroups();
+            groups.sort(Comparator.comparingInt(Group::getPosition));
+            for(Group group:groups){
+                List<Match> groupMatches = group.getMatches();
+                groupMatches.sort(Comparator.comparingInt(Match::getPosition));
+                    for(Match match:groupMatches){
+                        match.setStageId(i);
+                        response.add(match);
+                    }
+                i++;
+            }
+        }
+
+        List<Stage> tournamenStages = this.stages;
+        tournamenStages.sort(Comparator.comparingInt(Stage::getLevel).reversed());
+        for (Stage stage:tournamenStages){
+            List<Match> stageMatches = stage.getMatches();
+            stageMatches.sort(Comparator.comparingInt(Match::getPosition));
+            response.addAll(stageMatches);
+            for(Match match:stageMatches){
+                match.setStageId(i);
+                response.add(match);
+            }
+            i++;
+        }
+        return response;
     }
 }

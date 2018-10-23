@@ -36,6 +36,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +48,11 @@ public class MatchController {
     private final GroupStageRepository groupStageRepository;
     private final GroupRepository groupRepository;
     private final PlayoffService playoffService;
+
+    private Tournament safeGetTournament(String code) {
+        return tournamentRepository.findByCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Tournament with code '" + code + "'"));
+    }
 
     /**
      * Get match object for matchId or throw 404/403 if applicable
@@ -125,6 +131,14 @@ public class MatchController {
             groupStageRepository.save(groupStage);
         }
         return new ResponseEntity<>(new MatchResponse(match), HttpStatus.OK);
+    }
+
+    @GetMapping("/m/t/{code}")
+    ResponseEntity<?> matches(@PathVariable String code) {
+        Tournament tournament = safeGetTournament(code);
+        List<Match> matches = tournament.getAllMatches();
+        List<MatchResponse> result = matches.stream().map(MatchResponse::new).collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Data
