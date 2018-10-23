@@ -99,7 +99,6 @@ public class Tournament {
         for (Stage stage:tournamenStages){
             List<Match> stageMatches = stage.getMatches();
             stageMatches.sort(Comparator.comparingInt(Match::getPosition));
-            response.addAll(stageMatches);
             for(Match match:stageMatches){
                 match.setStageId(i);
                 response.add(match);
