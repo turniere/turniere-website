@@ -22,6 +22,7 @@ public class CustomMatchSerializer extends JsonSerializer<Match> {
         jsonGenerator.writeNumberField("id", match.getId());
         jsonGenerator.writeNumberField("stageid", match.getStageId());
         jsonGenerator.writeStringField("status", match.getState().toString());
+        jsonGenerator.writeNumberField("position", match.getPosition());
         jsonGenerator.writeEndObject();
     }
 }
