@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -98,8 +99,15 @@ public class GroupStageService {
             teams.remove(0);
         }
 
-        //save everything to database
-        Iterable<Match> savedMatchesIterable = matchRepository.saveAll(matches);
+        if (teams.size() == 4){
+            //ugly but working
+            Collections.swap(matches, 1,5);
+            matches.get(1).setPosition(1);
+            matches.get(5).setPosition(5);
+        }
+
+            //save everything to database
+            Iterable<Match> savedMatchesIterable = matchRepository.saveAll(matches);
         List<Match> savedMatches = new ArrayList<>();
         savedMatchesIterable.forEach(savedMatches::add);
 
