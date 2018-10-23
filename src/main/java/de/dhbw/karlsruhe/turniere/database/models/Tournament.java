@@ -79,7 +79,7 @@ public class Tournament {
     public List<Match> getAllMatches() {
         List<Match> response = new ArrayList<>();
         GroupStage groupStage = this.groupStage;
-        int i = 0;
+
         if (groupStage != null) {
             List<Group> groups = groupStage.getGroups();
             groups.sort(Comparator.comparingInt(Group::getPosition));
@@ -87,10 +87,10 @@ public class Tournament {
                 List<Match> groupMatches = group.getMatches();
                 groupMatches.sort(Comparator.comparingInt(Match::getPosition));
                 for (Match match : groupMatches) {
-                    match.setStageId(i);
+                    match.setPosition(group.getPosition());
                     response.add(match);
                 }
-                i++;
+
             }
         }
 
@@ -100,10 +100,10 @@ public class Tournament {
             List<Match> stageMatches = stage.getMatches();
             stageMatches.sort(Comparator.comparingInt(Match::getPosition));
             for (Match match : stageMatches) {
-                match.setStageId(tournamentStages.size() - i - 1);
+                match.setStageId(stage.getLevel());
                 response.add(match);
             }
-            i++;
+
         }
         return response;
     }
