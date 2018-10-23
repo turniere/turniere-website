@@ -5,3 +5,7 @@
     display: inline-block;
     width: 100%;
 }
+
+.lost-team {
+    text-decoration: line-through;
+}
