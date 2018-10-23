@@ -33,7 +33,7 @@
 
     <div class="p-5" th:if="${tstage != null}">
         <div class="row">
-            <div class="col-lg minw-25" th:each="match: ${tstage.matches}">
+            <div class="col-lg minw-25" th:each="match: ${tgroupStageMatches}">
                 <div th:if="${match.team1 == match.team2}" th:id="'match-' + ${match.position}">
 
                     <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
@@ -162,7 +162,7 @@
                             </tbody>
                         </table>
                         <div class="row" th:id="'group-matches-' + ${group.name}">
-                            <div class="col-lg minw-25" th:each="match: ${group.matches}">
+                            <div class="col-lg minw-25" th:each="match: ${tgroupStageMatches}">
                                 <div th:if="${match.team1 == match.team2}" th:id="'match-' + ${match.position}">
 
                                     <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">

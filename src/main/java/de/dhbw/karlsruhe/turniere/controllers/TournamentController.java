@@ -155,7 +155,9 @@ public class TournamentController {
         }
         switch (stageCode) {
             case "groupStage":
-                model.addAttribute("tgroupStage", tournament.getGroupStage());
+                GroupStage groupStage = tournament.getGroupStage();
+                model.addAttribute("tgroupStageMatches", groupStage.getCurrentMatches());
+                model.addAttribute("tgroupStage", groupStage);
                 break;
             case "winner":
                 model.addAttribute("twinner", tournament.getWinner());
