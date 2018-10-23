@@ -76,31 +76,31 @@ public class Tournament {
         stages.add(stage);
     }
 
-    public List<Match> getAllMatches(){
+    public List<Match> getAllMatches() {
         List<Match> response = new ArrayList<>();
         GroupStage groupStage = this.groupStage;
         int i = 0;
-        if (groupStage != null){
+        if (groupStage != null) {
             List<Group> groups = groupStage.getGroups();
             groups.sort(Comparator.comparingInt(Group::getPosition));
-            for(Group group:groups){
+            for (Group group : groups) {
                 List<Match> groupMatches = group.getMatches();
                 groupMatches.sort(Comparator.comparingInt(Match::getPosition));
-                    for(Match match:groupMatches){
-                        match.setStageId(i);
-                        response.add(match);
-                    }
+                for (Match match : groupMatches) {
+                    match.setStageId(i);
+                    response.add(match);
+                }
                 i++;
             }
         }
 
-        List<Stage> tournamenStages = this.stages;
-        tournamenStages.sort(Comparator.comparingInt(Stage::getLevel).reversed());
-        for (Stage stage:tournamenStages){
+        List<Stage> tournamentStages = this.stages;
+        tournamentStages.sort(Comparator.comparingInt(Stage::getLevel).reversed());
+        for (Stage stage : tournamentStages) {
             List<Match> stageMatches = stage.getMatches();
             stageMatches.sort(Comparator.comparingInt(Match::getPosition));
-            for(Match match:stageMatches){
-                match.setStageId(i);
+            for (Match match : stageMatches) {
+                match.setStageId(tournamentStages.size() - i - 1);
                 response.add(match);
             }
             i++;
