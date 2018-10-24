@@ -173,7 +173,9 @@ public class TournamentController {
                 if (!modelStageOptional.isPresent()) {
                     throw new ResourceNotFoundException("Stage doesn't exist");
                 }
-                model.addAttribute("tstage", modelStageOptional.get());
+                Stage stage = modelStageOptional.get();
+                stage.getMatches().sort(Comparator.comparingInt(Match::getPosition));
+                model.addAttribute("tstage", stage);
 
         }
         model.addAttribute("tname", tournament.getName());
