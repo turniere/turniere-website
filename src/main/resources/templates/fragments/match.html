@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="match (match)">
+    <div class="card">
+        <div class="card-body border shadow-sm py-2"
+             th:classappend="${match.state.name() == 'IN_PROGRESS'} ? 'border-warning table-warning' : (${match.state.name() == 'TEAM2_WON'} or ${match.state.name() == 'TEAM1_WON'} or ${match.state.name() == 'UNDECIDED'} or ${match.state.name() == 'SINGLE_TEAM'} ?'border-success table-success':'text-secondary')">
+            <table class="table mb-0">
+                <tr>
+                    <th scope="col" class="h3 score border-top-0 font-weight-bold"
+                        th:if="${match.scoreTeam1 != null}"
+                        th:text="${match.scoreTeam1}"></th>
+                    <td class="h3 border-top-0"
+                        th:if="${match.team1 != null}"
+                        th:text="${match.team1.name}"
+                        th:classappend="${match.state.name() == 'TEAM2_WON'}?'lost-team':(${match.state.name() == 'TEAM1_WON'}?'font-weight-bold':'')"></td>
+                    <td class="h3 border-top-0 text-right text-secondary font-italic"
+                        th:if="${match.team1 == null}">steht noch nicht fest</td>
+                </tr>
+                <tr>
+                    <th scope="col" class="h3 score font-weight-bold"
+                        th:if="${match.scoreTeam2 != null}"
+                        th:text="${match.scoreTeam2}"></th>
+                    <td class="h3 text-right text-secondary font-italic"
+                        th:if="${match.team2 == null}"
+                        th:text="${match.state.name() == 'SINGLE_TEAM'} ? 'kein Gegner' : 'steht noch nicht fest'">kein Gegner</td>
+                    <td class="h3"
+                        th:if="${match.team2 != null}"
+                        th:text="${match.team2.name}"
+                        th:classappend="${match.state.name() == 'TEAM1_WON'}?'lost-team':(${match.state.name() == 'TEAM2_WON'}?'font-weight-bold':'')"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
