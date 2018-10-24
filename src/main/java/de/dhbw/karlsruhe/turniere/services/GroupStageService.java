@@ -106,8 +106,8 @@ public class GroupStageService {
             matches.get(5).setPosition(5);
         }
 
-            //save everything to database
-            Iterable<Match> savedMatchesIterable = matchRepository.saveAll(matches);
+        //save everything to database
+        Iterable<Match> savedMatchesIterable = matchRepository.saveAll(matches);
         List<Match> savedMatches = new ArrayList<>();
         savedMatchesIterable.forEach(savedMatches::add);
 
