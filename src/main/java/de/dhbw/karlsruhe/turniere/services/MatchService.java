@@ -177,7 +177,7 @@ public class MatchService {
      * @param stage Stage to put team in below
      */
     public void populateMatchBelow(Stage stage, Match match, Team team) {
-        Match nextMatch = null;
+        Match nextMatch;
         List<Match> nextStageMatches = stage.getMatches();
         //Sort Matches by position
         Collections.sort(

@@ -115,11 +115,9 @@ public class PlayoffService {
      * @return List of generated empty matches
      */
     private List<Match> generateEmptyMatches(int numberOfMatches) {
-        Team dummy = new Team();
-        teamRepository.save(dummy);
         List<Match> matches = new ArrayList<>();
         for (int i = 0; i < numberOfMatches; i++) {
-            matches.add(new Match(dummy, dummy, null, null, Match.State.NOT_STARTED, i, false));
+            matches.add(new Match(null, null, null, null, Match.State.NOT_STARTED, i, false));
         }
         return matches;
     }
