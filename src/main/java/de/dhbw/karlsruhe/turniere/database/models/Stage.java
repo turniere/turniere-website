@@ -38,6 +38,6 @@ public class Stage {
     }
 
     public boolean hasStartableMatches() {
-        return matches.stream().anyMatch(match -> match.getState() == Match.State.NOT_READY);
+        return matches.stream().anyMatch(match -> match.getState() == Match.State.NOT_STARTED);
     }
 }
