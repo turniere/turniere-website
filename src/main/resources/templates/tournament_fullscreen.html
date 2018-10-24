@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<main role="main">
+<main role="main" class="pb-3">
 
     <div class="alert alert-success shadow m-5" th:if="${twinner != null}">
         <h1><strong><span th:text="${twinner.name}"></span></strong> hat gewonnen!</h1>
@@ -135,24 +135,28 @@
 
     <div class="px-5 py-4" th:if="${tgroupStage != null}">
         <div class="row">
-            <div class="col-xs card m-2" th:each="match: ${tgroupStageMatches}">
-                <div class="card-body border shadow-sm"
-                     th:classappend="${match.state.name() == 'IN_PROGRESS'} ? 'border-warning table-warning' : (${match.state.name() == 'TEAM2_WON'} or ${match.state.name() == 'TEAM1_WON'} or ${match.state.name() == 'UNDECIDED'} ?'border-success table-success':'text-secondary')">
-                    <h2>
-                        Gruppe <span th:text="${match.position}"></span>
-                    </h2>
-                    <table class="table">
-                        <tr>
-                            <th scope="col"
-                                th:text="${match.scoreTeam1}"></th>
-                            <td th:text="${match.team1.name}" th:classappend="${match.state.name() == 'TEAM2_WON'}?'lost-team':(${match.state.name() == 'TEAM1_WON'}?'font-weight-bold':'')"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col"
-                                th:text="${match.scoreTeam2}">
-                            <td th:text="${match.team2.name}" th:classappend="${match.state.name() == 'TEAM1_WON'}?'lost-team':(${match.state.name() == 'TEAM2_WON'}?'font-weight-bold':'')"></td>
-                        </tr>
-                    </table>
+            <div class="col-xs w-16 p-2" th:each="match: ${tgroupStageMatches}">
+                <div class="card">
+                    <div class="card-body border shadow-sm pb-2"
+                         th:classappend="${match.state.name() == 'IN_PROGRESS'} ? 'border-warning table-warning' : (${match.state.name() == 'TEAM2_WON'} or ${match.state.name() == 'TEAM1_WON'} or ${match.state.name() == 'UNDECIDED'} ?'border-success table-success':'text-secondary')">
+                        <h4>
+                            Gruppe <span th:text="${match.position}"></span>
+                        </h4>
+                        <table class="table mb-0">
+                            <tr>
+                                <th scope="col" class="h4 score"
+                                    th:text="${match.scoreTeam1}"></th>
+                                <td th:text="${match.team1.name}" class="h4"
+                                    th:classappend="${match.state.name() == 'TEAM2_WON'}?'lost-team':(${match.state.name() == 'TEAM1_WON'}?'font-weight-bold':'')"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="h4 score"
+                                    th:text="${match.scoreTeam2}">
+                                <td th:text="${match.team2.name}" class="h4"
+                                    th:classappend="${match.state.name() == 'TEAM1_WON'}?'lost-team':(${match.state.name() == 'TEAM2_WON'}?'font-weight-bold':'')"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
