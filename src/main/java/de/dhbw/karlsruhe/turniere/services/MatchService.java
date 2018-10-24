@@ -66,6 +66,7 @@ public class MatchService {
         // determine winning team to move it into the next stage
         Team winningTeam = null;
         switch (match.getState()) {
+            case SINGLE_TEAM:
             case TEAM1_WON:
                 winningTeam = match.getTeam1();
                 break;

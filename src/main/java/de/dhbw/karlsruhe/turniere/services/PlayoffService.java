@@ -160,7 +160,7 @@ public class PlayoffService {
         lastPos++;
         Integer halfEmptyGames = 0;
         while (teams.size() != 0) {
-            matches.add(new Match(teams.get(0), teams.get(0), 1, 0, Match.State.TEAM1_WON, lastPos, false));
+            matches.add(new Match(teams.get(0), null, null, null, Match.State.SINGLE_TEAM, lastPos, false));
             teams.remove(0);
             lastPos++;
             halfEmptyGames++;
