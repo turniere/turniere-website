@@ -49,7 +49,7 @@
                     Turnier per QR-Code teilen
                 </button>
 
-                <a role="button" class="btn btn-outline-primary w-100" th:href="${'/t/' + tournament.code + '/fullscreen?stage=current'}">
+                <a role="button" class="btn btn-outline-primary w-100" target="_blank" th:href="${'/t/' + tournament.code + '/fullscreen?stage=current'}">
                     Vollbildmodus
                 </a>
 
@@ -299,9 +299,8 @@
 
                 <div class="row">
                     <div class="col-lg minw-25" th:each="match: ${stage.matches}">
-                        <div th:if="${match.team1 == match.team2}" th:id="'match-' + ${match.position}">
-
-                            <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}">
+                        <div th:if="${match.state.name() == 'NOT_READY'}" th:id="'match-' + ${match.position}">
+                            <div class="card mt-4 shadow-sm">
                                 <div class="card-body">
                                     <div class="alert alert-light h6">
                                         steht noch nicht fest
@@ -311,9 +310,9 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="card mt-4 border-success shadow-sm"
-                                 th:if="${match.state.name() == 'TEAM1_WON'}">
+                        </div>
+                        <div th:if="${match.state.name() == 'SINGLE_TEAM'}" th:id="'match-' + ${match.position}">
+                            <div class="card mt-4 border-success shadow-sm">
                                 <div class="card-body">
                                     <div class="alert alert-success h6">
                                         <strong><span th:text="${match.team1.name}"></span></strong>
@@ -323,7 +322,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div th:if="${match.team1 != match.team2}" th:id="'match-' + ${match.position}">
 
@@ -354,15 +352,15 @@
                             <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}" data-th-attr="aria-controls=${match.id}">
                                 <div class="card-body">
                                     <div class="alert h6"
-                                         th:text="${match.team1.name != null} ? ${match.team1.name} : 'steht noch nicht fest'"
+                                         th:text="${match.team1 != null} ? ${match.team1.name} : 'steht noch nicht fest'"
                                          th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
                                     </div>
                                     <div class="alert h6 mb-0"
-                                         th:text="${match.team2.name != null} ? ${match.team2.name} : 'steht noch nicht fest'"
+                                         th:text="${match.team2 != null} ? ${match.team2.name} : 'steht noch nicht fest'"
                                          th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
                                     </div>
                                     <button type="button" class="btn btn-outline-dark mt-3 startGameButton"
-                                            th:if="${ownerIsAuthenticated && match.team1.name != null && match.team2.name != null}">
+                                            th:if="${ownerIsAuthenticated && match.team1 != null && match.team2 != null}">
                                         Spiel starten
                                     </button>
                                 </div>

@@ -66,6 +66,7 @@ public class MatchService {
         // determine winning team to move it into the next stage
         Team winningTeam = null;
         switch (match.getState()) {
+            case SINGLE_TEAM:
             case TEAM1_WON:
                 winningTeam = match.getTeam1();
                 break;
@@ -176,7 +177,7 @@ public class MatchService {
      * @param stage Stage to put team in below
      */
     public void populateMatchBelow(Stage stage, Match match, Team team) {
-        Match nextMatch = null;
+        Match nextMatch;
         List<Match> nextStageMatches = stage.getMatches();
         //Sort Matches by position
         Collections.sort(
@@ -186,10 +187,16 @@ public class MatchService {
             //even
             nextMatch = nextStageMatches.get(match.getPosition() / 2);
             nextMatch.setTeam1(team);
+            if (nextMatch.getTeam2() != null){
+                match.setState(Match.State.NOT_STARTED);
+            }
         } else {
             //odd
             nextMatch = nextStageMatches.get((match.getPosition() - 1) / 2);
             nextMatch.setTeam2(team);
+            if (nextMatch.getTeam1() != null){
+                match.setState(Match.State.NOT_STARTED);
+            }
         }
         matchRepository.save(nextMatch);
     }

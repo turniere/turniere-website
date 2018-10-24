@@ -7,7 +7,6 @@ import de.dhbw.karlsruhe.turniere.database.models.Stage;
 import de.dhbw.karlsruhe.turniere.database.models.Team;
 import de.dhbw.karlsruhe.turniere.database.models.Tournament;
 import de.dhbw.karlsruhe.turniere.database.models.User;
-import de.dhbw.karlsruhe.turniere.database.repositories.TeamRepository;
 import de.dhbw.karlsruhe.turniere.database.repositories.TournamentRepository;
 import de.dhbw.karlsruhe.turniere.exceptions.ResourceNotFoundException;
 import de.dhbw.karlsruhe.turniere.forms.ChangeTournamentForm;
@@ -156,7 +155,9 @@ public class TournamentController {
         }
         switch (stageCode) {
             case "groupStage":
-                model.addAttribute("tgroupStage", tournament.getGroupStage());
+                GroupStage groupStage = tournament.getGroupStage();
+                model.addAttribute("tgroupStageMatches", groupStage.getCurrentMatches());
+                model.addAttribute("tgroupStage", groupStage);
                 break;
             case "winner":
                 model.addAttribute("twinner", tournament.getWinner());
@@ -172,7 +173,9 @@ public class TournamentController {
                 if (!modelStageOptional.isPresent()) {
                     throw new ResourceNotFoundException("Stage doesn't exist");
                 }
-                model.addAttribute("tstage", modelStageOptional.get());
+                Stage stage = modelStageOptional.get();
+                stage.getMatches().sort(Comparator.comparingInt(Match::getPosition));
+                model.addAttribute("tstage", stage);
 
         }
         model.addAttribute("tname", tournament.getName());

@@ -5,3 +5,15 @@
     display: inline-block;
     width: 100%;
 }
+
+.lost-team {
+    text-decoration: line-through;
+}
+
+.w-16 {
+    width: 25%;
+}
+
+.score {
+    width: 1em;
+}
