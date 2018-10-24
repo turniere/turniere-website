@@ -65,6 +65,6 @@ public class Match {
     }
 
     public enum State {
-        TEAM1_WON, TEAM2_WON, UNDECIDED, IN_PROGRESS, NOT_STARTED, SINGLE_TEAM
+        TEAM1_WON, TEAM2_WON, UNDECIDED, IN_PROGRESS, NOT_STARTED, SINGLE_TEAM, NOT_READY
     }
 }

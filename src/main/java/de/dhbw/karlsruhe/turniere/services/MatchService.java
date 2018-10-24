@@ -187,10 +187,16 @@ public class MatchService {
             //even
             nextMatch = nextStageMatches.get(match.getPosition() / 2);
             nextMatch.setTeam1(team);
+            if (nextMatch.getTeam2() != null){
+                match.setState(Match.State.NOT_STARTED);
+            }
         } else {
             //odd
             nextMatch = nextStageMatches.get((match.getPosition() - 1) / 2);
             nextMatch.setTeam2(team);
+            if (nextMatch.getTeam1() != null){
+                match.setState(Match.State.NOT_STARTED);
+            }
         }
         matchRepository.save(nextMatch);
     }
