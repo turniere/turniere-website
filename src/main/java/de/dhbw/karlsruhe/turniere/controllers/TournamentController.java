@@ -212,7 +212,7 @@ public class TournamentController {
     String startStage(@PathVariable String code, @PathVariable Long stageId, Authentication authentication) {
         Tournament tournament = safeGetTournament(code);
         verifyOwnership(tournament, authentication);
-        Optional<Stage> optionalStage = tournament.getStages().stream().filter((Stage stage) -> stage.getId().equals(stageId)).findFirst();
+        Optional<Stage> optionalStage = tournament.getStages().stream().filter((Stage stage) -> (long) stage.getLevel() == stageId).findFirst();
         if (!optionalStage.isPresent()) {
             throw new ResourceNotFoundException("Requested stage doesn't exist");
         }
