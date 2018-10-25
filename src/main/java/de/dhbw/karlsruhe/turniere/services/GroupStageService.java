@@ -99,9 +99,9 @@ public class GroupStageService {
             teams.remove(0);
         }
 
-        if (teams.size() == 4){
+        if (origTeams.size() == 4) {
             //ugly but working
-            Collections.swap(matches, 1,5);
+            Collections.swap(matches, 1, 5);
             matches.get(1).setPosition(1);
             matches.get(5).setPosition(5);
         }
