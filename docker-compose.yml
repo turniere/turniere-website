@@ -1,9 +1,7 @@
 version: "3"
 services:
-
   turniere:
     image: turniere/turniere-website:latest
-    #env_file: ./it/src/it/resources/turniere.properties
     ports:
     - 8080:8080
     volumes:
@@ -18,4 +16,9 @@ services:
     environment:
     - POSTGRES_PASSWORD=password
     - POSTGRES_DB=turniere
-    #env_file: ./it/src/resources/postgres.properties
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+    - 8025:8025
+    - 1025:1025
