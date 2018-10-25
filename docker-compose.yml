@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   turniere:
     image: turniere/turniere-website:latest
     ports:
@@ -17,3 +16,9 @@ services:
     environment:
     - POSTGRES_PASSWORD=password
     - POSTGRES_DB=turniere
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+    - 8025:8025
+    - 1025:1025
