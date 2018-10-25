@@ -4,6 +4,7 @@
 
 <head>
     <title>Turnier-Ansicht - turnie.re</title>
+    <link th:if="${bpwstr}" href="/css/beerpong.css" rel="stylesheet">
     <link href="/css/tournament.css" rel="stylesheet">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -18,28 +19,20 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div th:text="${tournament.description}"></div>
-                <div class="border-top d-inline-block mt-3 px-1">
-                    von <strong th:text="${ownerName}"></strong>
-                </div><br>
-            </div>
-
-            <div class="col-md-4">
-                <div class="list-group">
-                    <div class="list-group-item list-group-item-warning" th:if="${tournament.isPublic}">
-                        Das Turnier ist öffentlich.
-                    </div>
-                    <div class="list-group-item" th:if="${! tournament.isPublic}">
-                        Das Turnier ist privat.
-                    </div>
-                    <div class="list-group-item">
-                        Turnier-Code: <strong th:text="${tournament.code}"></strong>
-                    </div>
+        <div style="height: 302px;">
+            <div class="d-inline-flex" th:if="${bpwstr}">
+                <div class="col-md-4 d-inline-flex">
+                    <!--Beerpong Logo 1-->
+                    <img src="../images/logoBeerpong1.jpg">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="d-inline-flex" th:if="${!bpwstr}">
+                <div class="col-md-4 d-inline-flex">
+                    <div th:text="${tournament.description}"></div>
+                </div>
+            </div>
+
+            <div style="float: right;" class="col-md-4">
                 <a role="button" class="btn btn-outline-secondary mb-3 w-100" th:if="${ownerIsAuthenticated}"
                    th:href="'/t/' + ${tournament.code} + '/edit'">Turnier bearbeiten</a>
 
@@ -49,7 +42,8 @@
                     Turnier per QR-Code teilen
                 </button>
 
-                <a role="button" class="btn btn-outline-primary w-100" target="_blank" th:href="${'/t/' + tournament.code + '/fullscreen?stage=current'}">
+                <a role="button" class="btn btn-outline-primary w-100" target="_blank"
+                   th:href="${'/t/' + tournament.code + '/fullscreen?stage=current'}">
                     Vollbildmodus
                 </a>
 
@@ -85,6 +79,20 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="list-group mt-3">
+                    <div class="list-group-item list-group-item-warning" th:if="${tournament.isPublic}">
+                        Das Turnier ist öffentlich.
+                    </div>
+                    <div class="list-group-item" th:if="${! tournament.isPublic}">
+                        Das Turnier ist privat.
+                    </div>
+                    <div class="list-group-item">
+                        Turnier-Code: <strong th:text="${tournament.code}"></strong>
+                    </div>
+                </div>
+                <div class="border-top d-inline-block mt-3 px-1">
+                    von <strong th:text="${ownerName}"></strong>
                 </div>
                 <script>
                     function copyTournamentLink() {
@@ -130,7 +138,14 @@
                             </h2>
                             <table class="table table-hover">
                                 <thead>
-                                <tr>
+                                <tr th:if="${bpwstr}">
+                                    <th scope="col">Platz</th>
+                                    <th scope="col">Team-Name</th>
+                                    <th scope="col">Punkte</th>
+                                    <th scope="col">Becher geworfen</th>
+                                    <th scope="col">Becher getrunken</th>
+                                </tr>
+                                <tr th:if="${!bpwstr}">
                                     <th scope="col">Platz</th>
                                     <th scope="col">Team-Name</th>
                                     <th scope="col">Punkte</th>

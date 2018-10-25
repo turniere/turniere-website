@@ -57,6 +57,15 @@ public class TournamentController {
         return getTournamentAndAddToModel(model, authentication, tournament);
     }
 
+    public static Model bpwstr(Tournament tournament, Model model){
+        if (tournament.getCode().equals("bpwstr")) {
+            model.addAttribute("bpwstr", true);
+        }else {
+            model.addAttribute("bpwstr", false);
+        }
+        return model;
+    }
+
     private Model getTournamentAndAddToModel(Model model, Authentication authentication, Tournament tournament) {
         //sort matches and teams
         tournament.getStages().sort(Comparator.comparing(Stage::getLevel).reversed());
@@ -71,6 +80,9 @@ public class TournamentController {
         if (tournament.getQrcode() != null) {
             model.addAttribute("qrcode", new String(tournament.getQrcode()));
         }
+
+        model = TournamentController.bpwstr(tournament, model);
+
         return model;
     }
 
@@ -180,6 +192,9 @@ public class TournamentController {
         }
         model.addAttribute("tname", tournament.getName());
         model.addAttribute("tcode", tournament.getCode());
+
+        model = TournamentController.bpwstr(tournament, model);
+
         return "tournament_fullscreen";
     }
 
