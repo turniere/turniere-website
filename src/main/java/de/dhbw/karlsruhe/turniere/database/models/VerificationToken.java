@@ -20,14 +20,28 @@ public class VerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Date expiryDate;
+
     @OneToOne
     private User user;
-    private Date expiryDate;
+
+    private boolean sent = false;
 
     public VerificationToken(User user, String token) {
         this.user = user;
         this.token = token;
         this.expiryDate = calculateExpiryDate();
+    }
+
+    @Override
+    public String toString() {
+        return "VerificationToken{" +
+                "token='" + token + '\'' +
+                ", id=" + id +
+                ", expiryDate=" + expiryDate +
+                ", user=" + user +
+                ", sent=" + sent +
+                '}';
     }
 
     private Date calculateExpiryDate() {
