@@ -27,8 +27,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void attachVerificationToken(User user, String verificationToken) {
+    public VerificationToken attachVerificationToken(User user, String verificationToken) {
         VerificationToken verificationTokenObj = new VerificationToken(user, verificationToken);
         verificationTokenRepository.save(verificationTokenObj);
+        return verificationTokenObj;
     }
 }
