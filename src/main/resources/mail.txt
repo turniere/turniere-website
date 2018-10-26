@@ -1,0 +1,20 @@
+Hey,
+
+Dein Account ist fast fertig, du musst nur noch deine E-Mail-Adresse bestätigen.
+Klicke dafür auf den nachfolgenden Link:
+
+%s
+
+Viel Spaß beim Turniere planen und durchführen! ;)
+
+Dein turnie.re Team
+
+
+  $$\                                   $$\
+  $$ |                                  \__|
+$$$$$$\   $$\   $$\  $$$$$$\  $$$$$$$\  $$\  $$$$$$\       $$$$$$\   $$$$$$\
+\_$$  _|  $$ |  $$ |$$  __$$\ $$  __$$\ $$ |$$  __$$\     $$  __$$\ $$  __$$\
+  $$ |    $$ |  $$ |$$ |  \__|$$ |  $$ |$$ |$$$$$$$$ |    $$ |  \__|$$$$$$$$ |
+  $$ |$$\ $$ |  $$ |$$ |      $$ |  $$ |$$ |$$   ____|    $$ |      $$   ____|
+  \$$$$  |\$$$$$$  |$$ |      $$ |  $$ |$$ |\$$$$$$$\ $$\ $$ |      \$$$$$$$\
+   \____/  \______/ \__|      \__|  \__|\__| \_______|\__|\__|       \_______|

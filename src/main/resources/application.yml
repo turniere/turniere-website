@@ -17,7 +17,9 @@ spring:
     cache: false
 
   mail:
-    host: localhost
+    subject: turnie.re Registrierung - Du hast es fast geschafft!
+    textPath: src/main/resources/mail.txt
+    host: mailhog
     from: registration@turnie.re
     properties.mail:
       transport.protocol: smtp
