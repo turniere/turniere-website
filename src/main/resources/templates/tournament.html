@@ -59,7 +59,10 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" th:if="${bpwstr}">
+                                <img class="img-fluid mb-3" src="../images/qrBeerpong.png"/>
+                            </div>
+                            <div class="modal-body" th:if="${!bpwstr}">
                                 <img class="img-fluid mb-3" th:src="${'data:image/png;base64,' + qrcode}"/>
                             </div>
                             <div class="modal-footer">
