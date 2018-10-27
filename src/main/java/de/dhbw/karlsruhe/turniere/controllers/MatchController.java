@@ -20,6 +20,8 @@ import de.dhbw.karlsruhe.turniere.services.PlayoffService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -41,6 +43,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class MatchController {
+    private static final Logger logger = LoggerFactory.getLogger(MatchController.class);
     private final TournamentRepository tournamentRepository;
     private final MatchRepository matchRepository;
     private final MatchService matchService;
@@ -130,6 +133,7 @@ public class MatchController {
             groupStage.setCurrentPhase(match.getPosition());
             groupStageRepository.save(groupStage);
         }
+        logger.info(String.format("Match result: %s", match.toString()));
         return new ResponseEntity<>(new MatchResponse(match), HttpStatus.OK);
     }
 
