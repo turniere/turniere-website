@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -191,8 +192,19 @@ public class GroupStageService {
     public List<Team> sortTeams(List<Team> teams) {
         //sort Teams by GroupPlace (lower is better)
         teams.sort(Comparator.comparingInt(Team::getGroupPlace)
+                .thenComparing(comparing(Team::getGroupScore))
                 //by GroupScore (higher is better)
-                .thenComparing(comparing(Team::getGroupScore).reversed())
+                .thenComparing((o1, o2) -> {
+                    int result1 = o1.getGroupPointsScored() - o1.getGroupPointsReceived();
+                    int result2 = o2.getGroupPointsScored() - o2.getGroupPointsReceived();
+                    if (result1 < result2) {
+                        return -1;
+                    } else if (result1 > result2) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                })
                 //by GroupPointsScored (higher is better)
                 .thenComparing(comparing(Team::getGroupPointsScored).reversed())
                 //by GroupPointsRecieved (lower is better)
