@@ -110,6 +110,129 @@
     </div>
 
     <div class="mt-5">
+        <div th:each="stage: ${tournament.stages}" class="stripes-odd">
+            <div class="container pt-5 pb-4">
+                <h2 class="mb-0">
+                    <span th:text="${#messages.msgOrNull('tournament.stage.' + stage.level) ?: stage.level}"></span>
+                    <small class="float-right">
+                        <a role="button" class="btn btn-outline-dark"
+                           th:href="${'/t/' + tournament.code + '/' + stage.level + '/start'}"
+                           th:if="${ownerIsAuthenticated && stage.hasStartableMatches()}">
+                            Alle Spiele starten
+                        </a>
+                    </small>
+                </h2>
+
+                <div class="row">
+                    <div class="col-lg minw-25" th:each="match: ${stage.matches}">
+                        <div th:if="${match.state.name() == 'NOT_READY'}" th:id="'match-' + ${match.position}">
+                            <div class="card mt-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="alert alert-light h6">
+                                        steht noch nicht fest
+                                    </div>
+                                    <div class="alert alert-light h6 mb-0">
+                                        steht noch nicht fest
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${match.state.name() == 'SINGLE_TEAM'}" th:id="'match-' + ${match.position}">
+                            <div class="card mt-4 border-success shadow-sm">
+                                <div class="card-body">
+                                    <div class="alert alert-success h6">
+                                        <strong><span th:text="${match.team1.name}"></span></strong>
+                                    </div>
+                                    <div class="alert alert-light h6 mb-0">
+                                        kein Gegner
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${match.team1 != match.team2}" th:id="'match-' + ${match.position}">
+
+                            <div class="card mt-4 border-warning shadow-sm"
+                                 th:if="${match.state.name() == 'IN_PROGRESS'}"
+                                 data-th-attr="aria-controls=${match.id}">
+                                <span th:text="${match.id}" style="display: none"></span>
+                                <div class="card-body">
+                                    <div class="alert alert-warning h6">
+                                        <span th:text="${match.team1.name}"></span>
+                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam1 != null}"
+                                              th:text="${match.scoreTeam1}"></span>
+                                    </div>
+                                    <div class="alert alert-warning h6 mb-0">
+                                        <span th:text="${match.team2.name}"></span>
+                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
+                                              th:text="${match.scoreTeam2}"></span>
+                                    </div>
+                                    <div th:if="${ownerIsAuthenticated}">
+                                        <!-- PointsModal trigger button -->
+                                        <button type="button" class="btn btn-outline-dark mt-3 changeScoreButton">
+                                            Punktestand ändern
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}" data-th-attr="aria-controls=${match.id}">
+                                <div class="card-body">
+                                    <div class="alert h6"
+                                         th:text="${match.team1 != null} ? ${match.team1.name} : 'steht noch nicht fest'"
+                                         th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
+                                    </div>
+                                    <div class="alert h6 mb-0"
+                                         th:text="${match.team2 != null} ? ${match.team2.name} : 'steht noch nicht fest'"
+                                         th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark mt-3 startGameButton"
+                                            th:if="${ownerIsAuthenticated && match.team1 != null && match.team2 != null}">
+                                        Spiel starten
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 border-success shadow-sm"
+                                 th:if="${match.state.name() == 'TEAM1_WON'}">
+                                <div class="card-body">
+                                    <div class="alert alert-success h6 overflow-auto">
+                                        <span th:text="${match.team1.name}"></span>
+                                        <div class="float-right inline-flex">
+                                            <span class="badge badge-success ml-3">Gewinner</span>
+                                            <span class="badge badge-light ml-2" th:text="${match.scoreTeam1}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-secondary h6 text-right mb-0">
+                                        <span class="float-left" th:text="${match.team2.name}"></span>
+                                        <span class="badge badge-light ml-3" th:text="${match.scoreTeam2}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 border-success shadow-sm"
+                                 th:if="${match.state.name() == 'TEAM2_WON'}">
+                                <div class="card-body">
+                                    <div class="alert alert-secondary h6">
+                                        <span th:text="${match.team1.name}"></span>
+                                        <div class="badge badge-light ml-3 float-right"
+                                             th:text="${match.scoreTeam1}"></div>
+                                    </div>
+                                    <div class="alert alert-success h6 overflow-auto mb-0">
+                                        <span th:text="${match.team2.name}"></span>
+                                        <div class="float-right inline-flex">
+                                            <span class="badge badge-success ml-3">Gewinner</span>
+                                            <span class="badge badge-light ml-2" th:text="${match.scoreTeam2}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="groupphase" th:if="${tournament.groupStage != null}">
             <div class="container pt-4 pb-1">
                 <h2 class="py-3">
@@ -293,129 +416,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div th:each="stage: ${tournament.stages}" class="stripes-odd">
-            <div class="container pt-5 pb-4">
-                <h2 class="mb-0">
-                    <span th:text="${#messages.msgOrNull('tournament.stage.' + stage.level) ?: stage.level}"></span>
-                    <small class="float-right">
-                        <a role="button" class="btn btn-outline-dark"
-                           th:href="${'/t/' + tournament.code + '/' + stage.level + '/start'}"
-                           th:if="${ownerIsAuthenticated && stage.hasStartableMatches()}">
-                            Alle Spiele starten
-                        </a>
-                    </small>
-                </h2>
-
-                <div class="row">
-                    <div class="col-lg minw-25" th:each="match: ${stage.matches}">
-                        <div th:if="${match.state.name() == 'NOT_READY'}" th:id="'match-' + ${match.position}">
-                            <div class="card mt-4 shadow-sm">
-                                <div class="card-body">
-                                    <div class="alert alert-light h6">
-                                        steht noch nicht fest
-                                    </div>
-                                    <div class="alert alert-light h6 mb-0">
-                                        steht noch nicht fest
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div th:if="${match.state.name() == 'SINGLE_TEAM'}" th:id="'match-' + ${match.position}">
-                            <div class="card mt-4 border-success shadow-sm">
-                                <div class="card-body">
-                                    <div class="alert alert-success h6">
-                                        <strong><span th:text="${match.team1.name}"></span></strong>
-                                    </div>
-                                    <div class="alert alert-light h6 mb-0">
-                                        kein Gegner
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div th:if="${match.team1 != match.team2}" th:id="'match-' + ${match.position}">
-
-                            <div class="card mt-4 border-warning shadow-sm"
-                                 th:if="${match.state.name() == 'IN_PROGRESS'}"
-                                 data-th-attr="aria-controls=${match.id}">
-                                <span th:text="${match.id}" style="display: none"></span>
-                                <div class="card-body">
-                                    <div class="alert alert-warning h6">
-                                        <span th:text="${match.team1.name}"></span>
-                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam1 != null}"
-                                              th:text="${match.scoreTeam1}"></span>
-                                    </div>
-                                    <div class="alert alert-warning h6 mb-0">
-                                        <span th:text="${match.team2.name}"></span>
-                                        <span class="badge badge-light float-right" th:if="${match.scoreTeam2 != null}"
-                                              th:text="${match.scoreTeam2}"></span>
-                                    </div>
-                                    <div th:if="${ownerIsAuthenticated}">
-                                        <!-- PointsModal trigger button -->
-                                        <button type="button" class="btn btn-outline-dark mt-3 changeScoreButton">
-                                            Punktestand ändern
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card mt-4 shadow-sm" th:if="${match.state.name() == 'NOT_STARTED'}" data-th-attr="aria-controls=${match.id}">
-                                <div class="card-body">
-                                    <div class="alert h6"
-                                         th:text="${match.team1 != null} ? ${match.team1.name} : 'steht noch nicht fest'"
-                                         th:classappend="${match.team1.name != null} ? 'alert-secondary' : 'alert-light'">
-                                    </div>
-                                    <div class="alert h6 mb-0"
-                                         th:text="${match.team2 != null} ? ${match.team2.name} : 'steht noch nicht fest'"
-                                         th:classappend="${match.team2.name != null} ? 'alert-secondary' : 'alert-light'">
-                                    </div>
-                                    <button type="button" class="btn btn-outline-dark mt-3 startGameButton"
-                                            th:if="${ownerIsAuthenticated && match.team1 != null && match.team2 != null}">
-                                        Spiel starten
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card mt-4 border-success shadow-sm"
-                                 th:if="${match.state.name() == 'TEAM1_WON'}">
-                                <div class="card-body">
-                                    <div class="alert alert-success h6 overflow-auto">
-                                        <span th:text="${match.team1.name}"></span>
-                                        <div class="float-right inline-flex">
-                                            <span class="badge badge-success ml-3">Gewinner</span>
-                                            <span class="badge badge-light ml-2" th:text="${match.scoreTeam1}"></span>
-                                        </div>
-                                    </div>
-                                    <div class="alert alert-secondary h6 text-right mb-0">
-                                        <span class="float-left" th:text="${match.team2.name}"></span>
-                                        <span class="badge badge-light ml-3" th:text="${match.scoreTeam2}"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card mt-4 border-success shadow-sm"
-                                 th:if="${match.state.name() == 'TEAM2_WON'}">
-                                <div class="card-body">
-                                    <div class="alert alert-secondary h6">
-                                        <span th:text="${match.team1.name}"></span>
-                                        <div class="badge badge-light ml-3 float-right"
-                                             th:text="${match.scoreTeam1}"></div>
-                                    </div>
-                                    <div class="alert alert-success h6 overflow-auto mb-0">
-                                        <span th:text="${match.team2.name}"></span>
-                                        <div class="float-right inline-flex">
-                                            <span class="badge badge-success ml-3">Gewinner</span>
-                                            <span class="badge badge-light ml-2" th:text="${match.scoreTeam2}"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
