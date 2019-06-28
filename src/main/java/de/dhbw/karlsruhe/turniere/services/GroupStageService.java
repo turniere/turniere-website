@@ -191,9 +191,12 @@ public class GroupStageService {
      */
     public List<Team> sortTeams(List<Team> teams) {
         //sort Teams by GroupPlace (lower is better)
-        teams.sort(Comparator.comparingInt(Team::getGroupPlace)
-                .thenComparing(comparing(Team::getGroupScore))
-                //by GroupScore (higher is better)
+        teams.sort(Comparator
+                // by GroupPlace (to sort quicker when nothing changed)
+                .comparingInt(Team::getGroupPlace)
+                // by GroupScore (higher is better)
+                .thenComparing(comparing(Team::getGroupScore).reversed())
+                // by Group Points difference
                 .thenComparing((o1, o2) -> {
                     int result1 = o1.getGroupPointsScored() - o1.getGroupPointsReceived();
                     int result2 = o2.getGroupPointsScored() - o2.getGroupPointsReceived();
@@ -205,9 +208,9 @@ public class GroupStageService {
                         return 0;
                     }
                 })
-                //by GroupPointsScored (higher is better)
+                // by GroupPointsScored (higher is better)
                 .thenComparing(comparing(Team::getGroupPointsScored).reversed())
-                //by GroupPointsRecieved (lower is better)
+                // by GroupPointsRecieved (lower is better)
                 .thenComparing(Team::getGroupPointsReceived));
         return teams;
     }
