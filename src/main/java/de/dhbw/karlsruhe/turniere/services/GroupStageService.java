@@ -148,18 +148,18 @@ public class GroupStageService {
                 pointsRecieved = pointsRecieved + match.getScoreTeam2();
                 //Give Points for winning and draws
                 if (matchState == Match.State.TEAM1_WON) {
-                    score = score + 3;
-                } else if (matchState == Match.State.UNDECIDED) {
                     score = score + 1;
+                } else if (matchState == Match.State.UNDECIDED) {
+                    score = score + 0;
                 }
             } else if (match.getTeam2() == team) {
                 pointsRecieved = pointsRecieved + match.getScoreTeam1();
                 pointsScored = pointsScored + match.getScoreTeam2();
                 //Give Points for winning and draws
                 if (matchState == Match.State.TEAM2_WON) {
-                    score = score + 3;
-                } else if (matchState == Match.State.UNDECIDED) {
                     score = score + 1;
+                } else if (matchState == Match.State.UNDECIDED) {
+                    score = score + 0;
                 }
 
             }
