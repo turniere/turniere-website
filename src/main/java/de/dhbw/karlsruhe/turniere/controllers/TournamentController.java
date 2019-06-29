@@ -58,7 +58,8 @@ public class TournamentController {
     }
 
     public static Model bpwstr(Tournament tournament, Model model){
-        if (tournament.getCode().equals("bpwstr")) {
+        String code = tournament.getCode();
+        if (code.equals("bpwstr5") || code.equals("bpwstr5gs")) {
             model.addAttribute("bpwstr", true);
         }else {
             model.addAttribute("bpwstr", false);
