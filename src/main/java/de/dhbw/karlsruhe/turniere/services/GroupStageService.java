@@ -201,9 +201,9 @@ public class GroupStageService {
                     int result1 = o1.getGroupPointsScored() - o1.getGroupPointsReceived();
                     int result2 = o2.getGroupPointsScored() - o2.getGroupPointsReceived();
                     if (result1 < result2) {
-                        return -1;
-                    } else if (result1 > result2) {
                         return 1;
+                    } else if (result1 > result2) {
+                        return -1;
                     } else {
                         return 0;
                     }
