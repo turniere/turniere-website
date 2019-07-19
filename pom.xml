@@ -19,7 +19,7 @@
   </parent>
 
   <properties>
-    <docker.image.name>turniere/turniere-website:${project.version}</docker.image.name>
+    <docker.image.name>turniere/turniere-java-website:${project.version}</docker.image.name>
     <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

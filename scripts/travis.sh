@@ -1,5 +1,5 @@
 #!/bin/bash
-DOCKER_IMAGE="turniere/turniere-website"
+DOCKER_IMAGE="turniere/turniere-java-website"
 
 if [ $TRAVIS_PULL_REQUEST != "false" ]
 then
