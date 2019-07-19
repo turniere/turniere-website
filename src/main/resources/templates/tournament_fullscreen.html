@@ -40,14 +40,6 @@
         <h1><strong><span th:text="${twinner.name}"></span></strong> hat gewonnen!</h1>
     </div>
 
-    <div th:if="bpwstr">
-        <div th:if="${tstage != null}">
-            <div th:if="${tstage.getMatches().size() < 17}">
-                <img src="../../images/beerpongBanner.jpg">
-            </div>
-        </div>
-    </div>
-
     <div class="px-5 py-4" th:if="${tstage != null}">
         <div class="row">
             <div class="col-xs w-16 p-2" th:each="match: ${tstage.matches}">
